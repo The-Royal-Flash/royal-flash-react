@@ -7,6 +7,11 @@ const GlobalStyle = css`
 		padding: 0;
 	}
 
+	html,
+	body {
+		height: 100%;
+	}
+
 	body {
 		width: 100%;
 		height: 100%;
@@ -22,6 +27,10 @@ const GlobalStyle = css`
 
 	a {
 		text-decoration: none;
+	}
+
+	#root {
+		height: 100%;
 	}
 `;
 
