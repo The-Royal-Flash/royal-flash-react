@@ -1,0 +1,10 @@
+export { default as Main } from './Main';
+export { default as Login } from './Login';
+export { default as Signup } from './Signup';
+export { default as Profile } from './Profile';
+export { default as CreateQuizlet } from './CreateQuizlet';
+export { default as EditQuizlet } from './EditQuizlet';
+export { default as QuizletDetail } from './QuizletDetail';
+export { default as MyQuizlet } from './MyQuizlet';
+export { default as Search } from './Search';
+export { default as Study } from './Study';
