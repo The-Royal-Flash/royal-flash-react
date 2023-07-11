@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { useMediaQuery } from '@mui/material';
 import * as Theme from '../../constants';
 import TeamMember from './TeamMember';
+import TeamMemberMobile from './TeamMemberMobile';
 
 const Container = styled.div`
 	display: flex;
@@ -23,6 +25,7 @@ const Wrapper = styled.div`
 const InfoWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 `;
 
 const LogoImg = styled.img`
@@ -37,6 +40,8 @@ const Info = styled.div`
 `;
 
 function Footer() {
+	const isDesktopMode = useMediaQuery(Theme.MQ[1]);
+
 	return (
 		<Container>
 			<Wrapper>
@@ -45,7 +50,7 @@ function Footer() {
 					<Info>반드시 취직하구 행복합시동</Info>
 					<Info>All Copyrights Reserved Royal Flash 2023</Info>
 				</InfoWrapper>
-				<TeamMember />
+				{isDesktopMode ? <TeamMember /> : <TeamMemberMobile />}
 			</Wrapper>
 		</Container>
 	);
