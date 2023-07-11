@@ -64,8 +64,8 @@ const ResponsiveLoginIcon = styled(LoginIcon)`
 `;
 
 const ColorIconButton = styled(IconButton)`
-	color: ${Theme.COLOR.primary};
-	border: 2px solid ${Theme.COLOR.primary};
+	color: #7a7a7a;
+	border: 3px solid #adadad;
 	border-radius: 15px;
 	padding: 4px;
 `;
