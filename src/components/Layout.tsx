@@ -15,6 +15,9 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+	width: 100%;
+	min-width: ${Theme.MIN_WIDTH_PX};
+	overflow: scroll;
 `;
 
 const OutletWrapper = styled.div`
@@ -22,6 +25,7 @@ const OutletWrapper = styled.div`
 	min-width: ${Theme.MIN_WIDTH_PX};
 	max-width: ${Theme.MAX_WIDTH_PX};
 	margin: 0 auto;
+	overflow: scroll;
 `;
 
 function Layout() {
