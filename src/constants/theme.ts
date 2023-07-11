@@ -8,3 +8,7 @@ export const LAYOUT_BG_COLOR = '#f4f3f3';
 export const MQ = [MIN_WIDTH_PX, MOBILE_MAX_PX].map(
 	(breakPoint) => `@media(min-width: ${breakPoint})`,
 );
+
+export const COLOR = {
+	primary: '#1976d2',
+};
