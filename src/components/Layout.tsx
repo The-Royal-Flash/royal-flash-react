@@ -25,7 +25,6 @@ const OutletWrapper = styled.div`
 	min-width: ${Theme.MIN_WIDTH_PX};
 	max-width: ${Theme.MAX_WIDTH_PX};
 	margin: 0 auto;
-	overflow: scroll;
 `;
 
 function Layout() {
