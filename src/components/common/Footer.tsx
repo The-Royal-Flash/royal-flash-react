@@ -18,13 +18,24 @@ const Wrapper = styled.div`
 	max-width: var(--max-width-px);
 	margin: 0 auto;
 	width: calc(100% - 20px);
-	padding: 15px 40px;
+	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+		padding: 5px 2px;
+	}
+	@media (min-width: ${BREAK_POINTS.desktop_min}) {
+		padding: 15px 40px;
+	}
 `;
 
 const InfoWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+		padding-right: 10px;
+	}
+	@media (min-width: ${BREAK_POINTS.desktop_min}) {
+		padding-right: 20px;
+	}
 `;
 
 const LogoImg = styled.img`
@@ -34,8 +45,18 @@ const LogoImg = styled.img`
 `;
 
 const Info = styled.div`
-	font-size: 12px;
 	color: #d4dce4;
+	word-break: keep-all;
+
+	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+		font-size: 0.6rem;
+	}
+	@media (min-width: ${BREAK_POINTS.desktop_min}) {
+		@media (max-width: 800px) {
+			font-size: 0.7rem;
+		}
+		font-size: 0.9rem;
+	}
 `;
 
 function Footer() {

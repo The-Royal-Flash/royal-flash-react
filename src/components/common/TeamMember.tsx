@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -15,7 +14,7 @@ const Container = styled.div`
 const Card = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 150px;
+	width: 130px;
 	height: 80px;
 	padding: 0.5rem;
 	background: #48525d;
@@ -45,7 +44,7 @@ const CardHead = styled.div`
 `;
 
 const Title = styled.div`
-	font-size: 22px;
+	font-size: 19px;
 	font-weight: 700;
 	color: rgb(194, 223, 240);
 	text-shadow: -7px 4px 7px rgba(0, 0, 0, 0.273);
@@ -71,7 +70,6 @@ const ProfileLink = styled(Link)`
 	color: inherit;
 	font-size: 26px;
 	:hover {
-		/* border-bottom: 1px solid white; */
 		color: rgb(79, 178, 236);
 	}
 `;
