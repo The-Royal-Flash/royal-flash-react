@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import * as Theme from '../../constants';
 
 interface ContainerProps {
 	tooltip: string;
@@ -23,8 +22,8 @@ const Container = styled.button<ContainerProps>`
 	width: 40px;
 	height: 60px;
 	border-radius: 5px;
-	border: 2.5px solid #9aafc5;
-	background: #a5b8cb;
+	border: 2.5px solid var(--border-color);
+	background: var(--button-color);
 	box-shadow:
 		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
 		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
@@ -42,8 +41,8 @@ const Container = styled.button<ContainerProps>`
 
 	:hover {
 		width: ${(props) => 40 + props.widthToExpand}px;
-		background: ${Theme.COLOR.primary};
-		border: 2.5px solid #1b74b8;
+		background: var(--secondary-color);
+		border: 2.5px solid var(--secondary-color);
 		transition: all 0.3s ease;
 		:after {
 			content: '${(props) => props.tooltip}';

@@ -1,7 +1,6 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { useMediaQuery } from '@mui/material';
-import * as Theme from '../../constants';
+import { BREAK_POINTS } from '../../constants';
 import TeamMember from './TeamMember';
 import TeamMemberMobile from './TeamMemberMobile';
 
@@ -9,14 +8,14 @@ const Container = styled.div`
 	display: flex;
 	width: 100%;
 	padding: 10px 0;
-	background: #69737ce6;
+	background: var(--footer-bg-color);
 `;
 
 const Wrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
-	min-width: ${Theme.MIN_WIDTH_PX};
-	max-width: ${Theme.MAX_WIDTH_PX};
+	min-width: var(--min-width-px);
+	max-width: var(--max-width-px);
 	margin: 0 auto;
 	width: calc(100% - 20px);
 	padding: 15px 40px;
@@ -40,7 +39,9 @@ const Info = styled.div`
 `;
 
 function Footer() {
-	const isDesktopMode = useMediaQuery(Theme.MQ[1]);
+	const isDesktopMode = useMediaQuery(
+		`@media(min-width: ${BREAK_POINTS.desktop_min})`,
+	);
 
 	return (
 		<Container>

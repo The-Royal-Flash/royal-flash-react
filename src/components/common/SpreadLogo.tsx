@@ -1,6 +1,4 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import * as Theme from '../../constants';
 
 interface SpreadLogoProps {
 	active: boolean;
@@ -19,8 +17,8 @@ const Card = styled.div<{
 	width: 40px;
 	height: 60px;
 	background: white;
-	color: black;
-	border: 2.5px solid black;
+	color: var(--primary-color);
+	border: 2.5px solid var(--primary-color);
 	border-radius: 5px;
 	position: absolute;
 	font-size: 34px;
@@ -42,8 +40,9 @@ const Card = styled.div<{
     translateY(-30px);
     transition: all 0.3s ease;
     top: 25px;
-	  border: 2.5px solid ${Theme.COLOR.primary};
-    color: ${Theme.COLOR.primary};
+		background: var(--light-yellow-color);
+	  border: 2.5px solid var(--dark-yellow-color);
+    color: var(--dark-yellow-color);
   `}
 `;
 

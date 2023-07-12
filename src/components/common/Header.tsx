@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Button, IconButton, Tooltip, useMediaQuery } from '@mui/material';
@@ -7,20 +6,19 @@ import LoginIcon from '@mui/icons-material/Login';
 import PersonIcon from '@mui/icons-material/Person';
 import StyleIcon from '@mui/icons-material/Style';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-import * as Theme from '../../constants';
+import { BREAK_POINTS } from '../../constants';
 import ExpandTooltipButton from './ExpandTooltipButton';
 import SpreadLogoWithText from './SpreadLogoWithText';
 import ImageButton from './ImageButton';
 
 const Container = styled.div`
 	display: flex;
-	background: #e1e6ec;
+	background: var(--bg-color);
 	margin-bottom: 10px;
 	width: 100%;
 	min-height: 50px;
 	user-select: none;
-	${Theme.MQ[1]} {
+	@media (min-width: ${BREAK_POINTS.desktop_min}) {
 		min-height: 95px;
 	}
 `;
@@ -30,8 +28,8 @@ const Wrapper = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	overflow: hidden;
-	min-width: ${Theme.MIN_WIDTH_PX};
-	max-width: ${Theme.MAX_WIDTH_PX};
+	min-width: var(--min-width);
+	max-width: var(--max-width);
 	width: calc(100% - 40px);
 	margin: 0 auto;
 `;
@@ -50,23 +48,27 @@ const LogoImg = styled.img`
 `;
 
 const ResponsiveSearchIcon = styled(SearchIcon)`
-	font-size: 22px;
-	${Theme.MQ[1]} {
+	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+		font-size: 22px;
+	}
+	@media (min-width: ${BREAK_POINTS.desktop_min}) {
 		font-size: 28px;
 	}
 `;
 
 const ResponsiveLoginIcon = styled(LoginIcon)`
-	font-size: 22px;
-	${Theme.MQ[1]} {
+	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+		font-size: 22px;
+	}
+	@media (min-width: ${BREAK_POINTS.desktop_min}) {
 		font-size: 28px;
 	}
 `;
 
 const ColorIconButton = styled(IconButton)`
-	color: #7a7a7a;
-	border: 3px solid #adadad;
-	border-radius: 15px;
+	color: var(--border-color);
+	border: 1px solid var(--border-color);
+	border-radius: 13px;
 	padding: 4px;
 `;
 
@@ -76,7 +78,9 @@ function Header() {
 	const isLogin = true;
 	// TODO: 로그인 상태 가져오기
 
-	const isDesktopMode = useMediaQuery(Theme.MQ[1]);
+	const isDesktopMode = useMediaQuery(
+		`@media(min-width: ${BREAK_POINTS.desktop_min})`,
+	);
 
 	return (
 		<Container>
