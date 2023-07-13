@@ -19,8 +19,7 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
 
-		"allowSyntheticDefaultImports": true,
-		"allowImportingTsExtensions": true
+		"allowSyntheticDefaultImports": true
 	},
 	"include": ["src"],
 	"references": [{ "path": "./tsconfig.node.json" }]
