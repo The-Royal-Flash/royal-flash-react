@@ -6,7 +6,10 @@ interface SpreadLogoProps {
 
 const Container = styled.div`
 	position: relative;
-	left: 20px;
+	display: flex;
+	align-items: center;
+	top: 5px;
+	left: 43px;
 `;
 
 const Card = styled.div<{
@@ -16,6 +19,7 @@ const Card = styled.div<{
 	display: block;
 	width: 40px;
 	height: 60px;
+	box-sizing: border-box;
 	background: white;
 	color: var(--primary-color);
 	border: 2.5px solid var(--primary-color);
@@ -23,7 +27,6 @@ const Card = styled.div<{
 	position: absolute;
 	font-size: 34px;
 	font-weight: 600;
-	line-height: 60px;
 	text-align: center;
 	top: 0;
 	left: 0;
