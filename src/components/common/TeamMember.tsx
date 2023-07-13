@@ -44,14 +44,14 @@ const CardHead = styled.div`
 `;
 
 const Title = styled.div`
-	font-size: 19px;
+	font-size: 17px;
 	font-weight: 700;
 	color: rgb(194, 223, 240);
 	text-shadow: -7px 4px 7px rgba(0, 0, 0, 0.273);
 `;
 
 const SubTitle = styled(Title)`
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: 700;
 	color: rgb(102, 176, 219);
 `;

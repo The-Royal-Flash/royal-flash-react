@@ -11,16 +11,19 @@ type LogoWrapperProps = {
 const LogoWrapper = styled(Link)<
 	LinkProps & React.RefAttributes<HTMLAnchorElement> & LogoWrapperProps
 >`
-	width: ${(props) => (props.isHover ? '170px' : '140px')};
+	width: ${(props) => (props.isHover ? '190px' : '150px')};
 	transition: all 0.3s ease;
 	cursor: pointer;
 	display: flex;
 	flex-direction: row;
 `;
 
+const Flex = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
 const LogoText = styled.div<LogoWrapperProps>`
-	width: 80px;
-	margin-top: 4px;
 	color: ${(props) =>
 		props.isHover ? 'var(--yellow-color)' : 'var(--font-color)'};
 	font-size: 24px;
@@ -44,11 +47,10 @@ function SpreadLogoWithText() {
 			onMouseOver={handleOnMouseOver}
 			onMouseOut={handleMouseOut}
 		>
-			<LogoText isHover={isHover}>
-				{'Royal'}
-				<br />
-				{'Flash'}
-			</LogoText>
+			<Flex>
+				<LogoText isHover={isHover}>{'Royal'}</LogoText>
+				<LogoText isHover={isHover}>{'Flash'}</LogoText>
+			</Flex>
 			<SpreadLogo active={isHover} />
 		</LogoWrapper>
 	);
