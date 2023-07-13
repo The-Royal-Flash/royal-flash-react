@@ -16,10 +16,12 @@ const Container = styled.div`
 	background: var(--bg-color);
 	margin-bottom: 10px;
 	width: 100%;
-	min-height: 50px;
 	user-select: none;
+	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+		min-height: 50px;
+	}
 	@media (min-width: ${BREAK_POINTS.desktop_min}) {
-		min-height: 95px;
+		min-height: 90px;
 	}
 `;
 
@@ -32,6 +34,12 @@ const Wrapper = styled.div`
 	max-width: var(--max-width);
 	width: calc(100% - 40px);
 	margin: 0 auto;
+	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+	}
+	@media (min-width: ${BREAK_POINTS.desktop_min}) {
+		height: 70px;
+		margin: 10px auto;
+	}
 `;
 
 const Flex = styled.div`
