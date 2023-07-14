@@ -28,7 +28,7 @@ const GlobalStyle = css`
 		--min-width: ${minWidth}px;
 		--mobile-max: ${mobileWidth}px;
 		--desktop-min: ${mobileWidth + 1}px;
-		--max-width: ${maxWidth};
+		--max-width: ${maxWidth}px;
 	}
 
 	html,
