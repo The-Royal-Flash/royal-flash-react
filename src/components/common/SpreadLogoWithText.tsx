@@ -4,9 +4,9 @@ import styled from '@emotion/styled';
 import SpreadLogo from './SpreadLogo';
 import { LinkProps } from '@mui/material';
 
-type LogoWrapperProps = {
+interface LogoWrapperProps {
 	isHover: boolean;
-};
+}
 
 const LogoWrapper = styled(Link)<
 	LinkProps & React.RefAttributes<HTMLAnchorElement> & LogoWrapperProps
