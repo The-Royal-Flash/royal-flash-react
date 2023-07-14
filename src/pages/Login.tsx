@@ -10,45 +10,55 @@ import styled from '@emotion/styled';
 function Login() {
 	return (
 		<Container
-			maxWidth="sm"
+			fixed
 			sx={{
-				border: '1px solid var(--border-color)',
-				borderRadius: '10px',
-				padding: '30px',
+				width: '100%',
 				height: '100%',
+				display: 'flex',
+				alignItems: 'center',
 			}}
 		>
-			<LogoMessageWrapper>
-				<Logo src="/public/logo/royal-flash-logo.png" alt="로얄플래시 로고" />
-				<WelcomeMessage>
-					<span>Royal Flash</span> 팀은 당신의 내일을 응원합니다!
-				</WelcomeMessage>
-			</LogoMessageWrapper>
-			<Box
-				component="form"
-				sx={{ '& > :not(style)': { m: 1, width: '100%' } }}
-				noValidate
-				autoComplete="off"
+			<Container
+				maxWidth="sm"
+				sx={{
+					border: '1px solid var(--border-color)',
+					borderRadius: '10px',
+					padding: '30px',
+					height: '700px',
+				}}
 			>
-				<TextField
-					required
-					id="standard-basic"
-					label="email"
-					variant="standard"
-				/>
-				<TextField
-					required
-					id="standard-basic"
-					label="password"
-					variant="standard"
-				/>
-				<Stack direction="row" spacing={2}>
-					<Button variant="outlined">Primary</Button>
-				</Stack>
-			</Box>
-			<Link to={'/signup'}>
-				<span>아직 회원이 아니신가요?</span>
-			</Link>
+				<LogoMessageWrapper>
+					<Logo src="/public/logo/royal-flash-logo.png" alt="로얄플래시 로고" />
+					<WelcomeMessage>
+						<span>Royal Flash</span> 팀은 당신의 내일을 응원합니다!
+					</WelcomeMessage>
+				</LogoMessageWrapper>
+				<Box
+					component="form"
+					sx={{ '& > :not(style)': { m: 1, width: '100%' } }}
+					noValidate
+					autoComplete="off"
+				>
+					<TextField
+						required
+						id="standard-basic"
+						label="email"
+						variant="standard"
+					/>
+					<TextField
+						required
+						id="standard-basic"
+						label="password"
+						variant="standard"
+					/>
+					<Stack direction="row" spacing={2}>
+						<Button variant="outlined">로그인</Button>
+					</Stack>
+				</Box>
+				<Link to={'/signup'}>
+					<span>아직 회원이 아니신가요?</span>
+				</Link>
+			</Container>
 		</Container>
 	);
 }
