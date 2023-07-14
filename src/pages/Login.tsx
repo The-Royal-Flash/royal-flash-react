@@ -1,27 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-// import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
-import { TextField } from '@mui/material';
-// import { InputField } from '../components/login';
+import { TextField, Container } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { loginSchema } from '../schemas/loginSchema';
 
 function Login() {
-	const [isValidated, setIsValidated] = React.useState(false);
-
-	/**
-	 * register: input 등록하기 위해 사용됨
-	 */
-	const { register, handleSubmit } = useForm<loginSchema>({
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<loginSchema>({
 		resolver: zodResolver(loginSchema),
 	});
 
 	const submitData = (data: loginSchema) => {
 		console.log('It works! :', data);
+
+		// 💡 TODO: 로그인 로직
 	};
 
 	return (
@@ -40,13 +38,18 @@ function Login() {
 						label="Email"
 						variant="outlined"
 						{...register('email')}
+						error={errors.email ? true : false}
+						helperText={errors?.email?.message}
 					/>
 					<TextField
 						required
 						id="password-input"
 						label="Password"
 						variant="outlined"
+						type="password"
 						{...register('password')}
+						error={errors.password ? true : false}
+						helperText={errors?.password?.message}
 					/>
 					<LogInButtonBox>
 						<LogInButton type="submit" value="로그인" />
