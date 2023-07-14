@@ -20,8 +20,6 @@ const router = createBrowserRouter([
 		element: <Layout />,
 		children: [
 			{ index: true, element: <Main /> },
-			{ path: 'login', element: <Login /> },
-			{ path: 'signup', element: <Signup /> },
 			{ path: 'profile', element: <Profile /> },
 			{
 				path: 'quizlet',
@@ -35,6 +33,8 @@ const router = createBrowserRouter([
 			},
 		],
 	},
+	{ path: 'login', element: <Login /> },
+	{ path: 'signup', element: <Signup /> },
 ]);
 
 function App() {
