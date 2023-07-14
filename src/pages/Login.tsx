@@ -96,7 +96,7 @@ const LogInButtonBox = styled(Box)`
 
 const LogInButton = styled(Button)`
 	width: 150px;
-	margin-top: 30px;
+	margin-top: 50px;
 `;
 
 const RegisterLinkWrapper = styled(Box)`
