@@ -7,8 +7,10 @@ import TextField from '@mui/material/TextField';
 import styled from '@emotion/styled';
 
 function Login() {
+	const [isValidated, setIsValidated] = React.useState(false);
+
 	return (
-		<Background fixed>
+		<Background>
 			<LogInBox maxWidth="sm">
 				<LogoMessageWrapper>
 					<Logo src="/public/logo/royal-flash-logo.png" alt="로얄플래시 로고" />
@@ -32,17 +34,20 @@ function Login() {
 						required
 						id="email-input"
 						label="Email"
-						variant="standard"
+						variant="outlined"
 					/>
 					<TextField
 						required
+						type="password"
 						id="password-input"
 						label="Password"
-						variant="standard"
+						variant="outlined"
 					/>
 				</Box>
 				<LogInButtonBox>
-					<LogInButton variant="outlined">로그인</LogInButton>
+					<LogInButton variant="contained" disabled={!isValidated}>
+						로그인
+					</LogInButton>
 				</LogInButtonBox>
 				<RegisterLinkWrapper>
 					<RegisterLink to={'/signup'}>
@@ -54,9 +59,9 @@ function Login() {
 	);
 }
 
-const Background = styled(Container)`
-	width: 100%;
-	height: 100%;
+const Background = styled.div`
+	width: 100vw;
+	height: 100vh;
 	display: flex;
 	align-items: center;
 `;
@@ -64,15 +69,17 @@ const Background = styled(Container)`
 const LogInBox = styled(Container)`
 	border: 1px solid var(--border-color);
 	border-radius: 10px;
+	width: 400px;
 	padding: 30px;
 	height: 600px;
+	background-color: #fff;
 `;
 
 const LogoMessageWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 10px;
-	margin-bottom: 40px;
+	margin-bottom: 30px;
 	align-items: center;
 `;
 
