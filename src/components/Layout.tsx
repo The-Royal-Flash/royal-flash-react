@@ -2,6 +2,20 @@ import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Footer, Header } from './common';
 
+function Layout() {
+	return (
+		<Container>
+			<Wrapper>
+				<Header />
+				<OutletWrapper>
+					<Outlet />
+				</OutletWrapper>
+				<Footer />
+			</Wrapper>
+		</Container>
+	);
+}
+
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -24,19 +38,5 @@ const OutletWrapper = styled.div`
 	max-width: var(--max-width);
 	margin: 0 auto;
 `;
-
-function Layout() {
-	return (
-		<Container>
-			<Wrapper>
-				<Header />
-				<OutletWrapper>
-					<Outlet />
-				</OutletWrapper>
-				<Footer />
-			</Wrapper>
-		</Container>
-	);
-}
 
 export default Layout;

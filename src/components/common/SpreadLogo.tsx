@@ -4,6 +4,20 @@ interface SpreadLogoProps {
 	active: boolean;
 }
 
+function SpreadLogo({ active }: SpreadLogoProps) {
+	return (
+		<Container>
+			<Card order={1} active={active} />
+			<Card order={2} active={active} />
+			<Card order={3} active={active} />
+			<Card order={4} active={active} />
+			<Card order={5} active={active}>
+				A
+			</Card>
+		</Container>
+	);
+}
+
 const Container = styled.div`
 	position: relative;
 	display: flex;
@@ -35,7 +49,6 @@ const Card = styled.div<{
 		0px 2px 2px 0px rgba(152, 152, 152, 0.14),
 		0px 1px 5px 0px rgba(152, 152, 152, 0.12);
 	transition: all 0.3s ease;
-
 	${(props) =>
 		props.active &&
 		`
@@ -48,19 +61,5 @@ const Card = styled.div<{
     color: var(--dark-yellow-color);
   `}
 `;
-
-function SpreadLogo({ active }: SpreadLogoProps) {
-	return (
-		<Container>
-			<Card order={1} active={active} />
-			<Card order={2} active={active} />
-			<Card order={3} active={active} />
-			<Card order={4} active={active} />
-			<Card order={5} active={active}>
-				A
-			</Card>
-		</Container>
-	);
-}
 
 export default SpreadLogo;

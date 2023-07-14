@@ -4,6 +4,22 @@ import TeamMember from './TeamMember';
 import TeamMemberMobile from './TeamMemberMobile';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
+function Footer() {
+	const isMobile = useMediaQuery(mobileMediaQuery);
+	return (
+		<Container>
+			<Wrapper>
+				<InfoWrapper>
+					<LogoImg src="/logo/royal-flash-logo.png" />
+					<Info>반드시 취직하구 행복합시동</Info>
+					<Info>All Copyrights Reserved Royal Flash 2023</Info>
+				</InfoWrapper>
+				{isMobile ? <TeamMemberMobile /> : <TeamMember />}
+			</Wrapper>
+		</Container>
+	);
+}
+
 const Container = styled.div`
 	display: flex;
 	width: 100%;
@@ -57,21 +73,5 @@ const Info = styled.div`
 		font-size: 0.9rem;
 	}
 `;
-
-function Footer() {
-	const isMobile = useMediaQuery(mobileMediaQuery);
-	return (
-		<Container>
-			<Wrapper>
-				<InfoWrapper>
-					<LogoImg src="/logo/royal-flash-logo.png" />
-					<Info>반드시 취직하구 행복합시동</Info>
-					<Info>All Copyrights Reserved Royal Flash 2023</Info>
-				</InfoWrapper>
-				{isMobile ? <TeamMemberMobile /> : <TeamMember />}
-			</Wrapper>
-		</Container>
-	);
-}
 
 export default Footer;

@@ -1,9 +1,64 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import InfoIcon from '@mui/icons-material/Info';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+
+function TeamMemberMobile() {
+	return (
+		<Container>
+			<Card>
+				<Title>
+					<SubTitle>FE</SubTitle>
+					Sunhwa
+				</Title>
+				<ProfileInfo>
+					<ProfileLink to="#">
+						<InfoIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<GitHubIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<LinkedInIcon fontSize="inherit" />
+					</ProfileLink>
+				</ProfileInfo>
+			</Card>
+			<Card>
+				<Title>
+					<SubTitle>FE</SubTitle>Kyusung
+				</Title>
+				<ProfileInfo>
+					<ProfileLink to="#">
+						<InfoIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<GitHubIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<LinkedInIcon fontSize="inherit" />
+					</ProfileLink>
+				</ProfileInfo>
+			</Card>
+			<Card>
+				<Title>
+					<SubTitle>BE</SubTitle>Hyeonseok
+				</Title>
+				<ProfileInfo>
+					<ProfileLink to="#">
+						<InfoIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<GitHubIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<LinkedInIcon fontSize="inherit" />
+					</ProfileLink>
+				</ProfileInfo>
+			</Card>
+		</Container>
+	);
+}
 
 const Container = styled.div`
 	display: flex;
@@ -62,61 +117,5 @@ const ProfileLink = styled(Link)`
 		color: rgb(79, 178, 236);
 	}
 `;
-
-function TeamMemberMobile() {
-	return (
-		<Container>
-			<Card>
-				<Title>
-					<SubTitle>FE</SubTitle>
-					Sunhwa
-				</Title>
-				<ProfileInfo>
-					<ProfileLink to="#">
-						<InfoIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<GitHubIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<LinkedInIcon fontSize="inherit" />
-					</ProfileLink>
-				</ProfileInfo>
-			</Card>
-			<Card>
-				<Title>
-					<SubTitle>FE</SubTitle>Kyusung
-				</Title>
-				<ProfileInfo>
-					<ProfileLink to="#">
-						<InfoIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<GitHubIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<LinkedInIcon fontSize="inherit" />
-					</ProfileLink>
-				</ProfileInfo>
-			</Card>
-			<Card>
-				<Title>
-					<SubTitle>BE</SubTitle>Hyeonseok
-				</Title>
-				<ProfileInfo>
-					<ProfileLink to="#">
-						<InfoIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<GitHubIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<LinkedInIcon fontSize="inherit" />
-					</ProfileLink>
-				</ProfileInfo>
-			</Card>
-		</Container>
-	);
-}
 
 export default TeamMemberMobile;

@@ -11,75 +11,6 @@ import SpreadLogoWithText from './SpreadLogoWithText';
 import ImageButton from './ImageButton';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
-const Container = styled.div`
-	display: flex;
-	background: var(--bg-color);
-	margin-bottom: 10px;
-	width: 100%;
-	user-select: none;
-	${mobileMediaQuery} {
-		min-height: 50px;
-	}
-	${desktopMediaQuery} {
-		min-height: 90px;
-	}
-`;
-
-const Wrapper = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	overflow: hidden;
-	min-width: var(--min-width);
-	max-width: var(--max-width);
-	width: calc(100% - 40px);
-	${mobileMediaQuery} {
-		margin: 0 auto;
-	}
-	${desktopMediaQuery} {
-		height: 70px;
-		margin: 10px auto;
-	}
-`;
-
-const Flex = styled.div`
-	display: flex;
-	flex-direction: row;
-	gap: 10px;
-	align-items: center;
-	box-sizing: border-box;
-`;
-
-const LogoImg = styled.img`
-	height: auto;
-	width: 50px;
-`;
-
-const ResponsiveSearchIcon = styled(SearchIcon)`
-	${mobileMediaQuery} {
-		font-size: 22px;
-	}
-	${desktopMediaQuery} {
-		font-size: 28px;
-	}
-`;
-
-const ResponsiveLoginIcon = styled(LoginIcon)`
-	${mobileMediaQuery} {
-		font-size: 22px;
-	}
-	${desktopMediaQuery} {
-		font-size: 28px;
-	}
-`;
-
-const ColorIconButton = styled(IconButton)`
-	color: var(--border-color);
-	border: 1px solid var(--border-color);
-	border-radius: 13px;
-	padding: 4px;
-`;
-
 function Header() {
 	const move = useNavigate();
 
@@ -216,5 +147,74 @@ function Header() {
 		</Container>
 	);
 }
+
+const Container = styled.div`
+	display: flex;
+	background: var(--bg-color);
+	margin-bottom: 10px;
+	width: 100%;
+	user-select: none;
+	${mobileMediaQuery} {
+		min-height: 50px;
+	}
+	${desktopMediaQuery} {
+		min-height: 90px;
+	}
+`;
+
+const Wrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	overflow: hidden;
+	min-width: var(--min-width);
+	max-width: var(--max-width);
+	width: calc(100% - 40px);
+	${mobileMediaQuery} {
+		margin: 0 auto;
+	}
+	${desktopMediaQuery} {
+		height: 70px;
+		margin: 10px auto;
+	}
+`;
+
+const Flex = styled.div`
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	align-items: center;
+	box-sizing: border-box;
+`;
+
+const LogoImg = styled.img`
+	height: auto;
+	width: 50px;
+`;
+
+const ResponsiveSearchIcon = styled(SearchIcon)`
+	${mobileMediaQuery} {
+		font-size: 22px;
+	}
+	${desktopMediaQuery} {
+		font-size: 28px;
+	}
+`;
+
+const ResponsiveLoginIcon = styled(LoginIcon)`
+	${mobileMediaQuery} {
+		font-size: 22px;
+	}
+	${desktopMediaQuery} {
+		font-size: 28px;
+	}
+`;
+
+const ColorIconButton = styled(IconButton)`
+	color: var(--border-color);
+	border: 1px solid var(--border-color);
+	border-radius: 13px;
+	padding: 4px;
+`;
 
 export default Header;
