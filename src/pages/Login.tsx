@@ -2,12 +2,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+// import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
+import { TextField } from '@mui/material';
+// import { InputField } from '../components/login';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { loginSchema } from '../schemas/loginSchema';
 
 function Login() {
 	const [isValidated, setIsValidated] = React.useState(false);
+
+	/**
+	 * register: input 등록하기 위해 사용됨
+	 */
+	const { register, handleSubmit } = useForm<loginSchema>({
+		resolver: zodResolver(loginSchema),
+	});
+
+	const submitData = (data: loginSchema) => {
+		console.log('It works! :', data);
+	};
 
 	return (
 		<Background>
@@ -18,37 +33,25 @@ function Login() {
 						<span>Royal Flash</span> 팀은 당신의 내일을 응원합니다!
 					</WelcomeMessage>
 				</LogoMessageWrapper>
-				<Box
-					component="form"
-					sx={{
-						'& > :not(style)': {
-							m: 1,
-							width: '100%',
-							marginTop: '20px',
-						},
-					}}
-					noValidate
-					autoComplete="off"
-				>
+				<LogInForm onSubmit={handleSubmit(submitData)} autoComplete="off">
 					<TextField
 						required
 						id="email-input"
 						label="Email"
 						variant="outlined"
+						{...register('email')}
 					/>
 					<TextField
 						required
-						type="password"
 						id="password-input"
 						label="Password"
 						variant="outlined"
+						{...register('password')}
 					/>
-				</Box>
-				<LogInButtonBox>
-					<LogInButton variant="contained" disabled={!isValidated}>
-						로그인
-					</LogInButton>
-				</LogInButtonBox>
+					<LogInButtonBox>
+						<LogInButton type="submit" value="로그인" />
+					</LogInButtonBox>
+				</LogInForm>
 				<RegisterLinkWrapper>
 					<RegisterLink to={'/signup'}>
 						<span>아직 회원이 아니신가요?</span>
@@ -97,13 +100,31 @@ const WelcomeMessage = styled.p`
 	}
 `;
 
+const LogInForm = styled.form`
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+`;
+
 const LogInButtonBox = styled(Box)`
 	text-align: center;
 `;
 
-const LogInButton = styled(Button)`
+const LogInButton = styled.input`
 	width: 150px;
-	margin-top: 50px;
+	height: 30px;
+	background-color: var(--button-color);
+	color: #fff;
+	font-weight: bold;
+	border: none;
+	border-radius: 5px;
+	margin-top: 20px;
+	cursor: pointer;
+
+	:hover {
+		transition: 0.1s ease-in;
+		background-color: var(--secondary-color);
+	}
 `;
 
 const RegisterLinkWrapper = styled(Box)`
