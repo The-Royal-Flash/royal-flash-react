@@ -6,10 +6,10 @@ import LoginIcon from '@mui/icons-material/Login';
 import PersonIcon from '@mui/icons-material/Person';
 import StyleIcon from '@mui/icons-material/Style';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { BREAK_POINTS } from '../../constants';
 import ExpandTooltipButton from './ExpandTooltipButton';
 import SpreadLogoWithText from './SpreadLogoWithText';
 import ImageButton from './ImageButton';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 const Container = styled.div`
 	display: flex;
@@ -17,10 +17,10 @@ const Container = styled.div`
 	margin-bottom: 10px;
 	width: 100%;
 	user-select: none;
-	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+	${mobileMediaQuery} {
 		min-height: 50px;
 	}
-	@media (min-width: ${BREAK_POINTS.desktop_min}) {
+	${desktopMediaQuery} {
 		min-height: 90px;
 	}
 `;
@@ -33,10 +33,10 @@ const Wrapper = styled.div`
 	min-width: var(--min-width);
 	max-width: var(--max-width);
 	width: calc(100% - 40px);
-	margin: 0 auto;
-	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+	${mobileMediaQuery} {
+		margin: 0 auto;
 	}
-	@media (min-width: ${BREAK_POINTS.desktop_min}) {
+	${desktopMediaQuery} {
 		height: 70px;
 		margin: 10px auto;
 	}
@@ -56,19 +56,19 @@ const LogoImg = styled.img`
 `;
 
 const ResponsiveSearchIcon = styled(SearchIcon)`
-	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+	${mobileMediaQuery} {
 		font-size: 22px;
 	}
-	@media (min-width: ${BREAK_POINTS.desktop_min}) {
+	${desktopMediaQuery} {
 		font-size: 28px;
 	}
 `;
 
 const ResponsiveLoginIcon = styled(LoginIcon)`
-	@media (max-width: ${BREAK_POINTS.mobile_max}) {
+	${mobileMediaQuery} {
 		font-size: 22px;
 	}
-	@media (min-width: ${BREAK_POINTS.desktop_min}) {
+	${desktopMediaQuery} {
 		font-size: 28px;
 	}
 `;
@@ -86,68 +86,12 @@ function Header() {
 	const isLogin = true;
 	// TODO: 로그인 상태 가져오기
 
-	const isDesktopMode = useMediaQuery(
-		`@media(min-width: ${BREAK_POINTS.desktop_min})`,
-	);
+	const isMobile = useMediaQuery(mobileMediaQuery);
 
 	return (
 		<Container>
 			<Wrapper>
-				{isDesktopMode ? (
-					<>
-						<Flex>
-							<SpreadLogoWithText />
-							<ExpandTooltipButton
-								tooltip="Search"
-								widthToExpand={70}
-								handleClick={() => {
-									move('/quizlet');
-								}}
-								icon={<ResponsiveSearchIcon />}
-							/>
-						</Flex>
-						<Flex>
-							{!isLogin ? (
-								<ExpandTooltipButton
-									tooltip="Login"
-									widthToExpand={60}
-									handleClick={() => {
-										move('/login');
-									}}
-									icon={<ResponsiveLoginIcon />}
-								/>
-							) : (
-								<>
-									<ExpandTooltipButton
-										tooltip="Profile"
-										widthToExpand={70}
-										handleClick={() => {
-											move('/profile');
-										}}
-										icon={<PersonIcon />}
-									/>
-									<ExpandTooltipButton
-										tooltip="My Quizlet"
-										widthToExpand={70}
-										handleClick={() => {
-											move('/quizlet/my-quizlet');
-										}}
-										icon={<StyleIcon />}
-									/>
-									<ExpandTooltipButton
-										tooltip="Logout"
-										widthToExpand={70}
-										handleClick={() => {
-											// TODO: 로그아웃 기능
-											console.log('logout');
-										}}
-										icon={<LogoutIcon />}
-									/>
-								</>
-							)}
-						</Flex>
-					</>
-				) : (
+				{isMobile ? (
 					<>
 						<Flex>
 							<ImageButton
@@ -209,6 +153,60 @@ function Header() {
 											<LogoutIcon />
 										</ColorIconButton>
 									</Tooltip>
+								</>
+							)}
+						</Flex>
+					</>
+				) : (
+					<>
+						<Flex>
+							<SpreadLogoWithText />
+							<ExpandTooltipButton
+								tooltip="Search"
+								widthToExpand={70}
+								handleClick={() => {
+									move('/quizlet');
+								}}
+								icon={<ResponsiveSearchIcon />}
+							/>
+						</Flex>
+						<Flex>
+							{!isLogin ? (
+								<ExpandTooltipButton
+									tooltip="Login"
+									widthToExpand={60}
+									handleClick={() => {
+										move('/login');
+									}}
+									icon={<ResponsiveLoginIcon />}
+								/>
+							) : (
+								<>
+									<ExpandTooltipButton
+										tooltip="Profile"
+										widthToExpand={70}
+										handleClick={() => {
+											move('/profile');
+										}}
+										icon={<PersonIcon />}
+									/>
+									<ExpandTooltipButton
+										tooltip="My Quizlet"
+										widthToExpand={70}
+										handleClick={() => {
+											move('/quizlet/my-quizlet');
+										}}
+										icon={<StyleIcon />}
+									/>
+									<ExpandTooltipButton
+										tooltip="Logout"
+										widthToExpand={70}
+										handleClick={() => {
+											// TODO: 로그아웃 기능
+											console.log('logout');
+										}}
+										icon={<LogoutIcon />}
+									/>
 								</>
 							)}
 						</Flex>

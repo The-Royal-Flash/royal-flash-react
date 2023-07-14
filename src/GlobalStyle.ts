@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { BREAK_POINTS } from './constants';
+import { maxWidth, minWidth, mobileWidth } from './utils/mediaQueries';
 
 const GlobalStyle = css`
 	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
@@ -25,10 +25,10 @@ const GlobalStyle = css`
 	}
 
 	body {
-		--min-width: ${BREAK_POINTS.min};
-		--mobile-max: ${BREAK_POINTS.mobile_max};
-		--desktop-min: ${BREAK_POINTS.desktop_min};
-		--max-width: ${BREAK_POINTS.max};
+		--min-width: ${minWidth}px;
+		--mobile-max: ${mobileWidth}px;
+		--desktop-min: ${mobileWidth + 1}px;
+		--max-width: ${maxWidth};
 	}
 
 	html,
