@@ -1,2 +1,3 @@
 export * from './common';
-export { default as Layout } from './Layout';
+export * from './layout';
+export * from './main';
