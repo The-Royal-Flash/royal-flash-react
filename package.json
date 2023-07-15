@@ -11,6 +11,7 @@
     "test": "jest --coverage"
   },
   "dependencies": {
+    "@emotion/is-prop-valid": "^1.2.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.1.1",
