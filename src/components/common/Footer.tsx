@@ -24,14 +24,16 @@ const Container = styled.div`
 	display: flex;
 	width: 100%;
 	padding: 10px 0;
+	user-select: none;
 	background: var(--footer-bg-color);
 `;
 
 const Wrapper = styled.div`
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
-	min-width: var(--min-width-px);
-	max-width: var(--max-width-px);
+	min-width: var(--min-width);
+	max-width: var(--max-width);
 	margin: 0 auto;
 	width: calc(100% - 20px);
 	${mobileMediaQuery} {
