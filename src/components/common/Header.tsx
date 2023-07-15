@@ -6,79 +6,10 @@ import LoginIcon from '@mui/icons-material/Login';
 import PersonIcon from '@mui/icons-material/Person';
 import StyleIcon from '@mui/icons-material/Style';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { BREAK_POINTS } from '../../constants';
 import ExpandTooltipButton from './ExpandTooltipButton';
 import SpreadLogoWithText from './SpreadLogoWithText';
 import ImageButton from './ImageButton';
-
-const Container = styled.div`
-	display: flex;
-	background: var(--bg-color);
-	margin-bottom: 10px;
-	width: 100%;
-	user-select: none;
-	@media (max-width: ${BREAK_POINTS.mobile_max}) {
-		min-height: 50px;
-	}
-	@media (min-width: ${BREAK_POINTS.desktop_min}) {
-		min-height: 90px;
-	}
-`;
-
-const Wrapper = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	overflow: hidden;
-	min-width: var(--min-width);
-	max-width: var(--max-width);
-	width: calc(100% - 40px);
-	margin: 0 auto;
-	@media (max-width: ${BREAK_POINTS.mobile_max}) {
-	}
-	@media (min-width: ${BREAK_POINTS.desktop_min}) {
-		height: 70px;
-		margin: 10px auto;
-	}
-`;
-
-const Flex = styled.div`
-	display: flex;
-	flex-direction: row;
-	gap: 10px;
-	align-items: center;
-	box-sizing: border-box;
-`;
-
-const LogoImg = styled.img`
-	height: auto;
-	width: 50px;
-`;
-
-const ResponsiveSearchIcon = styled(SearchIcon)`
-	@media (max-width: ${BREAK_POINTS.mobile_max}) {
-		font-size: 22px;
-	}
-	@media (min-width: ${BREAK_POINTS.desktop_min}) {
-		font-size: 28px;
-	}
-`;
-
-const ResponsiveLoginIcon = styled(LoginIcon)`
-	@media (max-width: ${BREAK_POINTS.mobile_max}) {
-		font-size: 22px;
-	}
-	@media (min-width: ${BREAK_POINTS.desktop_min}) {
-		font-size: 28px;
-	}
-`;
-
-const ColorIconButton = styled(IconButton)`
-	color: var(--border-color);
-	border: 1px solid var(--border-color);
-	border-radius: 13px;
-	padding: 4px;
-`;
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 function Header() {
 	const move = useNavigate();
@@ -86,68 +17,12 @@ function Header() {
 	const isLogin = true;
 	// TODO: 로그인 상태 가져오기
 
-	const isDesktopMode = useMediaQuery(
-		`@media(min-width: ${BREAK_POINTS.desktop_min})`,
-	);
+	const isMobile = useMediaQuery(mobileMediaQuery);
 
 	return (
 		<Container>
 			<Wrapper>
-				{isDesktopMode ? (
-					<>
-						<Flex>
-							<SpreadLogoWithText />
-							<ExpandTooltipButton
-								tooltip="Search"
-								widthToExpand={70}
-								handleClick={() => {
-									move('/quizlet');
-								}}
-								icon={<ResponsiveSearchIcon />}
-							/>
-						</Flex>
-						<Flex>
-							{!isLogin ? (
-								<ExpandTooltipButton
-									tooltip="Login"
-									widthToExpand={60}
-									handleClick={() => {
-										move('/login');
-									}}
-									icon={<ResponsiveLoginIcon />}
-								/>
-							) : (
-								<>
-									<ExpandTooltipButton
-										tooltip="Profile"
-										widthToExpand={70}
-										handleClick={() => {
-											move('/profile');
-										}}
-										icon={<PersonIcon />}
-									/>
-									<ExpandTooltipButton
-										tooltip="My Quizlet"
-										widthToExpand={70}
-										handleClick={() => {
-											move('/quizlet/my-quizlet');
-										}}
-										icon={<StyleIcon />}
-									/>
-									<ExpandTooltipButton
-										tooltip="Logout"
-										widthToExpand={70}
-										handleClick={() => {
-											// TODO: 로그아웃 기능
-											console.log('logout');
-										}}
-										icon={<LogoutIcon />}
-									/>
-								</>
-							)}
-						</Flex>
-					</>
-				) : (
+				{isMobile ? (
 					<>
 						<Flex>
 							<ImageButton
@@ -213,10 +88,133 @@ function Header() {
 							)}
 						</Flex>
 					</>
+				) : (
+					<>
+						<Flex>
+							<SpreadLogoWithText />
+							<ExpandTooltipButton
+								tooltip="Search"
+								widthToExpand={70}
+								handleClick={() => {
+									move('/quizlet');
+								}}
+								icon={<ResponsiveSearchIcon />}
+							/>
+						</Flex>
+						<Flex>
+							{!isLogin ? (
+								<ExpandTooltipButton
+									tooltip="Login"
+									widthToExpand={60}
+									handleClick={() => {
+										move('/login');
+									}}
+									icon={<ResponsiveLoginIcon />}
+								/>
+							) : (
+								<>
+									<ExpandTooltipButton
+										tooltip="Profile"
+										widthToExpand={70}
+										handleClick={() => {
+											move('/profile');
+										}}
+										icon={<PersonIcon />}
+									/>
+									<ExpandTooltipButton
+										tooltip="My Quizlet"
+										widthToExpand={70}
+										handleClick={() => {
+											move('/quizlet/my-quizlet');
+										}}
+										icon={<StyleIcon />}
+									/>
+									<ExpandTooltipButton
+										tooltip="Logout"
+										widthToExpand={70}
+										handleClick={() => {
+											// TODO: 로그아웃 기능
+											console.log('logout');
+										}}
+										icon={<LogoutIcon />}
+									/>
+								</>
+							)}
+						</Flex>
+					</>
 				)}
 			</Wrapper>
 		</Container>
 	);
 }
+
+const Container = styled.div`
+	display: flex;
+	background: var(--bg-color);
+	margin-bottom: 10px;
+	width: 100%;
+	user-select: none;
+	${mobileMediaQuery} {
+		min-height: 50px;
+	}
+	${desktopMediaQuery} {
+		min-height: 90px;
+	}
+`;
+
+const Wrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	overflow: hidden;
+	min-width: var(--min-width);
+	max-width: var(--max-width);
+	width: calc(100% - 40px);
+	${mobileMediaQuery} {
+		margin: 0 auto;
+	}
+	${desktopMediaQuery} {
+		height: 70px;
+		margin: 10px auto;
+	}
+`;
+
+const Flex = styled.div`
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	align-items: center;
+	box-sizing: border-box;
+`;
+
+const LogoImg = styled.img`
+	height: auto;
+	width: 50px;
+`;
+
+const ResponsiveSearchIcon = styled(SearchIcon)`
+	${mobileMediaQuery} {
+		font-size: 22px;
+	}
+	${desktopMediaQuery} {
+		font-size: 28px;
+	}
+`;
+
+const ResponsiveLoginIcon = styled(LoginIcon)`
+	${mobileMediaQuery} {
+		font-size: 22px;
+	}
+	${desktopMediaQuery} {
+		font-size: 28px;
+	}
+`;
+
+const ColorIconButton = styled(IconButton)`
+	color: var(--border-color);
+	border: 1px solid var(--border-color);
+	border-radius: 13px;
+	padding: 4px;
+`;
 
 export default Header;

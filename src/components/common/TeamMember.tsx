@@ -4,6 +4,66 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import InfoIcon from '@mui/icons-material/Info';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
+function TeamMember() {
+	return (
+		<Container>
+			<Card>
+				<CardHead>
+					<Title>Sunhwa</Title>
+					<SubTitle>Frontend</SubTitle>
+				</CardHead>
+				<ProfileInfo>
+					<ProfileLink to="#">
+						<InfoIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<GitHubIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<LinkedInIcon fontSize="inherit" />
+					</ProfileLink>
+				</ProfileInfo>
+			</Card>
+			<Card>
+				<CardHead>
+					<Title>Kyusung</Title>
+					<SubTitle>Frontend</SubTitle>
+				</CardHead>
+
+				<ProfileInfo>
+					<ProfileLink to="#">
+						<InfoIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<GitHubIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<LinkedInIcon fontSize="inherit" />
+					</ProfileLink>
+				</ProfileInfo>
+			</Card>
+			<Card>
+				<CardHead>
+					<Title>Hyeonseok</Title>
+					<SubTitle>Backend</SubTitle>
+				</CardHead>
+
+				<ProfileInfo>
+					<ProfileLink to="#">
+						<InfoIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<GitHubIcon fontSize="inherit" />
+					</ProfileLink>
+					<ProfileLink to="#">
+						<LinkedInIcon fontSize="inherit" />
+					</ProfileLink>
+				</ProfileInfo>
+			</Card>
+		</Container>
+	);
+}
+
 const Container = styled.div`
 	display: flex;
 	height: 80px;
@@ -73,65 +133,5 @@ const ProfileLink = styled(Link)`
 		color: rgb(79, 178, 236);
 	}
 `;
-
-function TeamMember() {
-	return (
-		<Container>
-			<Card>
-				<CardHead>
-					<Title>Sunhwa</Title>
-					<SubTitle>Frontend</SubTitle>
-				</CardHead>
-				<ProfileInfo>
-					<ProfileLink to="#">
-						<InfoIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<GitHubIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<LinkedInIcon fontSize="inherit" />
-					</ProfileLink>
-				</ProfileInfo>
-			</Card>
-			<Card>
-				<CardHead>
-					<Title>Kyusung</Title>
-					<SubTitle>Frontend</SubTitle>
-				</CardHead>
-
-				<ProfileInfo>
-					<ProfileLink to="#">
-						<InfoIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<GitHubIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<LinkedInIcon fontSize="inherit" />
-					</ProfileLink>
-				</ProfileInfo>
-			</Card>
-			<Card>
-				<CardHead>
-					<Title>Hyeonseok</Title>
-					<SubTitle>Backend</SubTitle>
-				</CardHead>
-
-				<ProfileInfo>
-					<ProfileLink to="#">
-						<InfoIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<GitHubIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<LinkedInIcon fontSize="inherit" />
-					</ProfileLink>
-				</ProfileInfo>
-			</Card>
-		</Container>
-	);
-}
 
 export default TeamMember;

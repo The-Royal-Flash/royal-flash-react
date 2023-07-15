@@ -11,6 +11,21 @@ interface ImageButtonProps extends ImageProps {
 	children: React.ReactNode;
 }
 
+function ImageButton({
+	width,
+	height,
+	handleClick,
+	children,
+}: ImageButtonProps) {
+	return (
+		<Container width={width} height={height} onClick={handleClick}>
+			<Wrapper width={width} height={height}>
+				{children}
+			</Wrapper>
+		</Container>
+	);
+}
+
 const Container = styled.button<ImageProps>`
 	display: flex;
 	position: relative;
@@ -31,20 +46,5 @@ const Wrapper = styled.div<ImageProps>`
 	color: white;
 	font-size: 28px;
 `;
-
-function ImageButton({
-	width,
-	height,
-	handleClick,
-	children,
-}: ImageButtonProps) {
-	return (
-		<Container width={width} height={height} onClick={handleClick}>
-			<Wrapper width={width} height={height}>
-				{children}
-			</Wrapper>
-		</Container>
-	);
-}
 
 export default ImageButton;

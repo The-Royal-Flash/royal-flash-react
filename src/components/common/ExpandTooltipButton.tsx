@@ -11,6 +11,23 @@ interface ExpandIconButtonProps extends ContainerProps {
 	handleClick: () => void;
 }
 
+function ExpandTooltipButton({
+	tooltip,
+	widthToExpand,
+	icon,
+	handleClick,
+}: ExpandIconButtonProps) {
+	return (
+		<Container
+			onClick={handleClick}
+			tooltip={tooltip}
+			widthToExpand={widthToExpand}
+		>
+			<IconWrapper>{icon}</IconWrapper>
+		</Container>
+	);
+}
+
 const Container = styled.button<ContainerProps>`
 	display: flex;
 	position: relative;
@@ -67,22 +84,5 @@ const IconWrapper = styled.div`
 	color: white;
 	font-size: 28px;
 `;
-
-function ExpandTooltipButton({
-	tooltip,
-	widthToExpand,
-	icon,
-	handleClick,
-}: ExpandIconButtonProps) {
-	return (
-		<Container
-			onClick={handleClick}
-			tooltip={tooltip}
-			widthToExpand={widthToExpand}
-		>
-			<IconWrapper>{icon}</IconWrapper>
-		</Container>
-	);
-}
 
 export default ExpandTooltipButton;
