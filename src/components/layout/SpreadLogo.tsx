@@ -6,7 +6,7 @@ interface SpreadLogoProps {
 
 function SpreadLogo({ active }: SpreadLogoProps) {
 	return (
-		<Container>
+		<Container active={active}>
 			<Card order={1} active={active} />
 			<Card order={2} active={active} />
 			<Card order={3} active={active} />
@@ -18,12 +18,14 @@ function SpreadLogo({ active }: SpreadLogoProps) {
 	);
 }
 
-const Container = styled.div`
+const Container = styled.div<SpreadLogoProps>`
 	position: relative;
 	display: flex;
 	align-items: center;
 	top: 5px;
 	left: 43px;
+	padding-right: ${(props) => (props.active ? '125px' : '85px')};
+	transition: all 0.3s ease;
 `;
 
 const Card = styled.div<{
