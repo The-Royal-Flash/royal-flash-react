@@ -15,12 +15,11 @@ const signupSchema = z
 			}),
 		confirmPassword: z
 			.string()
-			.min(1, { message: '비밀번호를 다시 입력해 주세요.' })
-			.regex(/^[A-Za-z0-9]{6,20}$/),
+			.min(1, { message: '비밀번호를 다시 입력해 주세요.' }),
 	})
 	.refine((data) => data.password === data.confirmPassword, {
+		path: ['confirmPassword'],
 		message: '비밀번호가 일치하지 않습니다.',
-		path: ['confirmPassword', 'password'],
 	});
 
 type signupSchema = z.infer<typeof signupSchema>;
