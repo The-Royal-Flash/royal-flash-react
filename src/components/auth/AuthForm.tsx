@@ -20,6 +20,11 @@ function AuthForm({ variant }: AuthFormProps) {
 	const signUserUp = (data: signupSchema) => {
 		console.log('It works! :', data);
 
+		if (!isEmailUnique || !isNicknameUnique) {
+			window.alert('중복 확인 후 진행해 주세요.');
+			return;
+		}
+
 		// 💡 TODO: API 연동
 	};
 
