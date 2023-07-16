@@ -77,7 +77,7 @@ const LogInBox = styled(Container)`
 	border-radius: 10px;
 	width: 400px;
 	padding: 30px;
-	height: 600px;
+	min-height: 600px;
 	background-color: #fff;
 `;
 
