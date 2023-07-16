@@ -12,10 +12,10 @@ function AnimationCard() {
 	return (
 		<Container ref={ref}>
 			<Wrapper>
-				<Card1 active={isInView}>Royal Flash</Card1>
-				<Card11 active={isInView}>Royal Flash</Card11>
-				<Card2 active={isInView}>Royal Flash</Card2>
+				<Card4 active={isInView}>Royal Flash</Card4>
 				<Card3 active={isInView}>Royal Flash</Card3>
+				<Card2 active={isInView}>Royal Flash</Card2>
+				<Card1 active={isInView}>Royal Flash</Card1>
 			</Wrapper>
 		</Container>
 	);
@@ -33,10 +33,10 @@ const Container = styled.div`
 		margin-bottom: -20px;
 	}
 	${desktopMediaQuery} {
-		@media (max-width: 850px) {
-			transform: scale(1);
+    transform: scale(1.0);
+		@media (min-width: 900px) {
+			transform: scale(1.3);
 		}
-		transform: scale(1.3);
 	}
 `;
 
@@ -60,22 +60,19 @@ const Card = styled.div`
 	opacity: 1;
 	color: white;
 	box-shadow: -15px 25px 15px rgba(0, 0, 0, 0.28);
+  background: linear-gradient(315deg, #5a2ebf, #617dd8, #48ace8);
 `;
 
-const Card1 = styled(Card)<CardProps>`
+const Card4 = styled(Card)<CardProps>`
 	transform: rotate(-15deg) skew(25deg) scale(0.8);
-	background: linear-gradient(315deg, #5a2ebf, #617dd8, #48ace8);
-
 	${(props) =>
 		props.active &&
 		`transform: rotate(-15deg) skew(25deg) scale(0.7);
   `};
 `;
 
-const Card11 = styled(Card)<CardProps>`
-	transform: rotate(-15deg) skew(25deg) scale(0.8);
-	background: linear-gradient(315deg, #5a2ebf, #617dd8, #48ace8);
-
+const Card3 = styled(Card)<CardProps>`
+	transform: rotate(-10deg) skew(25deg) scale(0.8);
 	${(props) =>
 		props.active &&
 		`transform: rotate3d(-100, 100, 1, 50deg)  skew(30deg) scale(0.9) translate(20px, -50px);
@@ -83,8 +80,7 @@ const Card11 = styled(Card)<CardProps>`
 `;
 
 const Card2 = styled(Card)<CardProps>`
-	transform: rotate(-10deg) skew(25deg) scale(0.8);
-	background: linear-gradient(315deg, #5a2ebf, #617dd8, #48ace8);
+	transform: rotate(-12deg) skew(25deg) scale(0.8);
 
 	${(props) =>
 		props.active &&
@@ -92,9 +88,9 @@ const Card2 = styled(Card)<CardProps>`
   `};
 `;
 
-const Card3 = styled(Card)<CardProps>`
-	transform: rotate(-10deg) skew(25deg) scale(0.8);
-	background: linear-gradient(315deg, #5a2ebf, #617dd8, #48ace8);
+const Card1 = styled(Card)<CardProps>`
+	transform: rotate(-8deg) skew(25deg) scale(0.8);
+
 
 	${(props) =>
 		props.active &&

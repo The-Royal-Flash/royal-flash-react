@@ -59,13 +59,13 @@ const Title = styled(Typography)`
 		font-size: 3rem;
 	}
 	${desktopMediaQuery} {
-		@media (max-width: 850px) {
-			font-size: 4.4rem;
+		font-size: 3rem;
+		@media (min-width: 690px) {
+			font-size: 4rem;
 		}
-		@media (max-width: 690px) {
-			font-size: 3rem;
+		@media (min-width: 850px) {
+			font-size: 5rem;
 		}
-		font-size: 5rem;
 	}
 `;
 
