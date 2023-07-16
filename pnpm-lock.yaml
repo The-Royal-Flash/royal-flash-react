@@ -26,6 +26,9 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^4.29.19
     version: 4.29.19(react-dom@18.2.0)(react@18.2.0)
+  mui-chips-input:
+    specifier: ^2.0.2
+    version: 2.0.2(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/icons-material@5.13.7)(@mui/material@5.13.7)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)
   framer-motion:
     specifier: ^10.12.21
     version: 10.12.21(react-dom@18.2.0)(react@18.2.0)
@@ -4010,6 +4013,29 @@ packages:
   /ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
     dev: true
+
+  /mui-chips-input@2.0.2(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/icons-material@5.13.7)(@mui/material@5.13.7)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-1k1Er7GnFhOC4oz733Tcg0lrhm/Kh0Cd/6NabJQ/mhrk9Xz9SkndL+Zfb43bkvDXHVYiHTuFgF0wA2ya86gTqQ==}
+    peerDependencies:
+      '@emotion/react': ^11.5.0
+      '@emotion/styled': ^11.3.0
+      '@mui/icons-material': ^5.0.0
+      '@mui/material': ^5.0.0
+      '@types/react': ^17.0.0 || ^18.0.0
+      react: ^17.0.0 || ^18.0.0
+      react-dom: ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@emotion/react': 11.11.1(@types/react@18.0.37)(react@18.2.0)
+      '@emotion/styled': 11.11.0(@emotion/react@11.11.1)(@types/react@18.0.37)(react@18.2.0)
+      '@mui/icons-material': 5.13.7(@mui/material@5.13.7)(@types/react@18.0.37)(react@18.2.0)
+      '@mui/material': 5.13.7(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)
+      '@types/react': 18.0.37
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /nanoid@3.3.6:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
