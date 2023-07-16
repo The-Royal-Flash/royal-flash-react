@@ -12,7 +12,7 @@ interface CardWrapperProps {
 	setIndex: number;
 }
 
-function AnimationCards() {
+function AnimationCardSetList() {
 	const isMobile = useMediaQuery(mobileMediaQuery);
 	const { ref, isInView } = useCheckInView(isMobile ? 0.2 : 0.5);
 
@@ -69,4 +69,4 @@ const Card = styled.div<CardProps>`
 	  opacity:${1 / (4 - props.index)}`};
 `;
 
-export default AnimationCards;
+export default AnimationCardSetList;

@@ -1,10 +1,10 @@
 import { Button } from '@mui/material';
-import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import SlideBox from './SlideBox';
 import BoxTitle from './BoxTitle';
-import AnimationCards from './AnimationCards';
-import { useNavigate } from 'react-router-dom';
+import AnimationCardSetList from './AnimationCardSetList';
 
 function IntroductionCreateQuizlet() {
 	const navi = useNavigate();
@@ -12,7 +12,7 @@ function IntroductionCreateQuizlet() {
 		<SlideBox>
 			<BoxTitle>{'나에게 딱! 맞는 학습세트 만들기'}</BoxTitle>
 
-			<AnimationCards />
+			<AnimationCardSetList />
 
 			<ResponsiveButton
 				variant="contained"
