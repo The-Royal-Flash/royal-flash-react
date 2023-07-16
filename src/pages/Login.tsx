@@ -16,10 +16,10 @@ function Login() {
 		resolver: zodResolver(loginSchema),
 	});
 
-	const submitData = (data: loginSchema) => {
+	const logUserIn = (data: loginSchema) => {
 		console.log('It works! :', data);
 
-		// 💡 TODO: 로그인 로직
+		// 💡 TODO: API 연동
 	};
 
 	return (
@@ -31,7 +31,7 @@ function Login() {
 						<span>Royal Flash</span> 팀은 당신의 내일을 응원합니다!
 					</WelcomeMessage>
 				</LogoMessageWrapper>
-				<LogInForm onSubmit={handleSubmit(submitData)} autoComplete="off">
+				<LogInForm onSubmit={handleSubmit(logUserIn)} autoComplete="off">
 					<TextField
 						required
 						id="email-input"
