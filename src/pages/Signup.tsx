@@ -71,12 +71,12 @@ function Signup() {
 						helperText={errors?.confirmPassword?.message}
 					/>
 					<LogInButtonBox>
-						<LogInButton type="submit" value="로그인" />
+						<LogInButton type="submit" value="가입하기" />
 					</LogInButtonBox>
 				</LogInForm>
 				<RegisterLinkWrapper>
-					<RegisterLink to={'/signup'}>
-						<span>아직 회원이 아니신가요?</span>
+					<RegisterLink to={'/login'}>
+						<span>이미 회원이신가요?</span>
 					</RegisterLink>
 				</RegisterLinkWrapper>
 			</LogInBox>
