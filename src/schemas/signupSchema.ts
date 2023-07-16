@@ -1,0 +1,28 @@
+import { z } from 'zod';
+
+const signupSchema = z
+	.object({
+		name: z.string().min(1, { message: '이름을 입력해 주세요.' }).max(20),
+		email: z
+			.string()
+			.min(1, { message: '이메일을 입력해 주세요.' })
+			.email({ message: '이메일 형식에 맞게 입력해주세요.' }),
+		password: z
+			.string()
+			.min(1, { message: '비밀번호를 입력해 주세요.' })
+			.regex(/^[A-Za-z0-9]{6,20}$/, {
+				message: '영문 또는 숫자를 6~20자 입력하세요.',
+			}),
+		confirmPassword: z
+			.string()
+			.min(1, { message: '비밀번호를 다시 입력해 주세요.' })
+			.regex(/^[A-Za-z0-9]{6,20}$/),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: '비밀번호가 일치하지 않습니다.',
+		path: ['confirmPassword', 'password'],
+	});
+
+type signupSchema = z.infer<typeof signupSchema>;
+
+export { signupSchema };
