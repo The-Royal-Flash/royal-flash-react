@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Footer, Header } from './common';
+import { Footer, Header } from './';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 function Layout() {
 	return (
@@ -21,6 +22,14 @@ const Container = styled.div`
 	height: 100%;
 	min-height: 100%;
 	min-width: var(--min-width);
+	${mobileMediaQuery} {
+		--header-height: 50px;
+		--footer-height: 320px;
+	}
+	${desktopMediaQuery} {
+		--header-height: 90px;
+		--footer-height: 200px;
+	}
 `;
 
 const Wrapper = styled.div`
@@ -29,13 +38,15 @@ const Wrapper = styled.div`
 	height: 100%;
 	width: 100%;
 	min-width: var(--min-width);
-	overflow: scroll;
 `;
 
 const OutletWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
 	flex: 1;
 	min-width: var(--min-width);
 	max-width: var(--max-width);
+	width: 100%;
 	margin: 0 auto;
 `;
 

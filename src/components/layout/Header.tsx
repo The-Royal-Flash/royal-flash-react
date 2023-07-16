@@ -6,10 +6,9 @@ import LoginIcon from '@mui/icons-material/Login';
 import PersonIcon from '@mui/icons-material/Person';
 import StyleIcon from '@mui/icons-material/Style';
 import LogoutIcon from '@mui/icons-material/Logout';
-import ExpandTooltipButton from './ExpandTooltipButton';
-import SpreadLogoWithText from './SpreadLogoWithText';
-import ImageButton from './ImageButton';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import { ExpandTooltipButton, ImageButton } from '../common';
+import SpreadLogoWithText from './SpreadLogoWithText';
 
 function Header() {
 	const move = useNavigate();
@@ -150,16 +149,11 @@ function Header() {
 
 const Container = styled.div`
 	display: flex;
-	background: var(--bg-color);
-	margin-bottom: 10px;
 	width: 100%;
+	height: var(--header-height);
+	min-height: var(--header-height);
+	background: var(--bg-color);
 	user-select: none;
-	${mobileMediaQuery} {
-		min-height: 50px;
-	}
-	${desktopMediaQuery} {
-		min-height: 90px;
-	}
 `;
 
 const Wrapper = styled.div`
@@ -170,13 +164,7 @@ const Wrapper = styled.div`
 	min-width: var(--min-width);
 	max-width: var(--max-width);
 	width: calc(100% - 40px);
-	${mobileMediaQuery} {
-		margin: 0 auto;
-	}
-	${desktopMediaQuery} {
-		height: 70px;
-		margin: 10px auto;
-	}
+	margin: 0 auto;
 `;
 
 const Flex = styled.div`

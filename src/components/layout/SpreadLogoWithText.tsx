@@ -2,9 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import SpreadLogo from './SpreadLogo';
-import { LinkProps } from '@mui/material';
 
-interface LogoWrapperProps {
+interface LogoTextProps {
 	isHover: boolean;
 }
 
@@ -18,9 +17,8 @@ function SpreadLogoWithText() {
 	};
 
 	return (
-		<LogoWrapper
+		<LogoLink
 			to={'/'}
-			isHover={isHover}
 			onMouseOver={handleOnMouseOver}
 			onMouseOut={handleMouseOut}
 		>
@@ -29,14 +27,11 @@ function SpreadLogoWithText() {
 				<LogoText isHover={isHover}>{'Flash'}</LogoText>
 			</Flex>
 			<SpreadLogo active={isHover} />
-		</LogoWrapper>
+		</LogoLink>
 	);
 }
 
-const LogoWrapper = styled(Link)<
-	LinkProps & React.RefAttributes<HTMLAnchorElement> & LogoWrapperProps
->`
-	width: ${(props) => (props.isHover ? '190px' : '150px')};
+const LogoLink = styled(Link)`
 	transition: all 0.3s ease;
 	cursor: pointer;
 	display: flex;
@@ -48,7 +43,7 @@ const Flex = styled.div`
 	flex-direction: column;
 `;
 
-const LogoText = styled.div<LogoWrapperProps>`
+const LogoText = styled.div<LogoTextProps>`
 	color: ${(props) =>
 		props.isHover ? 'var(--yellow-color)' : 'var(--font-color)'};
 	font-size: 24px;
