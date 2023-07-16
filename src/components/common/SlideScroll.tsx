@@ -3,11 +3,11 @@ import { Slide } from '@mui/material';
 import { useCheckInView } from '../../hooks';
 import styled from '@emotion/styled';
 
-interface SlideScrollOnceProps {
+interface SlideScrollProps {
 	children: React.ReactElement;
 }
 
-function SlideScrollOnce({ children }: SlideScrollOnceProps) {
+function SlideScroll({ children }: SlideScrollProps) {
 	const { ref, isInView } = useCheckInView(0.5);
 
 	return (
@@ -30,4 +30,4 @@ const Container = styled(motion.div)`
 	align-items: center;
 `;
 
-export default SlideScrollOnce;
+export default SlideScroll;
