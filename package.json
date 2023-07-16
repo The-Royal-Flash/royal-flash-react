@@ -18,11 +18,8 @@
     "@mui/icons-material": "^5.13.7",
     "@mui/material": "^5.13.7",
     "@tanstack/react-query": "^4.29.19",
-<<<<<<< Updated upstream
     "framer-motion": "^10.12.21",
-=======
     "mui-chips-input": "^2.0.2",
->>>>>>> Stashed changes
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.1",
