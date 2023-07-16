@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Slide } from '@mui/material';
-import useCheckInView from '../../hooks/useCheckInView';
+import { useCheckInView } from '../../hooks';
 import styled from '@emotion/styled';
 
 interface SlideScrollOnceProps {
