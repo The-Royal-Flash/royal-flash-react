@@ -23,9 +23,13 @@ function Footer() {
 const Container = styled.div`
 	display: flex;
 	width: 100%;
-	padding: 10px 0;
 	user-select: none;
 	background: var(--footer-bg-color);
+	height: var(--footer-height);
+	min-height: var(--footer-height);
+	${mobileMediaQuery} {
+		padding-bottom: 20px;
+	}
 `;
 
 const Wrapper = styled.div`
@@ -37,6 +41,8 @@ const Wrapper = styled.div`
 	margin: 0 auto;
 	width: calc(100% - 20px);
 	${mobileMediaQuery} {
+		flex-direction: column;
+		gap: 20px;
 		padding: 5px 2px;
 	}
 	${desktopMediaQuery} {

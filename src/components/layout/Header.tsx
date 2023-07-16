@@ -149,16 +149,11 @@ function Header() {
 
 const Container = styled.div`
 	display: flex;
-	background: var(--bg-color);
-	margin-bottom: 10px;
 	width: 100%;
+	height: var(--header-height);
+	min-height: var(--header-height);
+	background: var(--bg-color);
 	user-select: none;
-	${mobileMediaQuery} {
-		min-height: 50px;
-	}
-	${desktopMediaQuery} {
-		min-height: 90px;
-	}
 `;
 
 const Wrapper = styled.div`
@@ -169,13 +164,7 @@ const Wrapper = styled.div`
 	min-width: var(--min-width);
 	max-width: var(--max-width);
 	width: calc(100% - 40px);
-	${mobileMediaQuery} {
-		margin: 0 auto;
-	}
-	${desktopMediaQuery} {
-		height: 70px;
-		margin: 10px auto;
-	}
+	margin: 0 auto;
 `;
 
 const Flex = styled.div`

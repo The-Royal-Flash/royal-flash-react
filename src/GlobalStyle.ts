@@ -20,6 +20,7 @@ const GlobalStyle = css`
 		--border-color: #6686a0;
 		--button-color: #7297ae;
 		--bg-color: #98b4c5;
+		--light-bg-color: #eaeff2;
 		--footer-bg-color: #69737ce6;
 		--warn-color: #8b1916;
 	}
@@ -40,7 +41,6 @@ const GlobalStyle = css`
 		width: 100%;
 		height: 100%;
 		font-family: 'Noto Sans KR', sans-serif;
-		/* background-color: var(--body-bg-color); */
 	}
 
 	ul,
