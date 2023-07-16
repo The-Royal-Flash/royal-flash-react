@@ -3,6 +3,10 @@ import { z } from 'zod';
 const signupSchema = z
 	.object({
 		name: z.string().min(1, { message: '이름을 입력해 주세요.' }).max(20),
+		nickname: z
+			.string()
+			.min(3, { message: '최소 3글자 이상이어야 합니다.' })
+			.max(20),
 		email: z
 			.string()
 			.min(1, { message: '이메일을 입력해 주세요.' })

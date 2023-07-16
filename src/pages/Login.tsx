@@ -23,7 +23,7 @@ const Background = styled.div`
 const AuthBox = styled(Container)`
 	border: 1px solid var(--border-color);
 	border-radius: 10px;
-	width: 400px;
+	width: 500px;
 	padding: 30px;
 	min-height: 600px;
 	background-color: #fff;
