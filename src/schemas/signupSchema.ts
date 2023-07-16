@@ -24,4 +24,4 @@ const signupSchema = z
 
 type signupSchema = z.infer<typeof signupSchema>;
 
-export { signupSchema };
+export default signupSchema;
