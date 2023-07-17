@@ -12,6 +12,7 @@ interface AuthFormProps {
 function AuthForm({ variant }: AuthFormProps) {
 	const [isEmailUnique, setIsEmailUnique] = React.useState(false);
 	const [isNicknameUnique, setIsNicknameUnique] = React.useState(false);
+
 	const schemaInUse = variant === 'login' ? loginSchema : signupSchema;
 	const {
 		register,
@@ -38,7 +39,7 @@ function AuthForm({ variant }: AuthFormProps) {
 		// 💡 TODO: API 연동
 	};
 
-	const isUnique = (
+	const checkForDuplicate = (
 		event: React.MouseEvent<HTMLSpanElement>,
 		dataType: string,
 	) => {
@@ -88,7 +89,9 @@ function AuthForm({ variant }: AuthFormProps) {
 						helperText={errors?.email?.message}
 						disabled={isEmailUnique}
 					/>
-					<DuplicateChecker onClick={(event) => isUnique(event, 'email')}>
+					<DuplicateChecker
+						onClick={(event) => checkForDuplicate(event, 'email')}
+					>
 						중복확인
 					</DuplicateChecker>
 				</InputButtonWrapper>
@@ -105,7 +108,9 @@ function AuthForm({ variant }: AuthFormProps) {
 						helperText={errors?.nickname?.message}
 						disabled={isNicknameUnique}
 					/>
-					<DuplicateChecker onClick={(event) => isUnique(event, 'nickname')}>
+					<DuplicateChecker
+						onClick={(event) => checkForDuplicate(event, 'nickname')}
+					>
 						중복확인
 					</DuplicateChecker>
 				</InputButtonWrapper>
