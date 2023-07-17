@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 
 function InterchangeButton({ variant }: InterchangeButtonProps) {
 	return (
