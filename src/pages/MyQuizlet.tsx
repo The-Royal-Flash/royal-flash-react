@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { SearchForm } from '../components/common';
-import { Toggler, Quizlets } from '../components/myQuizlet';
+import { Toggler, Quizlets, NoResultMessage } from '../components/myQuizlet';
 
 function MyQuizlet() {
 	const [order, setOrder] = React.useState('내림차순');
@@ -19,6 +19,8 @@ function MyQuizlet() {
 
 		console.log(keyword);
 		console.log(tags);
+
+		// 💡 TODO: 유저 학습 세트 데이터 가져온 후, 검색 내용 기반 filter해서 재 렌더링하는 로직 추가하기
 	};
 
 	return (
@@ -29,6 +31,7 @@ function MyQuizlet() {
 			</SearchBox>
 			<Toggler order={order} onChange={reorder} />
 			<Quizlets />
+			{/* <NoResultMessage /> */}
 		</Container>
 	);
 }
