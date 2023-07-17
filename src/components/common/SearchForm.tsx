@@ -1,9 +1,17 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { MuiChipsInput } from 'mui-chips-input';
 import { TextField } from '@mui/material';
+import { MuiChipsInput } from 'mui-chips-input';
 
-function SearchForm() {
+interface SearchFormProps {
+	onSubmit?: (
+		event: React.KeyboardEvent<HTMLElement>,
+		keyword: string,
+		tags: string[],
+	) => void;
+}
+
+function SearchForm({ onSubmit }: SearchFormProps) {
 	const [tags, setTags] = React.useState<string[]>([]);
 	const [keyword, setKeyword] = React.useState('');
 
@@ -11,10 +19,9 @@ function SearchForm() {
 		setTags(newChip);
 	};
 
-	const updateKeyword = (event: React.ChangeEvent) => {
+	const updateKeyword = (event: React.ChangeEvent<HTMLElement>) => {
 		const newKeyword = (event.target as HTMLInputElement).value;
-
-		console.log(newKeyword);
+		setKeyword(newKeyword);
 	};
 
 	const search = (event: React.KeyboardEvent) => {
@@ -29,24 +36,25 @@ function SearchForm() {
 				label="Search"
 				variant="outlined"
 				onChange={updateKeyword}
-				onKeyDown={search}
+				onKeyDown={(event) =>
+					onSubmit ? onSubmit(event, keyword, tags) : search(event)
+				}
+				placeholder="학습세트 이름을 입력하세요."
 			/>
 			<StyledChipsInput
 				label="Tags"
 				value={tags}
 				onChange={addChip}
-				onKeyDown={search}
+				placeholder="학습세트와 관련된 태그를 추가하세요."
 			/>
 		</Container>
 	);
 }
 
 const Container = styled.div`
-	width: 100%;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	padding: 30px;
 `;
 
 const StyledTextField = styled(TextField)`
