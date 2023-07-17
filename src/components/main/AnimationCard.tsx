@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { useCheckInView } from '../../hooks';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
@@ -33,7 +34,7 @@ const Container = styled.div`
 		margin-bottom: -20px;
 	}
 	${desktopMediaQuery} {
-    transform: scale(1.0);
+		transform: scale(1);
 		@media (min-width: 900px) {
 			transform: scale(1.3);
 		}
@@ -60,7 +61,7 @@ const Card = styled.div`
 	opacity: 1;
 	color: white;
 	box-shadow: -15px 25px 15px rgba(0, 0, 0, 0.28);
-  background: linear-gradient(315deg, #5a2ebf, #617dd8, #48ace8);
+	background: linear-gradient(315deg, #5a2ebf, #617dd8, #48ace8);
 `;
 
 const Card4 = styled(Card)<CardProps>`
@@ -90,7 +91,6 @@ const Card2 = styled(Card)<CardProps>`
 
 const Card1 = styled(Card)<CardProps>`
 	transform: rotate(-8deg) skew(25deg) scale(0.8);
-
 
 	${(props) =>
 		props.active &&
