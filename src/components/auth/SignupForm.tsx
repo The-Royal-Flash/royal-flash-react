@@ -3,33 +3,31 @@ import styled from '@emotion/styled';
 import { TextField, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, signupSchema } from '../../schemas';
+import { signupSchema } from '../../schemas/authSchema';
 
-function AuthForm({ variant }: AuthFormProps) {
+function SignupForm() {
 	const [isEmailUnique, setIsEmailUnique] = React.useState(false);
 	const [isNicknameUnique, setIsNicknameUnique] = React.useState(false);
-	const schemaInUse = variant === 'login' ? loginSchema : signupSchema;
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<signupSchema>({
-		resolver: zodResolver(schemaInUse),
+		resolver: zodResolver(signupSchema),
 	});
 
 	const signUserUp = (data: signupSchema) => {
 		console.log('It works! :', data);
 
+		if (!isEmailUnique || !isNicknameUnique) {
+			window.alert('중복 확인 후 진행해 주세요.');
+			return;
+		}
+
 		// 💡 TODO: API 연동
 	};
 
-	const logUserIn = (data: loginSchema) => {
-		console.log('It works! :', data);
-
-		// 💡 TODO: API 연동
-	};
-
-	const isUnique = (
+	const checkForDuplicate = (
 		event: React.MouseEvent<HTMLSpanElement>,
 		dataType: string,
 	) => {
@@ -45,18 +43,16 @@ function AuthForm({ variant }: AuthFormProps) {
 
 	return (
 		<Form onSubmit={handleSubmit(signUserUp)} autoComplete="off">
-			{variant === 'signup' && (
-				<StyledTextField
-					required
-					id="name-input"
-					label="Name"
-					variant="outlined"
-					{...register('name')}
-					error={errors.name ? true : false}
-					helperText={errors?.name?.message}
-				/>
-			)}
-			{variant === 'login' && (
+			<StyledTextField
+				required
+				id="name-input"
+				label="Name"
+				variant="outlined"
+				{...register('name')}
+				error={errors.name ? true : false}
+				helperText={errors?.name?.message}
+			/>
+			<InputButtonWrapper>
 				<StyledTextField
 					required
 					id="email-input"
@@ -65,42 +61,31 @@ function AuthForm({ variant }: AuthFormProps) {
 					{...register('email')}
 					error={errors.email ? true : false}
 					helperText={errors?.email?.message}
+					disabled={isEmailUnique}
 				/>
-			)}
-			{variant === 'signup' && (
-				<InputButtonWrapper>
-					<StyledTextField
-						required
-						id="email-input"
-						label="Email"
-						variant="outlined"
-						{...register('email')}
-						error={errors.email ? true : false}
-						helperText={errors?.email?.message}
-						disabled={isEmailUnique}
-					/>
-					<DuplicateChecker onClick={(event) => isUnique(event, 'email')}>
-						중복확인
-					</DuplicateChecker>
-				</InputButtonWrapper>
-			)}
-			{variant === 'signup' && (
-				<InputButtonWrapper>
-					<StyledTextField
-						required
-						id="nickname-input"
-						label="Nickname"
-						variant="outlined"
-						{...register('nickname')}
-						error={errors.nickname ? true : false}
-						helperText={errors?.nickname?.message}
-						disabled={isNicknameUnique}
-					/>
-					<DuplicateChecker onClick={(event) => isUnique(event, 'nickname')}>
-						중복확인
-					</DuplicateChecker>
-				</InputButtonWrapper>
-			)}
+				<DuplicateChecker
+					onClick={(event) => checkForDuplicate(event, 'email')}
+				>
+					중복확인
+				</DuplicateChecker>
+			</InputButtonWrapper>
+			<InputButtonWrapper>
+				<StyledTextField
+					required
+					id="nickname-input"
+					label="Nickname"
+					variant="outlined"
+					{...register('nickname')}
+					error={errors.nickname ? true : false}
+					helperText={errors?.nickname?.message}
+					disabled={isNicknameUnique}
+				/>
+				<DuplicateChecker
+					onClick={(event) => checkForDuplicate(event, 'nickname')}
+				>
+					중복확인
+				</DuplicateChecker>
+			</InputButtonWrapper>
 			<StyledTextField
 				required
 				id="password-input"
@@ -111,27 +96,21 @@ function AuthForm({ variant }: AuthFormProps) {
 				error={errors.password ? true : false}
 				helperText={errors?.password?.message}
 			/>
-			{variant === 'signup' && (
-				<StyledTextField
-					required
-					id="confirmPassword-input"
-					label="Confirm Password"
-					variant="outlined"
-					type="password"
-					{...register('confirmPassword')}
-					error={errors.confirmPassword ? true : false}
-					helperText={errors?.confirmPassword?.message}
-				/>
-			)}
+			<StyledTextField
+				required
+				id="confirmPassword-input"
+				label="Confirm Password"
+				variant="outlined"
+				type="password"
+				{...register('confirmPassword')}
+				error={errors.confirmPassword ? true : false}
+				helperText={errors?.confirmPassword?.message}
+			/>
 			<ButtonBox>
 				<SubmitButton type="submit" value="가입하기" />
 			</ButtonBox>
 		</Form>
 	);
-}
-
-interface AuthFormProps {
-	variant: string;
 }
 
 const Form = styled.form`
@@ -181,4 +160,4 @@ const InputButtonWrapper = styled.div`
 	align-items: center;
 `;
 
-export default AuthForm;
+export default SignupForm;
