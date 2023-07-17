@@ -1,8 +1,9 @@
+import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import GlobalStyle from './GlobalStyle';
 import { Layout } from './components';
-import Main from './pages/Main';
+import { Main } from './pages';
 import {
 	CreateQuizlet,
 	EditQuizlet,
