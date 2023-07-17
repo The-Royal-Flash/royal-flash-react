@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import GlobalStyle from './GlobalStyle';
 import { Layout } from './components';
-import Main from './pages/Main';
 import {
 	CreateQuizlet,
 	EditQuizlet,
@@ -12,6 +11,7 @@ import {
 	QuizletDetail,
 	Search,
 	Signup,
+	Main,
 } from './pages';
 
 const router = createBrowserRouter([
