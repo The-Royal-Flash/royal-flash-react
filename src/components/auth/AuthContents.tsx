@@ -1,5 +1,9 @@
 import { LogoAndMessage, AuthForm, InterchangeButton } from '../auth';
 
+interface AuthContentsProps {
+	variant: string;
+}
+
 function AuthContents({ variant }: AuthContentsProps) {
 	return (
 		<>
@@ -8,10 +12,6 @@ function AuthContents({ variant }: AuthContentsProps) {
 			<InterchangeButton variant={variant} />
 		</>
 	);
-}
-
-interface AuthContentsProps {
-	variant: string;
 }
 
 export default AuthContents;

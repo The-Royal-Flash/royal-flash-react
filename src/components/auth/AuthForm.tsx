@@ -3,7 +3,11 @@ import styled from '@emotion/styled';
 import { TextField, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, signupSchema } from '../../schemas';
+import { loginSchema, signupSchema } from '../../schemas/authSchema';
+
+interface AuthFormProps {
+	variant: string;
+}
 
 function AuthForm({ variant }: AuthFormProps) {
 	const [isEmailUnique, setIsEmailUnique] = React.useState(false);
@@ -133,10 +137,6 @@ function AuthForm({ variant }: AuthFormProps) {
 			</ButtonBox>
 		</Form>
 	);
-}
-
-interface AuthFormProps {
-	variant: string;
 }
 
 const Form = styled.form`
