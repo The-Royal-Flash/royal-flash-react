@@ -32,12 +32,11 @@ const SearchBox = styled.div`
 	width: 80%;
 	padding: 20px;
 	margin-top: 20px;
-	border: 1px dashed red;
 `;
 
 const SearchMessage = styled.p`
 	font-weight: bold;
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 `;
 
 export default MyQuizlet;

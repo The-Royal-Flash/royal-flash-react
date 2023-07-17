@@ -19,10 +19,9 @@ function Toggler({ order, onChange }: TogglerProps) {
 
 const Container = styled.div`
 	width: 80%;
-	padding: 20px;
+	padding: 0 20px;
 	display: flex;
 	justify-content: right;
-	/* border: 1px dashed salmon; */
 `;
 
 const StyledToggleButton = styled(ToggleButton)`
