@@ -1,3 +1,4 @@
+import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import GlobalStyle from './GlobalStyle';
