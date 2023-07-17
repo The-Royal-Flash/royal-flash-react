@@ -8,6 +8,8 @@ function MyQuizlet() {
 
 	const reorder = () => {
 		setOrder(order === '내림차순' ? '오름차순' : '내림차순');
+
+		// 💡 TODO: 유저 학습 세트 데이터 가져온 후, 점수 오름차순/내림차순 정렬
 	};
 
 	const filterUserQuizlets = (
