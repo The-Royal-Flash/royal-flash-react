@@ -4,7 +4,11 @@ import { TextField } from '@mui/material';
 import { MuiChipsInput } from 'mui-chips-input';
 
 interface SearchFormProps {
-	onSubmit?: () => void;
+	onSubmit?: (
+		event: React.KeyboardEvent<HTMLElement>,
+		keyword: string,
+		tags: string[],
+	) => void;
 }
 
 function SearchForm({ onSubmit }: SearchFormProps) {
@@ -15,10 +19,9 @@ function SearchForm({ onSubmit }: SearchFormProps) {
 		setTags(newChip);
 	};
 
-	const updateKeyword = (event: React.ChangeEvent) => {
+	const updateKeyword = (event: React.ChangeEvent<HTMLElement>) => {
 		const newKeyword = (event.target as HTMLInputElement).value;
-
-		console.log(newKeyword);
+		setKeyword(newKeyword);
 	};
 
 	const search = (event: React.KeyboardEvent) => {
@@ -33,7 +36,9 @@ function SearchForm({ onSubmit }: SearchFormProps) {
 				label="Search"
 				variant="outlined"
 				onChange={updateKeyword}
-				onKeyDown={onSubmit ? onSubmit : search}
+				onKeyDown={(event) =>
+					onSubmit ? onSubmit(event, keyword, tags) : search(event)
+				}
 				placeholder="학습세트 이름을 입력하세요."
 			/>
 			<StyledChipsInput

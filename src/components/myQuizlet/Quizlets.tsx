@@ -9,6 +9,7 @@ function Quizlets() {
 			<QuizletCard />
 			<QuizletCard />
 			<QuizletCard />
+			<QuizletCard />
 		</Container>
 	);
 }

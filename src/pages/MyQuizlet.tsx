@@ -10,11 +10,22 @@ function MyQuizlet() {
 		setOrder(order === '내림차순' ? '오름차순' : '내림차순');
 	};
 
+	const filterUserQuizlets = (
+		event: React.KeyboardEvent,
+		keyword: string,
+		tags: string[],
+	) => {
+		if (event.key !== 'Enter') return;
+
+		console.log(keyword);
+		console.log(tags);
+	};
+
 	return (
 		<Container>
 			<SearchBox>
 				<SearchMessage>원하는 학습세트를 검색하세요.</SearchMessage>
-				<SearchForm />
+				<SearchForm onSubmit={filterUserQuizlets} />
 			</SearchBox>
 			<Toggler order={order} onChange={reorder} />
 			<Quizlets />

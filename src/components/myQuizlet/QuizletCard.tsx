@@ -26,7 +26,8 @@ function QuizletCard() {
 				<ScoreData>
 					<span>Score</span>
 					<div>
-						<Score>13</Score>/<Total>50</Total>
+						<Score>13</Score>
+						<Total>/50</Total>
 					</div>
 					<LastQuizTime>2023/03/30 22:00</LastQuizTime>
 				</ScoreData>
