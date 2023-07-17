@@ -44,6 +44,16 @@ const Container = styled.div`
 	width: 100%;
 	padding: 15px;
 	position: relative;
+	cursor: pointer;
+	transition: 0.1s ease-in;
+
+	:hover {
+		scale: 1.005;
+	}
+
+	:hover > p {
+		color: var(--secondary-color);
+	}
 `;
 
 const QuizletTitle = styled.p`
