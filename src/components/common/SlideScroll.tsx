@@ -1,7 +1,8 @@
+import React from 'react';
+import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { Slide } from '@mui/material';
 import { useCheckInView } from '../../hooks';
-import styled from '@emotion/styled';
 
 interface SlideScrollProps {
 	children: React.ReactElement;

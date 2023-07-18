@@ -1,3 +1,4 @@
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Footer, Header } from './';
