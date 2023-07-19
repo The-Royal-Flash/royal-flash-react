@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Form, useNavigate } from 'react-router-dom';
+import { Form, redirect, useNavigate } from 'react-router-dom';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import styled from '@emotion/styled';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { desktopMediaQuery, mobileMediaQuery } from '../utils/mediaQueries';
+import { createQuizlet } from '../api';
+
 import { createQuizletSchema } from '../schemas/quizletSchema';
 import { CreateQuizletRequest } from '../types/quizlet';
 import { QuestionCardForm, QuizletForm } from '../components/quizlet';
-
 function CreateQuizlet() {
 	const navi = useNavigate();
 
@@ -36,6 +37,14 @@ function CreateQuizlet() {
 	const onSubmitHandler: SubmitHandler<CreateQuizletRequest> = async (data) => {
 		const { title, description, tagList, questionCardList } = data;
 		console.log(title, description, tagList, questionCardList);
+
+		const res = await createQuizlet(data);
+		// if (res.status === 200) {
+		// const newQuizletId =
+		// redirect(`/quizlet/detail/${newQuizletId}`);
+		// }
+
+		// TODO: 에러 처리
 	};
 
 	const goBack = () => navi(-1);
