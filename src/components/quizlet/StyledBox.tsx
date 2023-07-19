@@ -13,12 +13,10 @@ const StyledBox = styled(Box)`
 	overflow: hidden;
 	${mobileMediaQuery} {
 		margin-top: 30px;
-		padding: 40px 15px 30px;
 		border-radius: 5px;
 	}
 	${desktopMediaQuery} {
 		margin-top: 40px;
-		padding: 50px 40px;
 		border-radius: 20px;
 	}
 `;

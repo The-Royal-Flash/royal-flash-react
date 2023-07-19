@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
-import { Button, TextField, Typography } from '@mui/material';
-import { desktopMediaQuery, mobileMediaQuery } from '../utils/mediaQueries';
-import { QuestionCardForm, QuizletForm } from '../components/quizlet';
 import { Form, useNavigate } from 'react-router-dom';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import styled from '@emotion/styled';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { desktopMediaQuery, mobileMediaQuery } from '../utils/mediaQueries';
 import { createQuizletSchema } from '../schemas/quizletSchema';
 import { CreateQuizletRequest } from '../types/quizlet';
+import { QuestionCardForm, QuizletForm } from '../components/quizlet';
 
 function CreateQuizlet() {
 	const navi = useNavigate();
@@ -51,14 +52,15 @@ function CreateQuizlet() {
 						remove={remove}
 					/>
 				))}
+				<AddQuestionButton
+					type="button"
+					variant="contained"
+					onClick={() => append({ question: '', link: '', answer: '' })}
+				>
+					<StyledAddIcon />
+				</AddQuestionButton>
+
 				<ButtonGroup>
-					<Button
-						type="button"
-						variant="contained"
-						onClick={() => append({ question: '', link: '', answer: '' })}
-					>
-						문제 추가
-					</Button>
 					<StyledButton type="submit" variant="contained">
 						학습세트 생성
 					</StyledButton>
@@ -75,18 +77,23 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	${mobileMediaQuery} {
+		margin: 20px 0px;
+	}
+	${desktopMediaQuery} {
+		margin: 50px 0px 60px;
+	}
 `;
 
 const Title = styled(Typography)`
-	margin-top: 50px;
 	font-weight: 600;
 	word-break: keep-all;
 	color: var(--font-color);
 	${mobileMediaQuery} {
-		font-size: 1.1rem;
+		font-size: 1.4rem;
 	}
 	${desktopMediaQuery} {
-		font-size: 1.4rem;
+		font-size: 1.8rem;
 	}
 `;
 
@@ -112,6 +119,32 @@ const StyledButton = styled(Button)`
 	}
 	${desktopMediaQuery} {
 		font-size: 1.4rem;
+	}
+`;
+
+const AddQuestionButton = styled(Button)`
+	border-radius: 100%;
+	margin-top: 20px;
+	padding: 0px;
+	${mobileMediaQuery} {
+		min-width: 2.5rem;
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+	${desktopMediaQuery} {
+		min-width: 3rem;
+		width: 3rem;
+		height: 3rem;
+	}
+`;
+
+const StyledAddIcon = styled(AddIcon)`
+	padding: 0px;
+	${mobileMediaQuery} {
+		font-size: 1.3rem;
+	}
+	${desktopMediaQuery} {
+		font-size: 1.7rem;
 	}
 `;
 
