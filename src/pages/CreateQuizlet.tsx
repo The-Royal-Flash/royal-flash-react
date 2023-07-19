@@ -38,6 +38,8 @@ function CreateQuizlet() {
 		console.log(title, description, tagList, questionCardList);
 	};
 
+	const goBack = () => navi(-1);
+
 	return (
 		<Container>
 			<Title>새로운 학습세트 만들기</Title>
@@ -61,10 +63,13 @@ function CreateQuizlet() {
 				</AddQuestionButton>
 
 				<ButtonGroup>
+					{errors.questionCardList && fields.length === 0 && (
+						<ErrorMessage>{'하나 이상의 문제를 등록해 주세요.'}</ErrorMessage>
+					)}
 					<StyledButton type="submit" variant="contained">
 						학습세트 생성
 					</StyledButton>
-					<StyledButton type="button" variant="outlined">
+					<StyledButton type="button" variant="outlined" onClick={goBack}>
 						취소
 					</StyledButton>
 				</ButtonGroup>
@@ -146,6 +151,11 @@ const StyledAddIcon = styled(AddIcon)`
 	${desktopMediaQuery} {
 		font-size: 1.7rem;
 	}
+`;
+
+const ErrorMessage = styled.div`
+	color: var(--warn-color);
+	font-size: 1.1rem;
 `;
 
 export default CreateQuizlet;

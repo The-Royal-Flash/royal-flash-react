@@ -22,7 +22,7 @@ const GlobalStyle = css`
 		--bg-color: #98b4c5;
 		--light-bg-color: #eaeff2;
 		--footer-bg-color: #69737ce6;
-		--warn-color: #8b1916;
+		--warn-color: #c22d2a;
 	}
 
 	body {
