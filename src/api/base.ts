@@ -5,6 +5,6 @@ export const http = {
 		return axios.get(url).then((res) => res.data);
 	},
 	post: function post<T>(url: string, data: any): Promise<T> {
-		return axios.post(url, { data });
+		return axios.post(url, { ...data });
 	},
 };
