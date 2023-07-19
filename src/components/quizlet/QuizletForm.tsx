@@ -1,17 +1,60 @@
 import React from 'react';
+import {
+	Control,
+	Controller,
+	FieldErrors,
+	UseFormRegister,
+} from 'react-hook-form';
+import styled from '@emotion/styled';
+import { MuiChipsInput } from 'mui-chips-input';
+import { TextField } from '@mui/material';
+import { CreateQuizletRequest } from '../../types/quizlet';
 import StyledBox from './StyledBox';
 
-function QuizletForm() {
+interface QuizletFormProps {
+	register: UseFormRegister<CreateQuizletRequest>;
+	control: Control<CreateQuizletRequest>;
+	errors: FieldErrors<CreateQuizletRequest>;
+}
+
+function QuizletForm({ register, control, errors }: QuizletFormProps) {
 	return (
 		<StyledBox>
-			{/* 제목 */}
-			제목
-			{/* 태그 */}
-			태그
-			{/* 설명 */}
-			설명
+			<TextField
+				label="제목"
+				variant="outlined"
+				error={!!errors.title}
+				helperText={errors.title?.message}
+				{...register('title')}
+			/>
+			<Controller
+				control={control}
+				name={'tagList'}
+				// {...register('tagList')}
+				render={({ field, fieldState }) => (
+					<StyledChipsInput
+						label="태그"
+						placeholder="관련 태그를 입력 후 엔터를 눌러주세요."
+						variant="outlined"
+						{...field}
+						error={fieldState.invalid}
+					/>
+				)}
+			/>
+			<TextField
+				label="설명"
+				variant="outlined"
+				multiline
+				error={!!errors.description}
+				helperText={errors.description?.message}
+				{...register('description')}
+			/>
 		</StyledBox>
 	);
 }
+
+const StyledChipsInput = styled(MuiChipsInput)`
+	width: 100%;
+`;
 
 export default QuizletForm;
