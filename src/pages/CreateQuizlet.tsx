@@ -34,7 +34,7 @@ function CreateQuizlet() {
 		name: 'questionCardList',
 	});
 
-	const onSubmitHandler: SubmitHandler<QuizletRequest> = async (data) => {
+	const handleOnSubmit: SubmitHandler<QuizletRequest> = async (data) => {
 		const { title, description, tagList, questionCardList } = data;
 		console.log(title, description, tagList, questionCardList);
 
@@ -52,7 +52,7 @@ function CreateQuizlet() {
 	return (
 		<Container>
 			<Title>새로운 학습세트 만들기</Title>
-			<StyledForm onSubmit={handleSubmit(onSubmitHandler)}>
+			<StyledForm onSubmit={handleSubmit(handleOnSubmit)}>
 				<QuizletForm register={register} control={control} errors={errors} />
 				{fields.map((_, index) => (
 					<QuestionCardForm
