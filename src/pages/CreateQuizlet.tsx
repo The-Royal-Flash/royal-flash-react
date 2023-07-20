@@ -8,8 +8,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { desktopMediaQuery, mobileMediaQuery } from '../utils/mediaQueries';
 import { createQuizlet } from '../api';
 
-import { createQuizletSchema } from '../schemas/quizletSchema';
-import { CreateQuizletRequest } from '../types/quizlet';
+import { quizletSchema } from '../schemas/quizletSchema';
+import { QuizletRequest } from '../types/quizlet';
 import { QuestionCardForm, QuizletForm } from '../components/quizlet';
 function CreateQuizlet() {
 	const navi = useNavigate();
@@ -19,8 +19,8 @@ function CreateQuizlet() {
 		register,
 		control,
 		formState: { errors },
-	} = useForm<CreateQuizletRequest>({
-		resolver: zodResolver(createQuizletSchema),
+	} = useForm<QuizletRequest>({
+		resolver: zodResolver(quizletSchema),
 		defaultValues: {
 			title: '',
 			description: '',
@@ -34,7 +34,7 @@ function CreateQuizlet() {
 		name: 'questionCardList',
 	});
 
-	const onSubmitHandler: SubmitHandler<CreateQuizletRequest> = async (data) => {
+	const onSubmitHandler: SubmitHandler<QuizletRequest> = async (data) => {
 		const { title, description, tagList, questionCardList } = data;
 		console.log(title, description, tagList, questionCardList);
 

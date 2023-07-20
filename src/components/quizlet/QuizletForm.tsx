@@ -8,14 +8,14 @@ import {
 import styled from '@emotion/styled';
 import { MuiChipsInput } from 'mui-chips-input';
 import { TextField } from '@mui/material';
-import { CreateQuizletRequest } from '../../types/quizlet';
+import { QuizletRequest } from '../../types/quizlet';
 import StyledBox from './StyledBox';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface QuizletFormProps {
-	register: UseFormRegister<CreateQuizletRequest>;
-	control: Control<CreateQuizletRequest>;
-	errors: FieldErrors<CreateQuizletRequest>;
+	register: UseFormRegister<QuizletRequest>;
+	control: Control<QuizletRequest>;
+	errors: FieldErrors<QuizletRequest>;
 }
 
 function QuizletForm({ register, control, errors }: QuizletFormProps) {

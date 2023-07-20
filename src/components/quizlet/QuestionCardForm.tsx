@@ -6,15 +6,15 @@ import {
 } from 'react-hook-form';
 import { IconButton, Button, TextField, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { CreateQuizletRequest } from '../../types/quizlet';
+import { QuizletRequest } from '../../types/quizlet';
 import StyledBox from './StyledBox';
 import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface QuestionCardFormProps {
 	index: number;
-	register: UseFormRegister<CreateQuizletRequest>;
-	errors: FieldErrors<CreateQuizletRequest>;
+	register: UseFormRegister<QuizletRequest>;
+	errors: FieldErrors<QuizletRequest>;
 	remove: UseFieldArrayRemove;
 }
 
