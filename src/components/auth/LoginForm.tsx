@@ -42,7 +42,7 @@ function LoginForm() {
 				helperText={errors?.password?.message}
 			/>
 			<ButtonBox>
-				<SubmitButton type="submit" value="가입하기" />
+				<SubmitButton type="submit" value="로그인" />
 			</ButtonBox>
 		</Form>
 	);
