@@ -1,6 +1,6 @@
 import { http } from './base';
 import { QuizletRequest } from '../types/quizlet';
-import { BaseApiResponse } from '../types/response';
+import { BaseApiResponse, QuizletResponse } from '../types/response';
 
 // 학습세트 생성
 export const createQuizlet = async (
@@ -9,7 +9,7 @@ export const createQuizlet = async (
 
 // 학습세트 정보
 export const fetchQuizlet = async (quizletId: string) =>
-	await http.get<BaseApiResponse>(`quizlet/info/${quizletId}`);
+	await http.get<QuizletResponse>(`quizlet/info/${quizletId}`);
 
 // 학습세트 수정
 export const editQuizlet = async (

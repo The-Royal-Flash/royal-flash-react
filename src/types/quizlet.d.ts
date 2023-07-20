@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { quizletSchema } from '../schemas/quizletSchema';
+import { editQuizletSchema, quizletSchema } from '../schemas/quizletSchema';
 
 /** 학습세트 기본 정보 */
 export interface BaseQuizletInfo {
@@ -42,7 +42,7 @@ export interface BasePagenation {
 }
 
 /** 학습 세트 정보 */
-export interface QuizletResponse extends BaseQuizletInfo {
+export interface QuizletInfo extends BaseQuizletInfo {
 	questionCardList: Array<QuestionCard>;
 }
 
@@ -54,10 +54,7 @@ export type QuizletQuestionCard = z.infer<
 >['questionCardList'][number];
 
 /** 학습 세트 수정 */
-export interface QuizletEditRequest extends BaseQuizletInfo {
-	questionListToRemove: string[];
-	questionCardsToAdd: Array<QuestionCard>;
-}
+export type QuizletEditRequest = z.infer<typeof editQuizletSchema>;
 
 /** 학습 세트 상세 정보  */
 export interface QuizletDetailResponse
