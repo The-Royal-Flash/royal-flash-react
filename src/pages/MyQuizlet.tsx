@@ -19,8 +19,7 @@ function MyQuizlet() {
 	) => {
 		if (event.key !== 'Enter') return;
 
-		console.log(keyword);
-		console.log(tags);
+		console.log('[Searching]:', keyword, tags);
 
 		// 💡 TODO: 유저 학습 세트 데이터 가져온 후, 검색 내용 기반 filter해서 재 렌더링하는 로직 추가하기
 	};
