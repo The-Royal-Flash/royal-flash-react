@@ -64,7 +64,7 @@ function CreateQuizletForm() {
 				<QuestionCardInputField
 					key={field.id}
 					index={index}
-					questionNumber={index}
+					questionNumber={index + 1}
 					listName="questionCardList"
 					register={register}
 					errors={errors}
