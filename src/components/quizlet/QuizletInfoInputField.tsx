@@ -13,7 +13,7 @@ import {
 	CreateQuizletRequest,
 	EditQuizletRequest,
 } from '../../types';
-import StyledBox from './StyledBox';
+import StyledBox from './styles/StyledBox';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface QuizletInfoInputFieldProps<T extends BaseQuizlet> {

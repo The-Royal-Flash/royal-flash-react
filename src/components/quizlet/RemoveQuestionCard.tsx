@@ -3,7 +3,7 @@ import { IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
-import StyledBox from './StyledBox';
+import StyledBox from './styles/StyledBox';
 
 interface RemoveQuestionCardProps {
 	index: number;

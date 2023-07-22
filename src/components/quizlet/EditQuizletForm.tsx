@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Form, redirect, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { redirect, useNavigate } from 'react-router-dom';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
-import styled from '@emotion/styled';
-import { Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
-import { editQuizletSchema } from '../../schemas/quizletSchema';
 import { QuestionCardInfo, EditQuizletRequest } from '../../types';
+import { editQuizletSchema } from '../../schemas/quizletSchema';
 import { editQuizlet } from '../../api';
 import { fetchQuizletQuery } from '../../queries';
 import {
-	EditQuestionCardInputField,
+	QuestionCardInputField,
 	QuizletInfoInputField,
 	RemoveQuestionCard,
 } from '.';
+import {
+	AddQuestionButton,
+	ErrorMessage,
+	StyledAddIcon,
+	StyledButton,
+	StyledForm,
+	ButtonGroup,
+} from './styles';
 
 interface EditQuizletFormProps {
 	quizletId: string;
@@ -104,10 +108,11 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 				/>
 			))}
 			{fields.map((field, index) => (
-				<EditQuestionCardInputField
+				<QuestionCardInputField
 					key={field.id}
-					questionNumber={oldQuestionList.length + index + 1}
 					index={index}
+					questionNumber={oldQuestionList.length + index + 1}
+					listName="questionCardListToAdd"
 					register={register}
 					errors={errors}
 					remove={remove}
@@ -142,61 +147,5 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 		</StyledForm>
 	);
 };
-
-const StyledForm = styled(Form)`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-`;
-
-const ButtonGroup = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	margin-top: 50px;
-	gap: 10px;
-`;
-
-const StyledButton = styled(Button)`
-	width: 50%;
-	${mobileMediaQuery} {
-		font-size: 1rem;
-	}
-	${desktopMediaQuery} {
-		font-size: 1.4rem;
-	}
-`;
-
-const AddQuestionButton = styled(Button)`
-	border-radius: 100%;
-	margin-top: 20px;
-	padding: 0px;
-	${mobileMediaQuery} {
-		min-width: 2.5rem;
-		width: 2.5rem;
-		height: 2.5rem;
-	}
-	${desktopMediaQuery} {
-		min-width: 3rem;
-		width: 3rem;
-		height: 3rem;
-	}
-`;
-
-const StyledAddIcon = styled(AddIcon)`
-	padding: 0px;
-	${mobileMediaQuery} {
-		font-size: 1.3rem;
-	}
-	${desktopMediaQuery} {
-		font-size: 1.7rem;
-	}
-`;
-
-const ErrorMessage = styled.div`
-	color: var(--warn-color);
-	font-size: 1.1rem;
-`;
 
 export default EditQuizletForm;
