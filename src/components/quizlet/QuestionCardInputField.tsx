@@ -4,45 +4,47 @@ import {
 	UseFieldArrayRemove,
 	UseFormRegister,
 } from 'react-hook-form';
-import { IconButton, Button, TextField, Typography } from '@mui/material';
+import { IconButton, TextField, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { QuizletRequest } from '../../types/quizlet';
+import { BaseQuizlet, CreateQuizletRequest } from '../../types';
 import StyledBox from './StyledBox';
 import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
-interface QuestionCardFormProps {
+export interface QuestionCardInputFieldProps<T extends BaseQuizlet> {
 	index: number;
-	register: UseFormRegister<QuizletRequest>;
-	errors: FieldErrors<QuizletRequest>;
+	register: UseFormRegister<T>;
+	errors: FieldErrors<T>;
 	remove: UseFieldArrayRemove;
 }
 
-function QuestionCardForm({
+function QuestionCardInputField({
 	index,
 	register,
 	errors,
 	remove,
-}: QuestionCardFormProps) {
+}: QuestionCardInputFieldProps<CreateQuizletRequest>) {
 	return (
-		<StyledBox key={index}>
-			<CloseButton type="button" onClick={() => remove(index)}>
-				<StyledCloseIcon />
-			</CloseButton>
+		<StyledBox>
+			<ButtonWrapper>
+				<RemoveButton type="button" onClick={() => remove(index)}>
+					<StyledCloseIcon />
+				</RemoveButton>
+			</ButtonWrapper>
 			<Title>{`Question ${index + 1}`}</Title>
 			<Wrapper>
 				<TextInput
 					label="문제"
 					variant="outlined"
 					error={!!errors.questionCardList?.[index]?.question}
-					helperText={errors.questionCardList?.[index]?.question?.message}
+					helperText={errors?.questionCardList?.[index]?.question?.message}
 					{...register(`questionCardList.${index}.question`)}
 				/>
 				<TextInput
 					label="참고 링크"
 					variant="outlined"
 					error={!!errors.questionCardList?.[index]?.link}
-					helperText={errors.questionCardList?.[index]?.link?.message}
+					helperText={errors?.questionCardList?.[index]?.link?.message}
 					{...register(`questionCardList.${index}.link`)}
 				/>
 				<TextInput
@@ -50,7 +52,7 @@ function QuestionCardForm({
 					variant="outlined"
 					multiline
 					error={!!errors.questionCardList?.[index]?.answer}
-					helperText={errors.questionCardList?.[index]?.answer?.message}
+					helperText={errors?.questionCardList?.[index]?.answer?.message}
 					{...register(`questionCardList.${index}.answer`)}
 				/>
 			</Wrapper>
@@ -86,21 +88,28 @@ const Title = styled(Typography)`
 	}
 `;
 
-const CloseButton = styled(IconButton)`
+const ButtonWrapper = styled.div`
 	position: relative;
 	width: 100%;
 `;
 
-const StyledCloseIcon = styled(CloseIcon)`
+const RemoveButton = styled(IconButton)`
 	position: absolute;
 	${mobileMediaQuery} {
 		top: 14px;
 		right: 14px;
-		font-size: 1.8rem;
 	}
 	${desktopMediaQuery} {
 		top: 20px;
 		right: 20px;
+	}
+`;
+
+const StyledCloseIcon = styled(CloseIcon)`
+	${mobileMediaQuery} {
+		font-size: 1.8rem;
+	}
+	${desktopMediaQuery} {
 		font-size: 2.2rem;
 	}
 `;
@@ -112,4 +121,4 @@ const TextInput = styled(TextField)`
 	}
 `;
 
-export default QuestionCardForm;
+export default QuestionCardInputField;

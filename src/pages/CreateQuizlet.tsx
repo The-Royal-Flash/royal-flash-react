@@ -7,10 +7,12 @@ import { Button, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { desktopMediaQuery, mobileMediaQuery } from '../utils/mediaQueries';
 import { createQuizlet } from '../api';
-
-import { quizletSchema } from '../schemas/quizletSchema';
-import { QuizletRequest } from '../types/quizlet';
-import { QuestionCardForm, QuizletForm } from '../components/quizlet';
+import { createQuizletSchema } from '../schemas/quizletSchema';
+import { CreateQuizletRequest } from '../types';
+import {
+	QuestionCardInputField,
+	QuizletInfoInputField,
+} from '../components/quizlet';
 function CreateQuizlet() {
 	const navi = useNavigate();
 
@@ -19,8 +21,8 @@ function CreateQuizlet() {
 		register,
 		control,
 		formState: { errors },
-	} = useForm<QuizletRequest>({
-		resolver: zodResolver(quizletSchema),
+	} = useForm<CreateQuizletRequest>({
+		resolver: zodResolver(createQuizletSchema),
 		defaultValues: {
 			title: '',
 			description: '',
@@ -34,7 +36,7 @@ function CreateQuizlet() {
 		name: 'questionCardList',
 	});
 
-	const handleOnSubmit: SubmitHandler<QuizletRequest> = async (data) => {
+	const handleOnSubmit: SubmitHandler<CreateQuizletRequest> = async (data) => {
 		const { title, description, tagList, questionCardList } = data;
 		console.log(title, description, tagList, questionCardList);
 
@@ -53,10 +55,15 @@ function CreateQuizlet() {
 		<Container>
 			<Title>새로운 학습세트 만들기</Title>
 			<StyledForm onSubmit={handleSubmit(handleOnSubmit)}>
-				<QuizletForm register={register} control={control} errors={errors} />
-				{fields.map((_, index) => (
-					<QuestionCardForm
-						key={index}
+				<QuizletInfoInputField
+					register={register}
+					control={control}
+					errors={errors}
+				/>
+
+				{fields.map((field, index) => (
+					<QuestionCardInputField
+						key={field.id}
 						index={index}
 						register={register}
 						errors={errors}

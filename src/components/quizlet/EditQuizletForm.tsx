@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, redirect, useNavigate } from 'react-router-dom';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { editQuizletSchema, quizletSchema } from '../../schemas/quizletSchema';
-import { QuizletEditRequest, QuizletRequest } from '../../types/quizlet';
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import { editQuizletSchema } from '../../schemas/quizletSchema';
+import { QuestionCardInfo, EditQuizletRequest } from '../../types';
 import { editQuizlet } from '../../api';
-import QuizletForm from './QuizletForm';
-import { useQuery } from '@tanstack/react-query';
 import { fetchQuizletQuery } from '../../queries';
-import QuestionCardForm from './QuestionCardForm';
-import RemoveQuestionCard from './RemoveQuestionCard';
+import {
+	EditQuestionCardInputField,
+	QuizletInfoInputField,
+	RemoveQuestionCard,
+} from '.';
 
 interface EditQuizletFormProps {
 	quizletId: string;
@@ -23,21 +25,19 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 	const navi = useNavigate();
 
 	const { data: oldData } = useQuery(fetchQuizletQuery(quizletId));
-	const [numOfQuestions, setNumOfQuestion] = useState(
-		oldData?.quizlet?.questionCardList.length || 0,
-	);
+	const [oldQuestionList, setOldQuestionList] = useState<
+		Array<QuestionCardInfo>
+	>(oldData?.quizlet.questionCardList || []);
 	const [questionListToRemove, setQuestionListToRemove] = useState<string[]>(
 		[],
 	);
-
-	console.log(oldData);
 
 	const {
 		handleSubmit,
 		register,
 		control,
 		formState: { errors },
-	} = useForm<QuizletEditRequest>({
+	} = useForm<EditQuizletRequest>({
 		resolver: zodResolver(editQuizletSchema),
 		defaultValues: {
 			title: oldData?.quizlet.title,
@@ -58,9 +58,16 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 			...prevQuestionListToRemove,
 			questionId,
 		]);
+		setOldQuestionList((prevOldQuestionList) =>
+			prevOldQuestionList.filter(({ _id }) => _id !== questionId),
+		);
 	};
 
-	const handleOnSubmit: SubmitHandler<QuizletEditRequest> = async (data) => {
+	const handleAddNewQuestion = () => {
+		append({ question: '', link: '', answer: '' });
+	};
+
+	const handleOnSubmit: SubmitHandler<EditQuizletRequest> = async (data) => {
 		console.log(data, questionListToRemove);
 		const reqData = { ...data, questionListToRemove };
 
@@ -82,35 +89,34 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 
 	return (
 		<StyledForm onSubmit={handleSubmit(handleOnSubmit)}>
-			{/* TODO: TypeScript - QuizletFormProps의 QuizletRequest 타입 변경 방법 */}
-			{/* <QuizletForm register={register} control={control} errors={errors} /> */}
-
-			{oldData?.quizlet.questionCardList.map(
-				({ _id, ...questionInfo }, index) => (
-					<RemoveQuestionCard
-						key={_id}
-						index={index + 1}
-						questionId={_id}
-						handleRemove={handleAddQuestionListToRemove}
-						{...questionInfo}
-					/>
-				),
-			)}
-
-			{/* TODO: TypeScript - QuestionCardFormProps의 QuizletRequest 타입 변경 방법 */}
-			{/* {fields.map((_, index) => (
-				<QuestionCardForm
-					key={index}
+			<QuizletInfoInputField
+				register={register}
+				control={control}
+				errors={errors}
+			/>
+			{oldQuestionList.map(({ _id, ...questionInfo }, index) => (
+				<RemoveQuestionCard
+					key={_id}
+					index={index}
+					questionId={_id}
+					handleRemove={handleAddQuestionListToRemove}
+					{...questionInfo}
+				/>
+			))}
+			{fields.map((field, index) => (
+				<EditQuestionCardInputField
+					key={field.id}
+					questionNumber={oldQuestionList.length + index + 1}
 					index={index}
 					register={register}
 					errors={errors}
 					remove={remove}
 				/>
-			))} */}
+			))}
 			<AddQuestionButton
 				type="button"
 				variant="contained"
-				onClick={() => append({ question: '', link: '', answer: '' })}
+				onClick={handleAddNewQuestion}
 			>
 				<StyledAddIcon />
 			</AddQuestionButton>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import StyledBox from './StyledBox';
 import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import StyledBox from './StyledBox';
 
-interface QuestionCardProps {
+interface RemoveQuestionCardProps {
 	index: number;
 	questionId: string;
 	question: string;
@@ -21,12 +21,14 @@ function RemoveQuestionCard({
 	answer,
 	link,
 	handleRemove,
-}: QuestionCardProps) {
+}: RemoveQuestionCardProps) {
 	return (
 		<StyledBox>
-			<CloseButton type="button" onClick={() => handleRemove(questionId)}>
-				<StyledCloseIcon />
-			</CloseButton>
+			<ButtonWrapper>
+				<RemoveButton type="button" onClick={() => handleRemove(questionId)}>
+					<StyledCloseIcon />
+				</RemoveButton>
+			</ButtonWrapper>
 			<Title>{`Question ${index + 1}`}</Title>
 			<Wrapper>
 				<p>{question}</p>
@@ -65,21 +67,28 @@ const Title = styled(Typography)`
 	}
 `;
 
-const CloseButton = styled(IconButton)`
+const ButtonWrapper = styled.div`
 	position: relative;
 	width: 100%;
 `;
 
-const StyledCloseIcon = styled(CloseIcon)`
+const RemoveButton = styled(IconButton)`
 	position: absolute;
 	${mobileMediaQuery} {
 		top: 14px;
 		right: 14px;
-		font-size: 1.8rem;
 	}
 	${desktopMediaQuery} {
 		top: 20px;
 		right: 20px;
+	}
+`;
+
+const StyledCloseIcon = styled(CloseIcon)`
+	${mobileMediaQuery} {
+		font-size: 1.8rem;
+	}
+	${desktopMediaQuery} {
 		font-size: 2.2rem;
 	}
 `;

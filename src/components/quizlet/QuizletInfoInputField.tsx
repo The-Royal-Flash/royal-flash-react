@@ -8,17 +8,27 @@ import {
 import styled from '@emotion/styled';
 import { MuiChipsInput } from 'mui-chips-input';
 import { TextField } from '@mui/material';
-import { QuizletRequest } from '../../types/quizlet';
+import {
+	BaseQuizlet,
+	CreateQuizletRequest,
+	EditQuizletRequest,
+} from '../../types';
 import StyledBox from './StyledBox';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
-interface QuizletFormProps {
-	register: UseFormRegister<QuizletRequest>;
-	control: Control<QuizletRequest>;
-	errors: FieldErrors<QuizletRequest>;
+interface QuizletInfoInputFieldProps<T extends BaseQuizlet> {
+	register: UseFormRegister<T>;
+	control: Control<T>;
+	errors: FieldErrors<T>;
 }
 
-function QuizletForm({ register, control, errors }: QuizletFormProps) {
+function QuizletInfoInputField(
+	props: QuizletInfoInputFieldProps<CreateQuizletRequest>,
+): JSX.Element;
+function QuizletInfoInputField(
+	props: QuizletInfoInputFieldProps<EditQuizletRequest>,
+): JSX.Element;
+function QuizletInfoInputField({ register, control, errors }: BaseQuizlet) {
 	return (
 		<StyledBox>
 			<Wrapper>
@@ -83,4 +93,4 @@ const StyledChipsInput = styled(MuiChipsInput)`
 	}
 `;
 
-export default QuizletForm;
+export default QuizletInfoInputField;
