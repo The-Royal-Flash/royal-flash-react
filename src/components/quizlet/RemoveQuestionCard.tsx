@@ -1,9 +1,11 @@
 import React from 'react';
-import { IconButton, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
-import StyledBox from './styles/StyledBox';
+import {
+	StyledBox,
+	QuestionCardRemoveButton,
+	QuestionCardTitle,
+} from './styles';
 
 interface RemoveQuestionCardProps {
 	index: number;
@@ -24,25 +26,33 @@ function RemoveQuestionCard({
 }: RemoveQuestionCardProps) {
 	return (
 		<StyledBox>
-			<ButtonWrapper>
-				<RemoveButton type="button" onClick={() => handleRemove(questionId)}>
-					<StyledCloseIcon />
-				</RemoveButton>
-			</ButtonWrapper>
-			<Title>{`Question ${index + 1}`}</Title>
+			<QuestionCardRemoveButton
+				handleOnClick={() => handleRemove(questionId)}
+			/>
+			<QuestionCardTitle>{`Question ${index + 1}`}</QuestionCardTitle>
 			<Wrapper>
-				<p>{question}</p>
-				<p>{answer}</p>
-				<p>{link}</p>
+				<Label>문제</Label>
+				<Content>{question}</Content>
+				{link && (
+					<>
+						<Label>링크</Label>
+						<LinkContent href={link} target="_blank" rel="noreferrer noopener">
+							{link}
+						</LinkContent>
+					</>
+				)}
+				<Label>답안</Label>
+				<Content>{answer}</Content>
 			</Wrapper>
 		</StyledBox>
 	);
 }
 
 const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: 75px auto;
 	width: 100%;
+	color: var(--font-color);
 	${mobileMediaQuery} {
 		padding: 10px 15px 30px;
 		gap: 10px;
@@ -54,43 +64,19 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Title = styled(Typography)`
-	font-weight: 500;
-	color: var(--font-color);
-	${mobileMediaQuery} {
-		font-size: 1.14rem;
-		padding-top: 10px;
-	}
-	${desktopMediaQuery} {
-		font-size: 1.6rem;
-		padding-top: 20px;
-	}
+const Label = styled.div`
+	font-weight: bold;
+	font-size: 1.1rem;
+	user-select: none;
 `;
 
-const ButtonWrapper = styled.div`
-	position: relative;
-	width: 100%;
+const Content = styled.div`
+	font-size: 1rem;
 `;
 
-const RemoveButton = styled(IconButton)`
-	position: absolute;
-	${mobileMediaQuery} {
-		top: 14px;
-		right: 14px;
-	}
-	${desktopMediaQuery} {
-		top: 20px;
-		right: 20px;
-	}
-`;
-
-const StyledCloseIcon = styled(CloseIcon)`
-	${mobileMediaQuery} {
-		font-size: 1.8rem;
-	}
-	${desktopMediaQuery} {
-		font-size: 2.2rem;
-	}
+const LinkContent = styled.a`
+	font-size: 1rem;
+	color: var(--primary-color);
 `;
 
 export default RemoveQuestionCard;

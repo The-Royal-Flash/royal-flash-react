@@ -5,15 +5,18 @@ import {
 	UseFormRegister,
 } from 'react-hook-form';
 import styled from '@emotion/styled';
-import { IconButton, TextField, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { TextField } from '@mui/material';
 import {
 	BaseQuizlet,
 	CreateQuizletRequest,
 	EditQuizletRequest,
 } from '../../types';
-import StyledBox from './styles/StyledBox';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import {
+	StyledBox,
+	QuestionCardRemoveButton,
+	QuestionCardTitle,
+} from './styles';
 
 export interface QuestionCardInputFieldProps<T extends BaseQuizlet> {
 	index: number;
@@ -40,12 +43,8 @@ function QuestionCardInputField({
 }: QuestionCardInputFieldProps<BaseQuizlet>) {
 	return (
 		<StyledBox>
-			<ButtonWrapper>
-				<RemoveButton type="button" onClick={() => remove(index)}>
-					<StyledCloseIcon />
-				</RemoveButton>
-			</ButtonWrapper>
-			<Title>{`Question ${questionNumber}`}</Title>
+			<QuestionCardRemoveButton handleOnClick={() => remove(index)} />
+			<QuestionCardTitle>{`Question ${questionNumber}`}</QuestionCardTitle>
 			<Wrapper>
 				<TextInput
 					label="문제"
@@ -62,7 +61,7 @@ function QuestionCardInputField({
 					{...register(`${listName}.${index}.link`)}
 				/>
 				<TextInput
-					label="정답"
+					label="답안"
 					variant="outlined"
 					multiline
 					error={!!errors[`${listName}`]?.[index]?.answer}
@@ -86,45 +85,6 @@ const Wrapper = styled.div`
 	${desktopMediaQuery} {
 		padding: 20px 40px 50px;
 		gap: 20px;
-	}
-`;
-
-const Title = styled(Typography)`
-	font-weight: 500;
-	color: var(--font-color);
-	${mobileMediaQuery} {
-		font-size: 1.14rem;
-		padding-top: 10px;
-	}
-	${desktopMediaQuery} {
-		font-size: 1.6rem;
-		padding-top: 20px;
-	}
-`;
-
-const ButtonWrapper = styled.div`
-	position: relative;
-	width: 100%;
-`;
-
-const RemoveButton = styled(IconButton)`
-	position: absolute;
-	${mobileMediaQuery} {
-		top: 14px;
-		right: 14px;
-	}
-	${desktopMediaQuery} {
-		top: 20px;
-		right: 20px;
-	}
-`;
-
-const StyledCloseIcon = styled(CloseIcon)`
-	${mobileMediaQuery} {
-		font-size: 1.8rem;
-	}
-	${desktopMediaQuery} {
-		font-size: 2.2rem;
 	}
 `;
 

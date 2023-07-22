@@ -7,3 +7,5 @@ export { default as StyledAddIcon } from './StyledAddIcon';
 export { default as ErrorMessage } from './ErrorMessage';
 export { default as StyledContainer } from './StyledContainer';
 export { default as StyledTitle } from './StyledTitle';
+export { default as QuestionCardTitle } from './QuestionCardTitle';
+export { default as QuestionCardRemoveButton } from './QuestionCardRemoveButton';

@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { QuestionCardInfo, EditQuizletRequest } from '../../types';
+import {
+	QuestionCardInfo,
+	EditQuizletRequest,
+	QuizletResponse,
+} from '../../types';
 import { editQuizletSchema } from '../../schemas/quizletSchema';
 import { editQuizlet } from '../../api';
 import { fetchQuizletQuery } from '../../queries';
@@ -28,7 +32,9 @@ interface EditQuizletFormProps {
 const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 	const navi = useNavigate();
 
-	const { data: oldData } = useQuery(fetchQuizletQuery(quizletId));
+	const { data: oldData } = useQuery<QuizletResponse>(
+		fetchQuizletQuery(quizletId),
+	);
 	const [oldQuestionList, setOldQuestionList] = useState<
 		Array<QuestionCardInfo>
 	>(oldData?.quizlet.questionCardList || []);
@@ -74,13 +80,10 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 	const handleOnSubmit: SubmitHandler<EditQuizletRequest> = async (data) => {
 		console.log(data, questionListToRemove);
 		const reqData = { ...data, questionListToRemove };
-
-		// const res = await editQuizlet(reqData);
-		// if (res.status === 200) {
-		// const newQuizletId =
-		// redirect(`/quizlet/detail/${newQuizletId}`);
-		// }
-
+		const res = await editQuizlet(quizletId, reqData);
+		if (res.status === 200) {
+			navi(`/quizlet/detail/${quizletId}`);
+		}
 		// TODO: 에러 처리
 	};
 
