@@ -6,14 +6,14 @@ import {
 } from '../../../utils/mediaQueries';
 
 const StyledTitle = styled(Typography)`
-	font-weight: 600;
+	font-weight: 700;
 	word-break: keep-all;
 	color: var(--font-color);
 	${mobileMediaQuery} {
-		font-size: 1.4rem;
+		font-size: 1.6rem;
 	}
 	${desktopMediaQuery} {
-		font-size: 1.8rem;
+		font-size: 2rem;
 	}
 `;
 
