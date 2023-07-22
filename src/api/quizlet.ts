@@ -2,6 +2,7 @@ import { http } from './base';
 import {
 	BaseApiResponse,
 	CreateQuizletRequest,
+	CreateQuizletResponse,
 	EditQuizletRequest,
 	QuizletResponse,
 } from '../types';
@@ -9,7 +10,8 @@ import {
 // 학습세트 생성
 export const createQuizlet = async (
 	quizletInfo: CreateQuizletRequest,
-): Promise<BaseApiResponse> => await http.post('quizlet/create', quizletInfo);
+): Promise<CreateQuizletResponse> =>
+	await http.post('quizlet/create', quizletInfo);
 
 // 학습세트 정보
 export const fetchQuizlet = async (quizletId: string) =>

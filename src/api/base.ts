@@ -5,7 +5,7 @@ const service = axios.create({
 	baseURL: import.meta.env.VITE_BASE_URL,
 	paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'comma' }),
 	withCredentials: true,
-	timeout: 1000,
+	timeout: 10000,
 });
 
 export const http = {

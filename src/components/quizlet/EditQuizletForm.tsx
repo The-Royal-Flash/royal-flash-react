@@ -78,13 +78,8 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 	};
 
 	const handleOnSubmit: SubmitHandler<EditQuizletRequest> = async (data) => {
-		console.log(data, questionListToRemove);
-		const reqData = { ...data, questionListToRemove };
-		const res = await editQuizlet(quizletId, reqData);
-		if (res.status === 200) {
-			navi(`/quizlet/detail/${quizletId}`);
-		}
-		// TODO: 에러 처리
+		editQuizlet(quizletId, { ...data, questionListToRemove });
+		navi(`/quizlet/detail/${quizletId}`);
 	};
 
 	const handleRemoveQuizlet = () => {

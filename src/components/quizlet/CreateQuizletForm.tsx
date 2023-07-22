@@ -1,5 +1,5 @@
 import React from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQuizletRequest } from '../../types';
@@ -13,6 +13,7 @@ import {
 	StyledButton,
 	StyledForm,
 	ButtonGroup,
+	StyledLoadingButton,
 } from './styles';
 
 function CreateQuizletForm() {
@@ -22,7 +23,7 @@ function CreateQuizletForm() {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors },
+		formState: { errors, isSubmitting },
 	} = useForm<CreateQuizletRequest>({
 		resolver: zodResolver(createQuizletSchema),
 		defaultValues: {
@@ -39,14 +40,10 @@ function CreateQuizletForm() {
 	});
 
 	const handleOnSubmit: SubmitHandler<CreateQuizletRequest> = async (data) => {
-		const { title, description, tagList, questionCardList } = data;
-		console.log(title, description, tagList, questionCardList);
-
 		const res = await createQuizlet(data);
-		// if (res.status === 200) {
-		// const newQuizletId =
-		// redirect(`/quizlet/detail/${newQuizletId}`);
-		// }
+		if (res.status === 200 && res.data.newQuizletId) {
+			navi(`/quizlet/detail/${res.data.newQuizletId}`);
+		}
 
 		// TODO: 에러 처리
 	};
@@ -83,12 +80,18 @@ function CreateQuizletForm() {
 				{errors.questionCardList && fields.length === 0 && (
 					<ErrorMessage>{'하나 이상의 문제를 등록해 주세요.'}</ErrorMessage>
 				)}
-				<StyledButton type="submit" variant="contained">
-					학습세트 생성
-				</StyledButton>
-				<StyledButton type="button" variant="outlined" onClick={goBack}>
-					취소
-				</StyledButton>
+				{!isSubmitting ? (
+					<>
+						<StyledButton type="submit" variant="contained">
+							학습세트 생성
+						</StyledButton>
+						<StyledButton type="button" variant="outlined" onClick={goBack}>
+							취소
+						</StyledButton>
+					</>
+				) : (
+					<StyledLoadingButton />
+				)}
 			</ButtonGroup>
 		</StyledForm>
 	);

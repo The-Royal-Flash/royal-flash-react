@@ -3,6 +3,7 @@ import {
 	editQuizletSchema,
 	createQuizletSchema,
 } from '../schemas/quizletSchema';
+import { BaseApiResponse } from './response';
 
 /** 학습세트 기본 정보 */
 export interface BaseQuizletInfo {
@@ -39,6 +40,14 @@ export type BaseQuizlet = z.infer<typeof baseQuizletSchema>;
 
 /** 학습 세트 생성 */
 export type CreateQuizletRequest = z.infer<typeof createQuizletSchema>;
+
+export interface CreateQuizletResponse extends BaseApiResponse {
+	data: {
+		isSuccess: boolean;
+		message: string;
+		newQuizletId: string;
+	};
+}
 
 /** 학습세트 기본 정보 (수정시 사용) */
 export interface QuizletResponse {
