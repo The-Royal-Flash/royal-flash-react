@@ -41,7 +41,7 @@ export type BaseQuizlet = z.infer<typeof baseQuizletSchema>;
 export type CreateQuizletRequest = z.infer<typeof createQuizletSchema>;
 
 /** 학습세트 기본 정보 (수정시 사용) */
-export interface QuizletResponse extends BaseApiResponse {
+export interface QuizletResponse {
 	quizlet: QuizletInfo;
 }
 

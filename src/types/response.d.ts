@@ -1,4 +1,8 @@
 export interface BaseApiResponse {
-	isSuccess: boolean;
-	message: string;
+	status: number;
+	statusText: string;
+	data: {
+		isSuccess: boolean;
+		message: string;
+	};
 }
