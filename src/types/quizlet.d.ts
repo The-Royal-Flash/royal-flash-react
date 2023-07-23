@@ -1,5 +1,9 @@
 import { z } from 'zod';
-import { editQuizletSchema, quizletSchema } from '../schemas/quizletSchema';
+import {
+	editQuizletSchema,
+	createQuizletSchema,
+} from '../schemas/quizletSchema';
+import { BaseApiResponse } from './response';
 
 /** 학습세트 기본 정보 */
 export interface BaseQuizletInfo {
@@ -21,75 +25,97 @@ export interface QuestionCard {
 	link?: string;
 }
 
-/** 학습 기록이 있는 학습 세트의 기본 정보 */
-export interface BaseMyQuizlet {
-	/** 학습 (완료) 횟수 */
-	studyCount: number;
-	/** 문제(질문) 수 */
-	numOfQuestions: number;
-	/** 복습할(오답노트) 문제 수 */
-	numOfQuestionsToReview: number;
-	/** 최신 학습 일시 */
-	lastQuizDate: Date; // string
-}
-
-/** 페이지네이션 필수 정보 */
-export interface BasePagenation {
-	/** 현재 페이지 번호 */
-	page: number;
-	/** 전체 페이지 수 */
-	totalPages: number;
+/** 암기 카드 정보 (id 포함) */
+export interface QuestionCardInfo extends QuestionCard {
+	_id: string;
 }
 
 /** 학습 세트 정보 */
 export interface QuizletInfo extends BaseQuizletInfo {
-	questionCardList: Array<QuestionCard>;
+	questionCardList: Array<QuestionCardInfo>;
 }
+
+/** 학슴세트 생성, 수정 BaseQuizlet */
+export type BaseQuizlet = z.infer<typeof baseQuizletSchema>;
 
 /** 학습 세트 생성 */
-export type QuizletRequest = z.infer<typeof quizletSchema>;
+export type CreateQuizletRequest = z.infer<typeof createQuizletSchema>;
 
-export type QuizletQuestionCard = z.infer<
-	typeof quizletSchema
->['questionCardList'][number];
+export interface CreateQuizletResponse extends BaseApiResponse {
+	data: {
+		isSuccess: boolean;
+		message: string;
+		newQuizletId: string;
+	};
+}
+
+/** 학습세트 기본 정보 (수정시 사용) */
+export interface QuizletResponse {
+	quizlet: QuizletInfo;
+}
 
 /** 학습 세트 수정 */
-export type QuizletEditRequest = z.infer<typeof editQuizletSchema>;
+export type EditQuizletRequest = z.infer<typeof editQuizletSchema>;
 
-/** 학습 세트 상세 정보  */
-export interface QuizletDetailResponse
-	extends BaseQuizletInfo,
-		Partial<BaseMyQuizlet> {
-	/** 암기 카드의 문제 목록 */
-	questionList: string[];
-}
+/** 학습 세트의 학습(문제) 카드 */
+export type QuizletQuestionCard = z.infer<
+	typeof createQuizletSchema
+>['questionCardList'][number];
 
-/** 학습세트 검색 페이지에서 보여질 학습세트 정보 */
-export interface SearchQuizlet extends QuizletInfo {
-	/** 암기 카드 수 */
-	numOfCards: number;
-	/** 학습세트 작성자 */
-	owner: string; // userId
-	/** 학습세트 작성자 사진 url */
-	ownerAvatarUrl?: string;
-}
+// /** 학습 세트 상세 정보  */
+// export interface QuizletDetailResponse
+// 	extends BaseQuizletInfo,
+// 		Partial<BaseMyQuizlet> {
+// 	/** 암기 카드의 문제 목록 */
+// 	questionList: string[];
+// }
 
-/** 나의 학습세트 검색 페이지에서 보여질 학습세트 정보 */
-export interface MyQuizlet extends BaseMyQuizlet {
-	/** 학습세트 제목 */
-	title: string;
-	/** 태그 목록 */
-	tagList: string[];
-}
+// /** 페이지네이션 필수 정보 */
+// export interface BasePagenation {
+// 	/** 현재 페이지 번호 */
+// 	page: number;
+// 	/** 전체 페이지 수 */
+// 	totalPages: number;
+// }
 
-/** 학습세트 검색 결과 - 학습세트 목록 */
-export interface SearchResponse extends BasePagenation {
-	/** 학습세트 목록 검색 결과 */
-	quizletList: Array<SearchQuizlet>;
-}
+// /** 학습 기록이 있는 학습 세트의 기본 정보 */
+// export interface BaseMyQuizlet {
+// 	/** 학습 (완료) 횟수 */
+// 	studyCount: number;
+// 	/** 문제(질문) 수 */
+// 	numOfQuestions: number;
+// 	/** 복습할(오답노트) 문제 수 */
+// 	numOfQuestionsToReview: number;
+// 	/** 최신 학습 일시 */
+// 	lastQuizDate: Date; // string
+// }
 
-/** 나의 학습세트 검색 결과 - 학습세트 목록 */
-export interface MyQuizletSearchResponse extends BasePagenation {
-	/** 나의 학습세트 목록 검색 결과  */
-	quizletList: Array<MyQuizlet>;
-}
+// /** 학습세트 검색 페이지에서 보여질 학습세트 정보 */
+// export interface SearchQuizlet extends QuizletInfo {
+// 	/** 암기 카드 수 */
+// 	numOfCards: number;
+// 	/** 학습세트 작성자 */
+// 	owner: string; // userId
+// 	/** 학습세트 작성자 사진 url */
+// 	ownerAvatarUrl?: string;
+// }
+
+// /** 나의 학습세트 검색 페이지에서 보여질 학습세트 정보 */
+// export interface MyQuizlet extends BaseMyQuizlet {
+// 	/** 학습세트 제목 */
+// 	title: string;
+// 	/** 태그 목록 */
+// 	tagList: string[];
+// }
+
+// /** 학습세트 검색 결과 - 학습세트 목록 */
+// export interface SearchResponse extends BasePagenation {
+// 	/** 학습세트 목록 검색 결과 */
+// 	quizletList: Array<SearchQuizlet>;
+// }
+
+// /** 나의 학습세트 검색 결과 - 학습세트 목록 */
+// export interface MyQuizletSearchResponse extends BasePagenation {
+// 	/** 나의 학습세트 목록 검색 결과  */
+// 	quizletList: Array<MyQuizlet>;
+// }
