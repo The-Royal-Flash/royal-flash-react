@@ -25,7 +25,7 @@ export interface QuestionCard {
 	link?: string;
 }
 
-/** 암기 카드 정보 (id 포함) */
+/** 학습 문제(암기) 카드 정보 (id 포함) */
 export interface QuestionCardInfo extends QuestionCard {
 	_id: string;
 }
@@ -62,13 +62,34 @@ export type QuizletQuestionCard = z.infer<
 	typeof createQuizletSchema
 >['questionCardList'][number];
 
-// /** 학습 세트 상세 정보  */
-// export interface QuizletDetailResponse
-// 	extends BaseQuizletInfo,
-// 		Partial<BaseMyQuizlet> {
-// 	/** 암기 카드의 문제 목록 */
-// 	questionList: string[];
-// }
+/** 학습 기록이 있는 학습 세트의 기본 정보 */
+export interface BaseMyQuizlet {
+	/** 학습 (완료) 횟수 */
+	studyCount: number;
+	/** 문제(질문) 수 */
+	numOfQuestions: number;
+	/** 복습할(오답노트) 문제 수 */
+	numOfQuestionsToReview: number;
+	/** 최신 학습 일시 */
+	lastQuizDate: string; // string
+}
+
+/** 학습 세트 상세 정보  */
+export interface QuizletDetailInfo
+	extends BaseQuizletInfo,
+		Partial<BaseMyQuizlet> {
+	questionCardList: Array<{ _id: string; question: string }>;
+	owner: {
+		name: string;
+		nickname: string;
+		email: string;
+		avatarUrl: string;
+	};
+}
+export interface QuizletDetailResponse {
+	isSuccess: boolean;
+	quizlet: QuizletDetailInfo;
+}
 
 // /** 페이지네이션 필수 정보 */
 // export interface BasePagenation {
@@ -76,18 +97,6 @@ export type QuizletQuestionCard = z.infer<
 // 	page: number;
 // 	/** 전체 페이지 수 */
 // 	totalPages: number;
-// }
-
-// /** 학습 기록이 있는 학습 세트의 기본 정보 */
-// export interface BaseMyQuizlet {
-// 	/** 학습 (완료) 횟수 */
-// 	studyCount: number;
-// 	/** 문제(질문) 수 */
-// 	numOfQuestions: number;
-// 	/** 복습할(오답노트) 문제 수 */
-// 	numOfQuestionsToReview: number;
-// 	/** 최신 학습 일시 */
-// 	lastQuizDate: Date; // string
 // }
 
 // /** 학습세트 검색 페이지에서 보여질 학습세트 정보 */

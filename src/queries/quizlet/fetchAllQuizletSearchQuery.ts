@@ -13,15 +13,15 @@ const fetchAllQuizletSearchQuery = ({
 }: fetchAllQuizletQueryProps) => ({
 	queryKey: ['search', keyword, ...tagList],
 	queryFn: async ({ pageParam = 1 }) => {
-		const { data } = await fetchAllQuizletSearch({
+		const data = await fetchAllQuizletSearch({
 			keyword,
 			tagList,
 			page: pageParam,
 		});
 		return data;
 	},
-	// getNextPageParam: (lastPage, allPages) => {
-	// TODO: infinity scroll
+	// getNextPageParam: (lastPage, pages) => {
+	// TODO: infinite scroll
 	// },
 	// select: (data) => ({}),
 	staleTime,
