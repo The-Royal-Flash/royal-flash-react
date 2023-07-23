@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../schemas/authSchema';
+import { logIn } from '../../api';
 
 function LoginForm() {
+	const navi = useNavigate();
+
 	const {
 		register,
 		handleSubmit,
@@ -14,10 +18,10 @@ function LoginForm() {
 		resolver: zodResolver(loginSchema),
 	});
 
-	const logUserIn = (data: loginSchema) => {
-		console.log('It works! :', data);
+	const logUserIn = async (data: loginSchema) => {
+		const res = await logIn(data);
 
-		// 💡 TODO: API 연동
+		if (res.data.isSuccess) navi('/');
 	};
 
 	return (
