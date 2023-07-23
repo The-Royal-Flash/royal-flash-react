@@ -9,6 +9,7 @@ import { logIn } from '../../api';
 
 function LoginForm() {
 	const navi = useNavigate();
+	const [loginError, setLoginError] = React.useState<null | boolean>(null);
 
 	const {
 		register,
@@ -19,9 +20,10 @@ function LoginForm() {
 	});
 
 	const logUserIn = async (data: loginSchema) => {
-		const res = await logIn(data);
+		const user = await logIn(data);
 
-		if (res.data.isSuccess) navi('/');
+		if (user.data.isSuccess) navi('/');
+		else setLoginError(true);
 	};
 
 	return (
@@ -48,6 +50,9 @@ function LoginForm() {
 			<ButtonBox>
 				<SubmitButton type="submit" value="로그인" />
 			</ButtonBox>
+			{loginError && (
+				<ErrorMessage>올바른 아이디와 비밀번호를 입력해주세요</ErrorMessage>
+			)}
 		</Form>
 	);
 }
@@ -81,6 +86,11 @@ const SubmitButton = styled.input`
 		transition: 0.1s ease-in;
 		background-color: var(--secondary-color);
 	}
+`;
+
+const ErrorMessage = styled.p`
+	color: red;
+	text-align: center;
 `;
 
 export default LoginForm;
