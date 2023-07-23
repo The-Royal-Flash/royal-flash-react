@@ -1,11 +1,16 @@
 import { BaseApiResponse } from '../types/response';
-import { SearchRequest } from '../types/search';
+import { SearchApiResponse, SearchRequest } from '../types/search';
 import { http } from './base';
 
 // 학습세트 검색 (전체)
 export const fetchAllQuizletSearch = async (
 	searchInfo: SearchRequest & { page: number },
-) => await http.get<BaseApiResponse>('/quizlet/search', { params: searchInfo });
+) => {
+	const response = await http.get<SearchApiResponse>('/search', {
+		params: searchInfo,
+	});
+	return response;
+};
 
 // 학습세트 검색 (나의 학습세트)
 // export const fetchAllMyQuizletSearch
