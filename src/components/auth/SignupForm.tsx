@@ -4,6 +4,10 @@ import { TextField, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '../../schemas/authSchema';
+import {
+	fetchEmailDuplicationStatus,
+	fetchNicknameDuplicationStatus,
+} from '../../api';
 
 function SignupForm() {
 	const [isEmailUnique, setIsEmailUnique] = React.useState(false);
@@ -27,17 +31,35 @@ function SignupForm() {
 		// 💡 TODO: API 연동
 	};
 
-	const checkForDuplicate = (
+	const checkForDuplicate = async (
 		event: React.MouseEvent<HTMLSpanElement>,
 		dataType: string,
 	) => {
-		const target = event.target as Element;
+		const target = event.target as HTMLInputElement;
 		const userInput = target.parentNode?.querySelector('input')?.value;
 
 		if (dataType === 'email') {
-			// 💡 TODO: Email 중복 확인 API 연동
+			const {
+				data: { isSuccess, message },
+			} = await fetchEmailDuplicationStatus(userInput as string);
+
+			if (!isSuccess) {
+				window.alert(message);
+			} else {
+				window.alert('사용 가능한 이메일입니다!');
+				setIsEmailUnique(true);
+			}
 		} else {
-			// 💡 TODO: Nickname 중복 확인 API 연동
+			const {
+				data: { isSuccess, message },
+			} = await fetchNicknameDuplicationStatus(userInput as string);
+
+			if (!isSuccess) {
+				window.alert(message);
+			} else {
+				window.alert('사용 가능한 닉네임입니다!');
+				setIsNicknameUnique(true);
+			}
 		}
 	};
 
