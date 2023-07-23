@@ -4,6 +4,7 @@ import {
 	CreateQuizletRequest,
 	CreateQuizletResponse,
 	EditQuizletRequest,
+	QuizletDetailResponse,
 	QuizletResponse,
 } from '../types';
 
@@ -29,4 +30,4 @@ export const deleteQuizlet = async (quizletId: string) =>
 
 // 학습세트 상세정보
 export const fetchQuizletDetail = async (quizletId: string) =>
-	await http.get<BaseApiResponse>(`quizlet/detail/${quizletId}`);
+	await http.get<QuizletDetailResponse>(`quizlet/detail/${quizletId}`);
