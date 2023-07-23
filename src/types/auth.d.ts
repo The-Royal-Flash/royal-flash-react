@@ -7,9 +7,20 @@ export interface ProfileResponse extends BaseApiResponse {
 	avatarUrl?: string;
 }
 
-export interface CheckDuplicationResponse extends BaseApiResponse {
+export interface AuthResponse extends BaseApiResponse {
 	data: {
 		isSuccess: boolean;
 		message: string;
 	};
+}
+
+export interface UserData {
+	email: string;
+	password: string;
+}
+
+export interface NewUserData extends UserData {
+	name: string;
+	nickname: string;
+	confirmPassword: string;
 }
