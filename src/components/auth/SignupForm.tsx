@@ -1,15 +1,14 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '../../schemas/authSchema';
-import {
-	fetchEmailDuplicationStatus,
-	fetchNicknameDuplicationStatus,
-} from '../../api';
+import { checkEmail, checkNickname, signUp } from '../../api';
 
 function SignupForm() {
+	const navi = useNavigate();
 	const [isEmailUnique, setIsEmailUnique] = React.useState(false);
 	const [isNicknameUnique, setIsNicknameUnique] = React.useState(false);
 	const {
@@ -20,15 +19,15 @@ function SignupForm() {
 		resolver: zodResolver(signupSchema),
 	});
 
-	const signUserUp = (data: signupSchema) => {
-		console.log('It works! :', data);
-
-		if (!isEmailUnique || !isNicknameUnique) {
+	const signUserUp = async (data: signupSchema) => {
+		if (!isNicknameUnique || !isEmailUnique) {
 			window.alert('중복 확인 후 진행해 주세요.');
 			return;
 		}
 
-		// 💡 TODO: API 연동
+		const result = await signUp(data);
+		console.log(result);
+		navi('/');
 	};
 
 	const checkForDuplicate = async (
@@ -39,27 +38,23 @@ function SignupForm() {
 		const userInput = target.parentNode?.querySelector('input')?.value;
 
 		if (dataType === 'email') {
-			const {
-				data: { isSuccess, message },
-			} = await fetchEmailDuplicationStatus(userInput as string);
+			const { data } = await checkEmail(userInput as string);
 
-			if (!isSuccess) {
-				window.alert(message);
-			} else {
-				window.alert('사용 가능한 이메일입니다!');
-				setIsEmailUnique(true);
-			}
+			window.alert(
+				data.isSuccess
+					? '사용 가능한 이메일입니다!'
+					: '이미 사용 중인 이메일입니다.',
+			);
+			if (data.isSuccess) setIsEmailUnique(true);
 		} else {
-			const {
-				data: { isSuccess, message },
-			} = await fetchNicknameDuplicationStatus(userInput as string);
+			const { data } = await checkNickname(userInput as string);
 
-			if (!isSuccess) {
-				window.alert(message);
-			} else {
-				window.alert('사용 가능한 닉네임입니다!');
-				setIsNicknameUnique(true);
-			}
+			window.alert(
+				data.isSuccess
+					? '사용 가능한 닉네임입니다!'
+					: '이미 사용 중인 닉네임입니다.',
+			);
+			if (data.isSuccess) setIsNicknameUnique(true);
 		}
 	};
 
