@@ -1,15 +1,14 @@
 import { http } from './base';
-import { CheckDuplicationResponse } from '../types';
+import { AuthResponse, UserData, NewUserData } from '../types';
 
-export const fetchEmailDuplicationStatus = async (
-	email: string,
-): Promise<CheckDuplicationResponse> =>
+export const checkEmail = async (email: string): Promise<AuthResponse> =>
 	await http.post('auth/register/local/check-email', { email });
 
-export const fetchNicknameDuplicationStatus = async (
-	nickname: string,
-): Promise<CheckDuplicationResponse> =>
+export const checkNickname = async (nickname: string): Promise<AuthResponse> =>
 	await http.post('auth/register/local/check-nickname', { nickname });
 
-// 로그인
-// 회원가입
+export const logIn = async (userData: UserData): Promise<AuthResponse> =>
+	await http.post('auth/login/local', userData);
+
+export const signUp = async (newUserData: NewUserData): Promise<AuthResponse> =>
+	await http.post('auth/register/local', newUserData);
