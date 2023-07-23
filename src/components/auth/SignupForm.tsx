@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '../../schemas/authSchema';
+import { checkEmail, checkNickname, signUp } from '../../api';
 
 function SignupForm() {
+	const navi = useNavigate();
 	const [isEmailUnique, setIsEmailUnique] = React.useState(false);
 	const [isNicknameUnique, setIsNicknameUnique] = React.useState(false);
 	const {
@@ -16,28 +19,42 @@ function SignupForm() {
 		resolver: zodResolver(signupSchema),
 	});
 
-	const signUserUp = (data: signupSchema) => {
-		console.log('It works! :', data);
-
-		if (!isEmailUnique || !isNicknameUnique) {
+	const signUserUp = async (data: signupSchema) => {
+		if (!isNicknameUnique || !isEmailUnique) {
 			window.alert('중복 확인 후 진행해 주세요.');
 			return;
 		}
 
-		// 💡 TODO: API 연동
+		const result = await signUp(data);
+		console.log(result);
+		navi('/');
 	};
 
-	const checkForDuplicate = (
+	const checkForDuplicate = async (
 		event: React.MouseEvent<HTMLSpanElement>,
 		dataType: string,
 	) => {
-		const target = event.target as Element;
+		const target = event.target as HTMLInputElement;
 		const userInput = target.parentNode?.querySelector('input')?.value;
 
 		if (dataType === 'email') {
-			// 💡 TODO: Email 중복 확인 API 연동
+			const { data } = await checkEmail(userInput as string);
+
+			window.alert(
+				data.isSuccess
+					? '사용 가능한 이메일입니다!'
+					: '이미 사용 중인 이메일입니다.',
+			);
+			if (data.isSuccess) setIsEmailUnique(true);
 		} else {
-			// 💡 TODO: Nickname 중복 확인 API 연동
+			const { data } = await checkNickname(userInput as string);
+
+			window.alert(
+				data.isSuccess
+					? '사용 가능한 닉네임입니다!'
+					: '이미 사용 중인 닉네임입니다.',
+			);
+			if (data.isSuccess) setIsNicknameUnique(true);
 		}
 	};
 

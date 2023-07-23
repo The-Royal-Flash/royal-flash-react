@@ -1,11 +1,16 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../schemas/authSchema';
+import { logIn } from '../../api';
 
 function LoginForm() {
+	const navi = useNavigate();
+	const [loginError, setLoginError] = React.useState<null | boolean>(null);
+
 	const {
 		register,
 		handleSubmit,
@@ -14,10 +19,11 @@ function LoginForm() {
 		resolver: zodResolver(loginSchema),
 	});
 
-	const logUserIn = (data: loginSchema) => {
-		console.log('It works! :', data);
+	const logUserIn = async (data: loginSchema) => {
+		const user = await logIn(data);
 
-		// 💡 TODO: API 연동
+		if (user.data.isSuccess) navi('/');
+		else setLoginError(true);
 	};
 
 	return (
@@ -44,6 +50,9 @@ function LoginForm() {
 			<ButtonBox>
 				<SubmitButton type="submit" value="로그인" />
 			</ButtonBox>
+			{loginError && (
+				<ErrorMessage>올바른 아이디와 비밀번호를 입력해주세요</ErrorMessage>
+			)}
 		</Form>
 	);
 }
@@ -77,6 +86,11 @@ const SubmitButton = styled.input`
 		transition: 0.1s ease-in;
 		background-color: var(--secondary-color);
 	}
+`;
+
+const ErrorMessage = styled.p`
+	color: red;
+	text-align: center;
 `;
 
 export default LoginForm;
