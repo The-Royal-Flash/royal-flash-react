@@ -13,10 +13,18 @@ function SignupForm() {
 	const [isNicknameUnique, setIsNicknameUnique] = React.useState(false);
 	const {
 		register,
+		trigger,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<signupSchema>({
 		resolver: zodResolver(signupSchema),
+		defaultValues: {
+			name: '',
+			email: '',
+			nickname: '',
+			password: '',
+			confirmPassword: '',
+		},
 	});
 
 	const signUserUp = async (data: signupSchema) => {
@@ -68,6 +76,7 @@ function SignupForm() {
 				{...register('name')}
 				error={errors.name ? true : false}
 				helperText={errors?.name?.message}
+				onKeyUp={() => trigger('name')}
 			/>
 			<InputButtonWrapper>
 				<StyledTextField
@@ -77,11 +86,17 @@ function SignupForm() {
 					variant="outlined"
 					{...register('email')}
 					error={errors.email ? true : false}
-					helperText={errors?.email?.message}
+					helperText={
+						!errors?.email?.message && !isNicknameUnique
+							? '중복 확인해 주세요.'
+							: errors?.email?.message
+					}
 					disabled={isEmailUnique}
+					onKeyUp={() => trigger('email')}
 				/>
 				<DuplicateChecker
 					onClick={(event) => checkForDuplicate(event, 'email')}
+					disabled={isEmailUnique}
 				>
 					중복확인
 				</DuplicateChecker>
@@ -94,11 +109,17 @@ function SignupForm() {
 					variant="outlined"
 					{...register('nickname')}
 					error={errors.nickname ? true : false}
-					helperText={errors?.nickname?.message}
+					helperText={
+						!errors?.nickname?.message && !isNicknameUnique
+							? '중복 확인해 주세요.'
+							: errors?.nickname?.message
+					}
 					disabled={isNicknameUnique}
+					onKeyUp={() => trigger('nickname')}
 				/>
 				<DuplicateChecker
 					onClick={(event) => checkForDuplicate(event, 'nickname')}
+					disabled={isNicknameUnique}
 				>
 					중복확인
 				</DuplicateChecker>
@@ -112,6 +133,7 @@ function SignupForm() {
 				{...register('password')}
 				error={errors.password ? true : false}
 				helperText={errors?.password?.message}
+				onKeyDown={() => trigger('password')}
 			/>
 			<StyledTextField
 				required
@@ -122,6 +144,7 @@ function SignupForm() {
 				{...register('confirmPassword')}
 				error={errors.confirmPassword ? true : false}
 				helperText={errors?.confirmPassword?.message}
+				onKeyUp={() => trigger(['password', 'confirmPassword'])}
 			/>
 			<ButtonBox>
 				<SubmitButton type="submit" value="가입하기" />
@@ -140,13 +163,19 @@ const ButtonBox = styled(Box)`
 	text-align: center;
 `;
 
-const DuplicateChecker = styled.span`
+const DuplicateChecker = styled.button`
 	cursor: pointer;
+	background-color: #fff;
+	border: none;
 	transition: 0.1s ease-in;
 	color: gray;
 
 	:hover {
 		color: var(--font-color);
+	}
+
+	:disabled {
+		color: lightgray;
 	}
 `;
 
