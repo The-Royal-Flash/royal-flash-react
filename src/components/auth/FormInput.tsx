@@ -6,19 +6,21 @@ import {
 	Path,
 	Control,
 	UseFormTrigger,
+	FieldValues,
+	PathValue,
 } from 'react-hook-form';
 import { useDebounce } from '../../hooks';
-import { signupSchema } from '../../schemas/authSchema';
+// import { signupSchema, loginSchema } from '../../schemas/authSchema';
 import { TextField } from '@mui/material';
-import { AuthLabels } from '../../constants';
+import { AUTH_LABELS } from '../../constants';
 
-interface InputFieldProps {
+interface InputFieldProps<TSchema extends FieldValues> {
 	variant?: string;
 	isPassword?: boolean;
-	trigger: UseFormTrigger<signupSchema>;
-	name: Path<signupSchema>;
-	register: UseFormRegister<signupSchema>;
-	control: Control<signupSchema>;
+	trigger: UseFormTrigger<TSchema>;
+	name: Path<TSchema>;
+	register: UseFormRegister<TSchema>;
+	control: Control<TSchema>;
 	uniqueState?: boolean;
 	checkState?: boolean;
 	checkForDuplicate?: (
@@ -27,7 +29,7 @@ interface InputFieldProps {
 	) => Promise<void>;
 }
 
-function FormInput({
+function FormInput<TSchema extends {}>({
 	variant = 'unwrapped',
 	isPassword = false,
 	register,
@@ -37,24 +39,27 @@ function FormInput({
 	uniqueState,
 	checkState,
 	checkForDuplicate,
-}: InputFieldProps) {
+}: InputFieldProps<TSchema>) {
 	const {
-		field: { value, onChange },
+		field: { onChange },
 		fieldState: { isDirty, error },
 	} = useController({
 		name,
 		control,
-		defaultValue: '',
 	});
 
 	const debouncedOnChange = useDebounce(() => trigger(name), 200);
 	const debouncedOnChangeForCP = useDebounce(
-		() => trigger('confirmPassword' as Path<signupSchema>),
+		() => trigger('confirmPassword' as Path<TSchema>),
 		200,
 	);
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		onChange(event.target.value);
+		onChange(
+			event.target.value as
+				| PathValue<TSchema, Path<TSchema>>
+				| React.ChangeEvent<Element>,
+		);
 
 		debouncedOnChange();
 		if (name === 'password') debouncedOnChangeForCP();
@@ -64,9 +69,8 @@ function FormInput({
 		<StyledTextField
 			required
 			id={`${name}-input`}
-			label={AuthLabels[name]}
+			label={AUTH_LABELS[name as string]}
 			variant="outlined"
-			value={value}
 			name={name}
 			error={isDirty && error ? true : false}
 			helperText={isDirty && error ? error?.message : null}
@@ -78,7 +82,7 @@ function FormInput({
 			<StyledTextField
 				required
 				id={`${name}-input`}
-				label={AuthLabels[name]}
+				label={AUTH_LABELS[name as string]}
 				variant="outlined"
 				{...register(name)}
 				error={isDirty && error ? true : false}

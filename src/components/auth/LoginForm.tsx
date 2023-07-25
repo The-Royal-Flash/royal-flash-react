@@ -1,21 +1,18 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../schemas/authSchema';
 import { logIn } from '../../api';
+import { FormInput } from '.';
 
 function LoginForm() {
 	const navi = useNavigate();
 	const [loginError, setLoginError] = React.useState<null | boolean>(null);
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<loginSchema>({
+	const { control, register, trigger, handleSubmit } = useForm<loginSchema>({
 		resolver: zodResolver(loginSchema),
 	});
 
@@ -27,25 +24,19 @@ function LoginForm() {
 	};
 
 	return (
-		<Form onSubmit={handleSubmit(logUserIn)} autoComplete="off">
-			<StyledTextField
-				required
-				id="email-input"
-				label="Email"
-				variant="outlined"
-				{...register('email')}
-				error={errors.email ? true : false}
-				helperText={errors?.email?.message}
+		<Form onSubmit={handleSubmit(logUserIn)} autoComplete="off" noValidate>
+			<FormInput
+				register={register}
+				name="email"
+				trigger={trigger}
+				control={control}
 			/>
-			<StyledTextField
-				required
-				id="password-input"
-				label="Password"
-				variant="outlined"
-				type="password"
-				{...register('password')}
-				error={errors.password ? true : false}
-				helperText={errors?.password?.message}
+			<FormInput
+				register={register}
+				name="password"
+				isPassword={true}
+				trigger={trigger}
+				control={control}
 			/>
 			<ButtonBox>
 				<SubmitButton type="submit" value="로그인" />
@@ -65,10 +56,6 @@ const Form = styled.form`
 
 const ButtonBox = styled(Box)`
 	text-align: center;
-`;
-
-const StyledTextField = styled(TextField)`
-	min-width: 80%;
 `;
 
 const SubmitButton = styled.input`
