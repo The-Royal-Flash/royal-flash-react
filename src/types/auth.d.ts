@@ -14,6 +14,11 @@ export interface AuthResponse extends BaseApiResponse {
 	};
 }
 
+export interface LoginResponse extends AuthResponse {
+	email: string;
+	nickname: string;
+}
+
 export interface UserData {
 	email: string;
 	password: string;

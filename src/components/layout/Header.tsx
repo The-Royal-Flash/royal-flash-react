@@ -1,3 +1,4 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Button, IconButton, Tooltip, useMediaQuery } from '@mui/material';
@@ -9,12 +10,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { ExpandTooltipButton, ImageButton } from '../common';
 import SpreadLogoWithText from './SpreadLogoWithText';
+import { UserContext } from '../../contexts/UserContext';
+import { logOut } from '../../api';
 
 function Header() {
 	const move = useNavigate();
-
-	const isLogin = true;
-	// TODO: 로그인 상태 가져오기
+	const { user, setUser } = React.useContext(UserContext);
 
 	const isMobile = useMediaQuery(mobileMediaQuery);
 
@@ -44,7 +45,7 @@ function Header() {
 									<ResponsiveSearchIcon />
 								</ColorIconButton>
 							</Tooltip>
-							{!isLogin ? (
+							{!user ? (
 								<Button
 									size="small"
 									variant="contained"
@@ -75,9 +76,11 @@ function Header() {
 									</Tooltip>
 									<Tooltip title="Logout">
 										<ColorIconButton
-											onClick={() => {
-												// TODO: 로그아웃 기능
-												console.log('logout');
+											onClick={async () => {
+												const res = await logOut();
+
+												setUser(null);
+												console.log(res);
 											}}
 										>
 											<LogoutIcon />
@@ -101,7 +104,7 @@ function Header() {
 							/>
 						</Flex>
 						<Flex>
-							{!isLogin ? (
+							{!user ? (
 								<ExpandTooltipButton
 									tooltip="Login"
 									widthToExpand={60}
@@ -131,9 +134,11 @@ function Header() {
 									<ExpandTooltipButton
 										tooltip="Logout"
 										widthToExpand={70}
-										handleClick={() => {
-											// TODO: 로그아웃 기능
-											console.log('logout');
+										handleClick={async () => {
+											const res = await logOut();
+
+											setUser(null);
+											console.log(res);
 										}}
 										icon={<LogoutIcon />}
 									/>
