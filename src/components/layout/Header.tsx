@@ -11,6 +11,7 @@ import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { ExpandTooltipButton, ImageButton } from '../common';
 import SpreadLogoWithText from './SpreadLogoWithText';
 import { UserContext } from '../../contexts/UserContext';
+import { logOut } from '../../api';
 
 function Header() {
 	const move = useNavigate();
@@ -75,9 +76,11 @@ function Header() {
 									</Tooltip>
 									<Tooltip title="Logout">
 										<ColorIconButton
-											onClick={() => {
-												// TODO: 로그아웃 기능
-												console.log('logout');
+											onClick={async () => {
+												const res = await logOut();
+
+												setUser(null);
+												console.log(res);
 											}}
 										>
 											<LogoutIcon />
@@ -131,9 +134,11 @@ function Header() {
 									<ExpandTooltipButton
 										tooltip="Logout"
 										widthToExpand={70}
-										handleClick={() => {
-											// TODO: 로그아웃 기능
-											console.log('logout');
+										handleClick={async () => {
+											const res = await logOut();
+
+											setUser(null);
+											console.log(res);
 										}}
 										icon={<LogoutIcon />}
 									/>
