@@ -7,10 +7,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../schemas/authSchema';
 import { logIn } from '../../api';
 import { FormInput } from '.';
+import { UserContext } from '../../contexts/UserContext';
 
 function LoginForm() {
 	const navi = useNavigate();
 	const [loginError, setLoginError] = React.useState<null | boolean>(null);
+	const { setUser } = React.useContext(UserContext);
 
 	const { control, register, trigger, handleSubmit } = useForm<loginSchema>({
 		resolver: zodResolver(loginSchema),
@@ -19,8 +21,14 @@ function LoginForm() {
 	const logUserIn = async (data: loginSchema) => {
 		const user = await logIn(data);
 
-		if (user.data.isSuccess) navi('/');
-		else setLoginError(true);
+		if (!user.data.isSuccess) {
+			setLoginError(true);
+		} else {
+			const { email, nickname } = user;
+
+			setUser({ email, nickname });
+			navi('/');
+		}
 	};
 
 	return (
