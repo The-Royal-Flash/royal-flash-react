@@ -10,5 +10,8 @@ export const checkNickname = async (nickname: string): Promise<AuthResponse> =>
 export const logIn = async (userData: UserData): Promise<LoginResponse> =>
 	await http.post('auth/login/local', userData);
 
+export const logOut = async (): Promise<AuthResponse> =>
+	await http.get('auth/logout');
+
 export const signUp = async (newUserData: NewUserData): Promise<AuthResponse> =>
 	await http.post('auth/register/local', newUserData);
