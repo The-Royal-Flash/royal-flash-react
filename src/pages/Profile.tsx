@@ -7,7 +7,7 @@ import { TextField } from '@mui/material';
 function Profile() {
 	const [nickname, setNickname] = React.useState('devjames');
 	const [editingNickname, setEditingNickname] = React.useState(false);
-	const nicknameFieldRef = React.useRef<null | HTMLElement>(null);
+	const nicknameFieldRef = React.useRef<HTMLDivElement>(null);
 
 	const updateNickname = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -84,11 +84,7 @@ function Profile() {
 							disabled={!editingNickname}
 						/>
 						<StyledEditIcon
-							onClick={(event) => {
-								const target = event.target as HTMLElement;
-
-								setEditingNickname((prev) => !prev);
-							}}
+							onClick={() => setEditingNickname((prev) => !prev)}
 						/>
 					</NicknameFieldWrapper>
 				</Box>
