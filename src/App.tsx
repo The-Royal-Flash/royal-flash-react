@@ -49,7 +49,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-	const [user, setUser] = React.useState({ email: '', nickname: '' });
+	const [user, setUser] = React.useState();
 
 	return (
 		<UserContext.Provider value={{ user, setUser }}>
