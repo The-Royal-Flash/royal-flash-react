@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { SearchForm } from '../components/common';
-import { Toggler, Quizlets, NoResultMessage } from '../components/myQuizlet';
+import {
+	Toggler,
+	Quizlets,
+	NoResultMessage,
+	QuizletPagination,
+} from '../components/myQuizlet';
 
 function MyQuizlet() {
 	const [order, setOrder] = React.useState('내림차순');
@@ -33,6 +38,7 @@ function MyQuizlet() {
 			<Toggler order={order} onChange={reorder} />
 			<Quizlets />
 			{/* <NoResultMessage /> */}
+			<QuizletPagination count={5} page={2} />
 		</Container>
 	);
 }
