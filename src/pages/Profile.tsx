@@ -1,18 +1,27 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
-import { checkForDuplicate } from '../api';
+import { checkForDuplicate, changeNickname } from '../api';
+import { UserContext } from '../contexts/UserContext';
 
 function Profile() {
-	const [nickname, setNickname] = React.useState('devjames');
+	const { user, setUser } = React.useContext(UserContext);
+	const navi = useNavigate();
+
+	const [nickname, setNickname] = React.useState(user?.nickname);
 	const [editingNickname, setEditingNickname] = React.useState(false);
 	const nicknameFieldRef = React.useRef<HTMLDivElement>(null);
 
 	React.useEffect(() => {
 		nicknameFieldRef.current?.querySelector('input')?.focus();
 	}, [editingNickname]);
+
+	React.useEffect(() => {
+		if (!user) navi('/login');
+	}, []);
 
 	const updateNickname = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -27,14 +36,26 @@ function Profile() {
 		event: React.MouseEvent<HTMLSpanElement>,
 		dataType = 'nickname',
 	) => {
+		event.preventDefault();
+
+		if (nickname.length < 3) {
+			window.alert('닉네임은 3글자 이상이어야 합니다.');
+			nicknameFieldRef.current?.querySelector('input')?.focus();
+			return;
+		}
+
 		const data = await checkForDuplicate(event, dataType);
 
 		if (data.isSuccess) {
-			const confirm = window.confirm('닉네임을 변경하시겠습니까?');
+			const confirm = window.confirm(
+				`닉네임을 '${nickname}'으로 변경하시겠습니까?`,
+			);
 
 			if (confirm) {
 				setEditingNickname(false);
-				// 💡 Nickname 변경 API 연동하기
+				// 💡 Test Run - Nickname 변경 API 연동하기
+				const data = await changeNickname(nickname);
+				console.log(data);
 			} else {
 				nicknameFieldRef.current?.querySelector('input')?.focus();
 			}
@@ -44,11 +65,14 @@ function Profile() {
 	return (
 		<Container>
 			<Section>
-				<UserImage src="/public/logo/royal-flash-logo.png" />
+				<UserImage
+					src={user?.avatarUrl || '/public/logo/royal-flash-logo.png'}
+					alt="User Image"
+				/>
 				<EditButton variant="contained" size="small">
 					사진 변경
 				</EditButton>
-				<Message>환영합니다 devsqsung님!</Message>
+				<Message>환영합니다 {user?.nickname}님!</Message>
 			</Section>
 			<Section>
 				<Box>
@@ -57,26 +81,23 @@ function Profile() {
 						id="profile-name-input"
 						label="Name"
 						variant="standard"
-						value={'손규성'}
+						value={user?.name}
 						disabled
 					/>
 					<StyledInput
 						id="profile-email-input"
 						label="Email"
 						variant="standard"
-						value={'rok.ksohn@gmail.com'}
+						value={user?.email}
 						disabled
 					/>
-					<NicknameFieldWrapper>
+					<NicknameForm>
 						<StyledInput
-							required
 							id="profile-nickname-input"
 							label="Nickname"
 							variant="standard"
+							onChange={updateNickname}
 							value={nickname}
-							onChange={(event) => updateNickname(event)}
-							// error={}
-							// helperText={}
 							ref={nicknameFieldRef}
 							disabled={!editingNickname}
 						/>
@@ -87,7 +108,7 @@ function Profile() {
 						) : (
 							<StyledEditIcon onClick={() => setEditingNickname(true)} />
 						)}
-					</NicknameFieldWrapper>
+					</NicknameForm>
 				</Box>
 			</Section>
 			<Section>
@@ -168,7 +189,7 @@ const BreakLine = styled.hr`
 	margin: 10px 0;
 `;
 
-const NicknameFieldWrapper = styled.div`
+const NicknameForm = styled.form`
 	/* border: 1px dashed red; */
 	display: flex;
 	position: relative;
