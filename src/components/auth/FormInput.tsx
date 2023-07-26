@@ -10,7 +10,6 @@ import {
 	PathValue,
 } from 'react-hook-form';
 import { useDebounce } from '../../hooks';
-// import { signupSchema, loginSchema } from '../../schemas/authSchema';
 import { TextField } from '@mui/material';
 import { AUTH_LABELS } from '../../constants';
 
