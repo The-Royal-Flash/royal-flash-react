@@ -3,11 +3,16 @@ import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
+import { checkForDuplicate } from '../api';
 
 function Profile() {
 	const [nickname, setNickname] = React.useState('devjames');
 	const [editingNickname, setEditingNickname] = React.useState(false);
 	const nicknameFieldRef = React.useRef<HTMLDivElement>(null);
+
+	React.useEffect(() => {
+		nicknameFieldRef.current?.querySelector('input')?.focus();
+	}, [editingNickname]);
 
 	const updateNickname = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -18,31 +23,23 @@ function Profile() {
 		setNickname(newValue);
 	};
 
-	React.useEffect(() => {
-		nicknameFieldRef.current?.querySelector('input')?.focus();
-	}, [editingNickname]);
+	const handleDuplicateCheck = async (
+		event: React.MouseEvent<HTMLSpanElement>,
+		dataType = 'nickname',
+	) => {
+		const data = await checkForDuplicate(event, dataType);
 
-	// const checkForDuplicate = async (
-	// 	event: React.MouseEvent<HTMLSpanElement>,
-	// 	dataType: string,
-	// ) => {
-	// 	const target = event.target as HTMLInputElement;
-	// 	const userInput = target.parentNode?.querySelector('input')?.value;
+		if (data.isSuccess) {
+			const confirm = window.confirm('닉네임을 변경하시겠습니까?');
 
-	// 	if (dataType === 'email') {
-	// 		const { data } = await checkEmail(userInput as string);
-
-	// 		if (data.isSuccess) setIsEmailUnique(true);
-	// 		else setEmailCheckFailed(true);
-	// 	}
-
-	// 	if (dataType === 'nickname') {
-	// 		const { data } = await checkNickname(userInput as string);
-
-	// 		if (data.isSuccess) setIsNicknameUnique(true);
-	// 		else setNicknameCheckFailed(true);
-	// 	}
-	// };
+			if (confirm) {
+				setEditingNickname(false);
+				// 💡 Nickname 변경 API 연동하기
+			} else {
+				nicknameFieldRef.current?.querySelector('input')?.focus();
+			}
+		}
+	};
 
 	return (
 		<Container>
@@ -83,9 +80,13 @@ function Profile() {
 							ref={nicknameFieldRef}
 							disabled={!editingNickname}
 						/>
-						<StyledEditIcon
-							onClick={() => setEditingNickname((prev) => !prev)}
-						/>
+						{editingNickname ? (
+							<DuplicateChecker onClick={handleDuplicateCheck}>
+								중복 확인
+							</DuplicateChecker>
+						) : (
+							<StyledEditIcon onClick={() => setEditingNickname(true)} />
+						)}
 					</NicknameFieldWrapper>
 				</Box>
 			</Section>
@@ -183,6 +184,24 @@ const StyledEditIcon = styled(EditIcon)`
 
 	:hover {
 		color: var(--primary-color);
+	}
+`;
+
+const DuplicateChecker = styled.button`
+	cursor: pointer;
+	background-color: #fff;
+	border: none;
+	transition: 0.1s ease-in;
+	color: gray;
+	font-size: 12px;
+	min-width: 70px;
+
+	:hover {
+		color: var(--font-color);
+	}
+
+	:disabled {
+		color: lightgray;
 	}
 `;
 
