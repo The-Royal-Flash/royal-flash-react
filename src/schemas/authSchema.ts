@@ -15,6 +15,15 @@ const loginSchema = z.object({
 
 type loginSchema = z.infer<typeof loginSchema>;
 
+const nicknameSchema = z.object({
+	nickname: z
+		.string()
+		.min(3, { message: '최소 3글자 이상이어야 합니다.' })
+		.max(20),
+});
+
+type nicknameSchema = z.infer<typeof nicknameSchema>;
+
 const signupSchema = loginSchema
 	.extend({
 		name: z.string().min(1, { message: '이름을 입력해 주세요.' }).max(20),
@@ -33,4 +42,4 @@ const signupSchema = loginSchema
 
 type signupSchema = z.infer<typeof signupSchema>;
 
-export { loginSchema, signupSchema };
+export { loginSchema, signupSchema, nicknameSchema };
