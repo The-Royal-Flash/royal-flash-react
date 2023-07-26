@@ -5,19 +5,44 @@ import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
 
 function Profile() {
-	const [name, setName] = React.useState('손규성');
 	const [nickname, setNickname] = React.useState('devjames');
+	const [editingNickname, setEditingNickname] = React.useState(false);
+	const nicknameFieldRef = React.useRef<null | HTMLElement>(null);
 
-	const updateInputField = (
+	const updateNickname = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-		type: string,
 	) => {
 		const target = event?.target as HTMLInputElement;
 		const newValue = target.value.trim();
 
-		if (type === 'name') setName(newValue);
-		if (type === 'nickname') setNickname(newValue);
+		setNickname(newValue);
 	};
+
+	React.useEffect(() => {
+		nicknameFieldRef.current?.querySelector('input')?.focus();
+	}, [editingNickname]);
+
+	// const checkForDuplicate = async (
+	// 	event: React.MouseEvent<HTMLSpanElement>,
+	// 	dataType: string,
+	// ) => {
+	// 	const target = event.target as HTMLInputElement;
+	// 	const userInput = target.parentNode?.querySelector('input')?.value;
+
+	// 	if (dataType === 'email') {
+	// 		const { data } = await checkEmail(userInput as string);
+
+	// 		if (data.isSuccess) setIsEmailUnique(true);
+	// 		else setEmailCheckFailed(true);
+	// 	}
+
+	// 	if (dataType === 'nickname') {
+	// 		const { data } = await checkNickname(userInput as string);
+
+	// 		if (data.isSuccess) setIsNicknameUnique(true);
+	// 		else setNicknameCheckFailed(true);
+	// 	}
+	// };
 
 	return (
 		<Container>
@@ -32,37 +57,40 @@ function Profile() {
 				<Box>
 					<BoxTitle>Personal Information</BoxTitle>
 					<StyledInput
-						required
+						id="profile-name-input"
+						label="Name"
+						variant="standard"
+						value={'손규성'}
+						disabled
+					/>
+					<StyledInput
 						id="profile-email-input"
 						label="Email"
 						variant="standard"
 						value={'rok.ksohn@gmail.com'}
-						// error={}
-						// helperText={}
 						disabled
 					/>
-					<StyledInput
-						required
-						id="profile-email-input"
-						label="Name"
-						variant="standard"
-						value={name}
-						onChange={(event) => updateInputField(event, 'name')}
-						// error={}
-						// helperText={}
-						// disabled
-					/>
-					<StyledInput
-						required
-						id="profile-email-input"
-						label="Nickname"
-						variant="standard"
-						value={nickname}
-						onChange={(event) => updateInputField(event, 'nickname')}
-						// error={}
-						// helperText={}
-						// disabled
-					/>
+					<NicknameFieldWrapper>
+						<StyledInput
+							required
+							id="profile-nickname-input"
+							label="Nickname"
+							variant="standard"
+							value={nickname}
+							onChange={(event) => updateNickname(event)}
+							// error={}
+							// helperText={}
+							ref={nicknameFieldRef}
+							disabled={!editingNickname}
+						/>
+						<StyledEditIcon
+							onClick={(event) => {
+								const target = event.target as HTMLElement;
+
+								setEditingNickname((prev) => !prev);
+							}}
+						/>
+					</NicknameFieldWrapper>
 				</Box>
 			</Section>
 			<Section>
@@ -141,6 +169,25 @@ const ModalLinkText = styled.p`
 
 const BreakLine = styled.hr`
 	margin: 10px 0;
+`;
+
+const NicknameFieldWrapper = styled.div`
+	/* border: 1px dashed red; */
+	display: flex;
+	position: relative;
+	align-items: center;
+`;
+
+const StyledEditIcon = styled(EditIcon)`
+	cursor: pointer;
+	color: gray;
+	font-size: 14px;
+	position: absolute;
+	right: 0;
+
+	:hover {
+		color: var(--primary-color);
+	}
 `;
 
 export default Profile;
