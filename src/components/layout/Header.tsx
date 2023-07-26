@@ -80,7 +80,7 @@ function Header() {
 												const res = await logOut();
 
 												setUser(null);
-												console.log(res);
+												move('/');
 											}}
 										>
 											<LogoutIcon />
@@ -137,8 +137,8 @@ function Header() {
 										handleClick={async () => {
 											const res = await logOut();
 
+											move('/');
 											setUser(null);
-											console.log(res);
 										}}
 										icon={<LogoutIcon />}
 									/>
