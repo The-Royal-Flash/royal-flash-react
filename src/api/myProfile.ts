@@ -1,11 +1,8 @@
 import { http } from './base';
+import { AuthResponse } from '../types/auth';
 
-export const changeNickname = async (nickname: string) => {
-	console.log(nickname);
-	const data = await http.post('profile/edit/nickname', { nickname });
-
-	console.log(data);
-};
+export const changeNickname = async (nickname: string): Promise<AuthResponse> =>
+	await http.post('profile/edit/nickname', { nickname });
 
 // 내 프로필 정보 가져오기
 // 이름 수정
