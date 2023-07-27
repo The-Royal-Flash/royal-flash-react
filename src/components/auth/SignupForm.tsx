@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '../../schemas/authSchema';
-import { checkEmail, checkNickname, signUp } from '../../api';
+import { signUp, checkForDuplicate } from '../../api';
 import { FormInput } from '.';
 
 function SignupForm() {
@@ -30,23 +30,18 @@ function SignupForm() {
 		navi('/');
 	};
 
-	const checkForDuplicate = async (
+	const handleDuplicateCheck = async (
 		event: React.MouseEvent<HTMLSpanElement>,
 		dataType: string,
 	) => {
-		const target = event.target as HTMLInputElement;
-		const userInput = target.parentNode?.querySelector('input')?.value;
+		const data = await checkForDuplicate(event, dataType);
 
 		if (dataType === 'email') {
-			const { data } = await checkEmail(userInput as string);
-
 			if (data.isSuccess) setIsEmailUnique(true);
 			else setEmailCheckFailed(true);
 		}
 
 		if (dataType === 'nickname') {
-			const { data } = await checkNickname(userInput as string);
-
 			if (data.isSuccess) setIsNicknameUnique(true);
 			else setNicknameCheckFailed(true);
 		}
@@ -67,7 +62,7 @@ function SignupForm() {
 				trigger={trigger}
 				control={control}
 				uniqueState={isEmailUnique}
-				checkForDuplicate={checkForDuplicate}
+				checkForDuplicate={handleDuplicateCheck}
 				checkState={emailCheckFailed}
 			/>
 			<FormInput
@@ -77,7 +72,7 @@ function SignupForm() {
 				trigger={trigger}
 				control={control}
 				uniqueState={isNicknameUnique}
-				checkForDuplicate={checkForDuplicate}
+				checkForDuplicate={handleDuplicateCheck}
 				checkState={nicknameCheckFailed}
 			/>
 			<FormInput
