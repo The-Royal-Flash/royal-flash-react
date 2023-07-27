@@ -16,6 +16,8 @@ function Profile() {
 	const nicknameFieldRef = React.useRef<HTMLDivElement>(null);
 
 	React.useEffect(() => {
+		if (!editingNickname) return;
+
 		nicknameFieldRef.current?.querySelector('input')?.focus();
 	}, [editingNickname]);
 
@@ -23,6 +25,7 @@ function Profile() {
 		if (!user) navi('/login');
 	}, []);
 
+	/*----- nicknameField 값 업데이트 -----*/
 	const updateNickname = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
@@ -32,18 +35,28 @@ function Profile() {
 		setNickname(newValue);
 	};
 
+	/*----- 중복 확인 -----*/
 	const handleDuplicateCheck = async (
 		event: React.MouseEvent<HTMLSpanElement>,
 		dataType = 'nickname',
 	) => {
 		event.preventDefault();
 
+		// 1. 현재 유저의 닉네임과 새로운 값이 같은 경우
+		if (nickname === user.nickname) {
+			window.alert('닉네임을 변경해주세요.');
+			nicknameFieldRef.current?.querySelector('input')?.focus();
+			return;
+		}
+
+		// 2. 새로 입력된 닉네임의 길이가 3글자 이상이 아닌 경우
 		if (nickname.length < 3) {
 			window.alert('닉네임은 3글자 이상이어야 합니다.');
 			nicknameFieldRef.current?.querySelector('input')?.focus();
 			return;
 		}
 
+		// 3. 닉네임 중복확인 후 변경
 		const data = await checkForDuplicate(event, dataType);
 
 		if (data.isSuccess) {
@@ -53,9 +66,9 @@ function Profile() {
 
 			if (confirm) {
 				setEditingNickname(false);
-				// 💡 Test Run - Nickname 변경 API 연동하기
-				const data = await changeNickname(nickname);
-				console.log(data);
+
+				const { data } = await changeNickname(nickname);
+				if (data.isSuccess) setUser({ ...user, nickname });
 			} else {
 				nicknameFieldRef.current?.querySelector('input')?.focus();
 			}
