@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
 import { checkForDuplicate, changeNickname } from '../api';
 import { UserContext } from '../contexts/UserContext';
+import { ChangePwModal } from '../components';
 
 function Profile() {
 	const { user, setUser } = React.useContext(UserContext);
@@ -14,13 +15,16 @@ function Profile() {
 	const [nickname, setNickname] = React.useState(user?.nickname);
 	const [editingNickname, setEditingNickname] = React.useState(false);
 	const nicknameFieldRef = React.useRef<HTMLDivElement>(null);
+	const [changingPw, setChangingPw] = React.useState(false);
 
+	/*----- nicknameField에 focus -----*/
 	React.useEffect(() => {
 		if (!editingNickname) return;
 
 		nicknameFieldRef.current?.querySelector('input')?.focus();
 	}, [editingNickname]);
 
+	/*----- 유저 정보 없으면 로그인 페이지로 이동 -----*/
 	React.useEffect(() => {
 		if (!user) navi('/login');
 	}, []);
@@ -77,14 +81,21 @@ function Profile() {
 
 	return (
 		<Container>
+			{changingPw && (
+				<ChangePwModal
+					open={changingPw}
+					title="비밀번호 변경"
+					onClose={() => setChangingPw(false)}
+				/>
+			)}
 			<Section>
 				<UserImage
 					src={user?.avatarUrl || '/public/logo/royal-flash-logo.png'}
 					alt="User Image"
 				/>
-				<EditButton variant="contained" size="small">
+				<StyledButton variant="contained" size="small">
 					사진 변경
-				</EditButton>
+				</StyledButton>
 				<Message>환영합니다 {user?.nickname}님!</Message>
 			</Section>
 			<Section>
@@ -128,9 +139,7 @@ function Profile() {
 				<Box>
 					<BoxTitle>Security</BoxTitle>
 					<ModalLinkWrapper>
-						<ModalLinkText>Change Password</ModalLinkText>
-						<BreakLine />
-						<ModalLinkText>Delete Account</ModalLinkText>
+						<p onClick={() => setChangingPw(true)}>Change Password</p>
 					</ModalLinkWrapper>
 				</Box>
 			</Section>
@@ -142,9 +151,9 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	margin: 30px 0;
 `;
 const Section = styled.section`
-	/* border: 1px solid red; */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -172,8 +181,8 @@ const UserImage = styled.img`
 	border-radius: 60px;
 `;
 
-const EditButton = styled(Button)`
-	width: 90px;
+const StyledButton = styled(Button)`
+	width: 100px;
 	font-size: 10px;
 `;
 
@@ -187,19 +196,19 @@ const StyledInput = styled(TextField)`
 `;
 
 const ModalLinkWrapper = styled.div`
-	display: block;
 	margin-top: 20px;
-`;
 
-const ModalLinkText = styled.p`
-	font-weight: bold;
-	font-size: 14px;
-	color: gray;
-	cursor: pointer;
-`;
+	> p {
+		font-weight: bold;
+		font-size: 14px;
+		color: gray;
+		cursor: pointer;
+		transition: 0.1s ease-in;
+	}
 
-const BreakLine = styled.hr`
-	margin: 10px 0;
+	> p:hover {
+		color: black;
+	}
 `;
 
 const NicknameForm = styled.form`
