@@ -57,7 +57,7 @@ function Search() {
 					{/* <SearchForm onSubmit={handleSubmit} /> */}
 					<QuizletForm onSubmit={handleSubmit(handleOnSubmit)}>
 						<SearchWrapper>
-							<SearchInput label="Search" {...register('keyword')} />
+							<StyledInput label="Search" {...register('keyword')} />
 							<SearchButton type="submit" variant="contained">
 								<SearchButtonIcon />
 							</SearchButton>
@@ -73,7 +73,7 @@ function Search() {
 									getOptionLabel={(option) => option}
 									onChange={(_, value) => field.onChange(value)}
 									renderInput={(params) => (
-										<TextField {...params} label="Tags" variant="outlined" />
+										<StyledInput {...params} label="Tags" variant="outlined" />
 									)}
 								/>
 							)}
@@ -118,7 +118,7 @@ const SearchWrapper = styled.div`
 	gap: 10px;
 `;
 
-const SearchInput = styled(TextField)`
+const StyledInput = styled(TextField)`
 	width: 100%;
 `;
 
@@ -131,8 +131,8 @@ const SearchButtonIcon = styled(SearchIcon)`
 const QuizletListWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin-top: 20px;
-	gap: 10px;
+	margin-top: 40px;
+	gap: 17px;
 `;
 
 const Observer = styled.div`
