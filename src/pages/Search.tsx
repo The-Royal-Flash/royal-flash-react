@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { StyledContainer } from '../components/quizlet/styles';
-import { SearchForm } from '../components';
+import { QuizletItem, SearchForm } from '../components';
 import { fetchAllQuizletSearch } from '../api/search';
 import { SearchQuizletItem } from '../types';
-import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 function Search() {
@@ -11,10 +10,16 @@ function Search() {
 
 	const handleSubmit = () => {
 		(async () => {
-			const { quizletList } = await fetchAllQuizletSearch({
+			const res = await fetchAllQuizletSearch({
 				keyword: '',
 				tagList: [],
+				pageSize: 10,
+				page: 1,
 			});
+
+			const { isSuccess, page, totalPages, quizletList } = res;
+			console.log(isSuccess, page, totalPages, quizletList);
+
 			setQuizletList(quizletList);
 		})();
 	};
@@ -26,12 +31,13 @@ function Search() {
 					<SearchForm onSubmit={handleSubmit} />
 				</QuizletFormWrapper>
 				<QuizletListWrapper>
-					{quizletList.map(({ _id, title, description, questionCardList }) => (
-						<QuizletItem key={_id} to={`/quizlet/detail/${_id}`}>
-							<p>{title}</p>
-							<p>{description}</p>
-							<p>{questionCardList.length}</p>
-						</QuizletItem>
+					{quizletList.map(({ _id: quizletId, ...quizletInfo }) => (
+						<QuizletItem
+							key={quizletId}
+							quizletId={quizletId}
+							link={`/quizlet/detail/${quizletId}`}
+							{...quizletInfo}
+						/>
 					))}
 				</QuizletListWrapper>
 			</Container>
@@ -53,11 +59,6 @@ const QuizletListWrapper = styled.div`
 	flex-direction: column;
 	margin-top: 20px;
 	gap: 10px;
-`;
-
-const QuizletItem = styled(Link)`
-	width: 100%;
-	border: 1px solid gray;
 `;
 
 export default Search;
