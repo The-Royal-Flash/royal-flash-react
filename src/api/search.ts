@@ -4,11 +4,9 @@ import { http } from './base';
 
 // 학습세트 검색 (전체)
 export const fetchAllQuizletSearch = async (
-	searchInfo: SearchRequest & { page: number },
+	searchInfo: SearchRequest & { page: number; pageSize: number },
 ) => {
-	const response = await http.get<SearchApiResponse>('/search', {
-		params: searchInfo,
-	});
+	const response = await http.get<SearchApiResponse>('/search', searchInfo);
 	return response;
 };
 
