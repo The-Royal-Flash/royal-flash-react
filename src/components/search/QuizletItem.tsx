@@ -60,9 +60,22 @@ const Container = styled(Link)`
 	flex-direction: column;
 	border: 2px solid #dcdcdc;
 	border-radius: 7px;
+	transition: 0.1s ease-in;
+	:hover {
+		scale: 1.008;
+		border: 2px solid #91b0c4;
+		& > hr {
+			border: 1px solid #91b0c4;
+		}
+		& > div:first-child {
+			/* background: rgb(173 173 173 / 10%); */
+			background-color: #d1e0e970;
+		}
+	}
 `;
 
 const Wrapper = styled.div`
+	transition: 0.1s ease-in;
 	padding: 15px;
 `;
 
@@ -73,9 +86,6 @@ const NumOfCardContainer = styled.div`
 `;
 
 const NumOfCardWrapper = styled.div`
-	/* position: absolute;
-	top: 5px;
-	right: 5px; */
 	position: relative;
 	display: flex;
 	flex-direction: row;
@@ -128,6 +138,7 @@ const Description = styled.div`
 const StyledDivider = styled(Divider)`
 	color: var(--footer-bg-color);
 	border: 1px solid #dcdcdc;
+	transition: 0.1s ease-in;
 `;
 
 const OwnerWrapper = styled.div`
