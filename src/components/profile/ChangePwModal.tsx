@@ -29,7 +29,7 @@ function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
 		if (res.data.isSuccess) {
 			onClose();
 		} else {
-			// 💡 TODO: API 호출 실패하면의 로직이 제대로 수행되지 않음 (확인 필요!)
+			// 💡 TODO: API 호출 실패하면의 로직이 제대로 수행되지 않음 (확인 필요)
 			setError('password', {
 				type: '400',
 				message: '비밀번호가 틀렸습니다.',
