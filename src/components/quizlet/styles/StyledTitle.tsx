@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 import {
 	desktopMediaQuery,
 	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+} from '../../../../utils/mediaQueries';
 
 const StyledTitle = styled(Typography)`
 	font-weight: 700;

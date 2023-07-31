@@ -7,7 +7,10 @@ import LoginIcon from '@mui/icons-material/Login';
 import PersonIcon from '@mui/icons-material/Person';
 import StyleIcon from '@mui/icons-material/Style';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import {
+	desktopMediaQuery,
+	mobileMediaQuery,
+} from '../../../utils/mediaQueries';
 import { ExpandTooltipButton, ImageButton } from '../common';
 import SpreadLogoWithText from './SpreadLogoWithText';
 import { UserContext } from '../../contexts/UserContext';

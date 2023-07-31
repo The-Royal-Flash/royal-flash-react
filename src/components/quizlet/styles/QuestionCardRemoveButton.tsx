@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material';
 import {
 	desktopMediaQuery,
 	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+} from '../../../../utils/mediaQueries';
 
 interface QuestionCardRemoveButtonProps {
 	handleOnClick: () => void;
