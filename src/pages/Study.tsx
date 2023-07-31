@@ -75,9 +75,6 @@ const Container = styled.div`
 	flex-direction: column;
 	gap: 30px;
 	align-items: center;
-
-	/* Unconfirmed properties */
-	border: 1px dashed red;
 `;
 
 const Header = styled.header`
@@ -190,7 +187,6 @@ const UndoButton = styled(IconButton)`
 `;
 
 const ProgressBox = styled.div`
-	border: 1px dashed red;
 	color: var(--primary-color);
 	width: 95%;
 	display: flex;
