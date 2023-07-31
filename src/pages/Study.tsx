@@ -98,8 +98,6 @@ const MainCard = styled.div`
 	border: 1px solid #999999;
 	border-radius: 10px 10px 0 0;
 	padding: 5%;
-
-	/* Unconfirmed properties */
 	height: 500px;
 	width: 800px;
 `;
@@ -122,9 +120,6 @@ const MainCardContents = styled.div`
 		font-size: 18px;
 		color: var(--font-color);
 	}
-
-	/* Unconfirmed properties */
-	border: 1px solid red;
 `;
 
 const ToggleCard = styled.div`
@@ -139,20 +134,19 @@ const ToggleCard = styled.div`
 	font-weight: 500;
 	cursor: pointer;
 	transition: 0.1s ease-in;
+	width: 100%;
+	height: 40px;
 
 	:hover {
 		color: #eeeeee;
+		background-color: #b1b1b1;
 	}
-
-	/* Unconfirmed properties */
-	width: 95%;
-	height: 40px;
 `;
 
 const ControlBox = styled.div`
 	display: flex;
 	justify-content: space-between;
-	width: 95%;
+	width: 800px;
 `;
 
 const DragGuideContents = styled.div`
@@ -171,6 +165,13 @@ const IncorrectSide = styled.div`
 	background-color: #f05757af;
 	border: 1px dashed red;
 	border-radius: 0 100px 100px 0;
+	transition: 0.1s ease-in;
+	cursor: pointer;
+
+	:hover {
+		color: #eeeeee;
+		background-color: #f05757cf;
+	}
 `;
 
 const CorrectSide = styled.div`
@@ -178,6 +179,13 @@ const CorrectSide = styled.div`
 	background-color: #55b855d5;
 	border: 1px dashed green;
 	border-radius: 100px 0 0 100px;
+	transition: 0.1s ease-in;
+	cursor: pointer;
+
+	:hover {
+		color: #eeeeee;
+		background-color: #55b855f4;
+	}
 `;
 
 const UndoButton = styled(IconButton)`
