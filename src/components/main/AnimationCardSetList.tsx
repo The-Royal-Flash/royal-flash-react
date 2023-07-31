@@ -2,10 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useCheckInView } from '../../hooks';
 import { useMediaQuery } from '@mui/material';
-import {
-	desktopMediaQuery,
-	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface CardProps {
 	index: number;

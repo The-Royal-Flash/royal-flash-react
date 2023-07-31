@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import {
 	desktopMediaQuery,
 	mobileMediaQuery,
-} from '../../../../utils/mediaQueries';
+} from '../../../utils/mediaQueries';
 
 import AddIcon from '@mui/icons-material/Add';
 

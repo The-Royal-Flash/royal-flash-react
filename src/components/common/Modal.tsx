@@ -2,10 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import CloseIcon from '@mui/icons-material/Close';
 import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
-import {
-	desktopMediaQuery,
-	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface ModalProps {
 	/** 모달 open */

@@ -2,10 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Footer, Header } from './';
-import {
-	desktopMediaQuery,
-	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 function Layout() {
 	return (

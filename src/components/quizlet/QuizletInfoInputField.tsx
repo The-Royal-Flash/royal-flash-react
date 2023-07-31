@@ -14,10 +14,7 @@ import {
 	EditQuizletRequest,
 } from '../../types';
 import StyledBox from './styles/StyledBox';
-import {
-	desktopMediaQuery,
-	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface QuizletInfoInputFieldProps<T extends BaseQuizlet> {
 	register: UseFormRegister<T>;

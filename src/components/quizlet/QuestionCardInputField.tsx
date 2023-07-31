@@ -11,10 +11,7 @@ import {
 	CreateQuizletRequest,
 	EditQuizletRequest,
 } from '../../types';
-import {
-	desktopMediaQuery,
-	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import {
 	StyledBox,
 	QuestionCardRemoveButton,

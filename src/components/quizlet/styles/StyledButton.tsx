@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import {
 	desktopMediaQuery,
 	mobileMediaQuery,
-} from '../../../../utils/mediaQueries';
+} from '../../../utils/mediaQueries';
 
 const StyledButton = styled(Button)`
 	width: 50%;

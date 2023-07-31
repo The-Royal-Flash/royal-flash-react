@@ -4,10 +4,7 @@ import styled from '@emotion/styled';
 import { Chip, Paper } from '@mui/material';
 import { StyledTitle } from './styles';
 import { fetchQuizletDetailQuery } from '../../queries';
-import {
-	desktopMediaQuery,
-	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { AvatarCard, QuestionCarousel } from '../';
 
 interface QuizletDetailInfoProps {

@@ -1,10 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { useCheckInView } from '../../hooks';
-import {
-	desktopMediaQuery,
-	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface CardProps {
 	active: boolean;

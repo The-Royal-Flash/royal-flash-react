@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import {
 	desktopMediaQuery,
 	mobileMediaQuery,
-} from '../../../../utils/mediaQueries';
+} from '../../../utils/mediaQueries';
 
 const StyledBox = styled(Box)`
 	display: flex;

@@ -5,7 +5,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import {
 	desktopMediaQuery,
 	mobileMediaQuery,
-} from '../../../../utils/mediaQueries';
+} from '../../../utils/mediaQueries';
 
 function StyledLoadingButton() {
 	return (
