@@ -13,6 +13,7 @@ import {
 	Profile,
 	QuizletDetail,
 	Search,
+	Study,
 	Signup,
 	Main,
 } from './pages';
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
 		children: [
 			{ index: true, element: <Main /> },
 			{ path: 'profile', element: <Profile /> },
+			{ path: 'study', element: <Study /> },
 			{
 				path: 'quizlet',
 				children: [
