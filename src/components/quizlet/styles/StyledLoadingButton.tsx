@@ -2,10 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { LoadingButton } from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
-import {
-	desktopMediaQuery,
-	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../../mediaQueries';
 
 function StyledLoadingButton() {
 	return (

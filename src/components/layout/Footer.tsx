@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useMediaQuery } from '@mui/material';
 import TeamMember from './TeamMember';
 import TeamMemberMobile from './TeamMemberMobile';
-import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../mediaQueries';
 
 function Footer() {
 	const isMobile = useMediaQuery(mobileMediaQuery);

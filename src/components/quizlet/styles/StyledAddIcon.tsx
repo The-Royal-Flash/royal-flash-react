@@ -1,8 +1,5 @@
 import styled from '@emotion/styled';
-import {
-	desktopMediaQuery,
-	mobileMediaQuery,
-} from '../../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../../mediaQueries';
 
 import AddIcon from '@mui/icons-material/Add';
 
