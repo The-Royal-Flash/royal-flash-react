@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
-import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../mediaQueries';
 
 const BoxTitle = styled(Typography)`
 	font-weight: 600;
