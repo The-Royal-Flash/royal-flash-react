@@ -1,49 +1,56 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { TextField, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../schemas/authSchema';
+import { logIn } from '../../api';
+import { FormInput } from '.';
+import { UserContext } from '../../contexts/UserContext';
 
 function LoginForm() {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<loginSchema>({
+	const navi = useNavigate();
+	const [loginError, setLoginError] = React.useState<null | boolean>(null);
+	const { setUser } = React.useContext(UserContext);
+
+	const { control, register, trigger, handleSubmit } = useForm<loginSchema>({
 		resolver: zodResolver(loginSchema),
 	});
 
-	const logUserIn = (data: loginSchema) => {
-		console.log('It works! :', data);
+	const logUserIn = async (data: loginSchema) => {
+		const res = await logIn(data);
 
-		// 💡 TODO: API 연동
+		if (!res.data.isSuccess) {
+			setLoginError(true);
+		} else {
+			console.log('user ->', res.data.user);
+			setUser(res.data.user);
+			navi('/');
+		}
 	};
 
 	return (
-		<Form onSubmit={handleSubmit(logUserIn)} autoComplete="off">
-			<StyledTextField
-				required
-				id="email-input"
-				label="Email"
-				variant="outlined"
-				{...register('email')}
-				error={errors.email ? true : false}
-				helperText={errors?.email?.message}
+		<Form onSubmit={handleSubmit(logUserIn)} autoComplete="off" noValidate>
+			<FormInput
+				register={register}
+				name="email"
+				trigger={trigger}
+				control={control}
 			/>
-			<StyledTextField
-				required
-				id="password-input"
-				label="Password"
-				variant="outlined"
-				type="password"
-				{...register('password')}
-				error={errors.password ? true : false}
-				helperText={errors?.password?.message}
+			<FormInput
+				register={register}
+				name="password"
+				isPassword={true}
+				trigger={trigger}
+				control={control}
 			/>
 			<ButtonBox>
 				<SubmitButton type="submit" value="로그인" />
 			</ButtonBox>
+			{loginError && (
+				<ErrorMessage>올바른 아이디와 비밀번호를 입력해주세요</ErrorMessage>
+			)}
 		</Form>
 	);
 }
@@ -56,10 +63,6 @@ const Form = styled.form`
 
 const ButtonBox = styled(Box)`
 	text-align: center;
-`;
-
-const StyledTextField = styled(TextField)`
-	min-width: 80%;
 `;
 
 const SubmitButton = styled.input`
@@ -77,6 +80,11 @@ const SubmitButton = styled.input`
 		transition: 0.1s ease-in;
 		background-color: var(--secondary-color);
 	}
+`;
+
+const ErrorMessage = styled.p`
+	color: red;
+	text-align: center;
 `;
 
 export default LoginForm;

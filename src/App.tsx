@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Global } from '@emotion/react';
 import GlobalStyle from './GlobalStyle';
 import { Layout } from './components';
+import { UserContext } from './contexts/UserContext';
 import {
 	CreateQuizlet,
 	EditQuizlet,
@@ -48,11 +49,15 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+	const [user, setUser] = React.useState();
+
 	return (
-		<QueryClientProvider client={queryClient}>
-			<Global styles={GlobalStyle} />
-			<RouterProvider router={router} />
-		</QueryClientProvider>
+		<UserContext.Provider value={{ user, setUser }}>
+			<QueryClientProvider client={queryClient}>
+				<Global styles={GlobalStyle} />
+				<RouterProvider router={router} />
+			</QueryClientProvider>
+		</UserContext.Provider>
 	);
 }
 

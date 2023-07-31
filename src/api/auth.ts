@@ -1,4 +1,32 @@
-// 로그인
-// 회원가입
-// 이메일 중복 확인
-// 닉네임 중복 확인
+import { http } from './base';
+import { AuthResponse, UserData, NewUserData, LoginResponse } from '../types';
+
+export const checkEmail = async (email: string): Promise<AuthResponse> =>
+	await http.post('auth/register/local/check-email', { email });
+
+export const checkNickname = async (nickname: string): Promise<AuthResponse> =>
+	await http.post('auth/register/local/check-nickname', { nickname });
+
+export const logIn = async (userData: UserData): Promise<LoginResponse> =>
+	await http.post('auth/login/local', userData);
+
+export const logOut = async (): Promise<AuthResponse> =>
+	await http.get('auth/logout');
+
+export const signUp = async (newUserData: NewUserData): Promise<AuthResponse> =>
+	await http.post('auth/register/local', newUserData);
+
+export const checkForDuplicate = async (
+	event: React.MouseEvent<HTMLSpanElement>,
+	dataType: string,
+) => {
+	const target = event.target as HTMLInputElement;
+	const userInput = target.parentNode?.querySelector('input')?.value;
+
+	const { data } =
+		dataType === 'email'
+			? await checkEmail(userInput as string)
+			: await checkNickname(userInput as string);
+
+	return data;
+};
