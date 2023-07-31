@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
-import { desktopMediaQuery, mobileMediaQuery } from '../../../mediaQueries';
+import {
+	desktopMediaQuery,
+	mobileMediaQuery,
+} from '../../../../utils/mediaQueries';
 
 const StyledButton = styled(Button)`
 	width: 50%;

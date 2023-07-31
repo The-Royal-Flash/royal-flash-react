@@ -1,5 +1,8 @@
 import styled from '@emotion/styled';
-import { desktopMediaQuery, mobileMediaQuery } from '../../../mediaQueries';
+import {
+	desktopMediaQuery,
+	mobileMediaQuery,
+} from '../../../../utils/mediaQueries';
 
 const StyledContainer = styled.div`
 	display: flex;
