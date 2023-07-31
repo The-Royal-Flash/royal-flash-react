@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../mediaQueries';
 import SlideBox from './SlideBox';
 import BoxTitle from './BoxTitle';
 import AnimationCardSetList from './AnimationCardSetList';
