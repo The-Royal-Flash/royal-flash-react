@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Form } from 'react-router-dom';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
-import { Autocomplete, Button, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import CircularProgress from '@mui/material/CircularProgress';
 import { StyledContainer } from '../components/quizlet/styles';
 import { QuizletItem, SearchForm } from '../components';
-import { SearchRequest } from '../types';
+import { SearchApiResponse, SearchRequest } from '../types';
 import { fetchAllQuizletSearchQuery } from '../queries';
 
 function Search() {
@@ -20,14 +17,13 @@ function Search() {
 		tagList: [],
 	});
 
-	const { handleSubmit, register, control } = useForm<SearchRequest>({
-		defaultValues: {
-			keyword: '',
-			tagList: [],
-		},
-	});
+	// TODO: tag 목록 가져오기
+	const tags = ['tag1', 'tag2', 'tmp'];
 
-	const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
+	const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
+		SearchApiResponse,
+		Error
+	>(
 		fetchAllQuizletSearchQuery({
 			keyword: formData.keyword,
 			tagList: formData.tagList,
@@ -36,9 +32,7 @@ function Search() {
 
 	useEffect(() => {
 		if (isFetching) return;
-		if (hasNextPage && observerInView) {
-			fetchNextPage();
-		}
+		if (hasNextPage && observerInView) fetchNextPage();
 	}, [observerInView]);
 
 	// TODO: fetchAllQuizletSearchQuery - select에서 처리
@@ -54,31 +48,10 @@ function Search() {
 		<StyledContainer>
 			<Container>
 				<QuizletFormWrapper>
-					{/* <SearchForm onSubmit={handleSubmit} /> */}
-					<QuizletForm onSubmit={handleSubmit(handleOnSubmit)}>
-						<SearchWrapper>
-							<StyledInput label="Search" {...register('keyword')} />
-							<SearchButton type="submit" variant="contained">
-								<SearchButtonIcon />
-							</SearchButton>
-						</SearchWrapper>
-						<Controller
-							name="tagList"
-							control={control}
-							render={({ field }) => (
-								<Autocomplete
-									{...field}
-									multiple={true}
-									options={['tag1', 'tag2', 'tmp']}
-									getOptionLabel={(option) => option}
-									onChange={(_, value) => field.onChange(value)}
-									renderInput={(params) => (
-										<StyledInput {...params} label="Tags" variant="outlined" />
-									)}
-								/>
-							)}
-						/>
-					</QuizletForm>
+					<SearchForm
+						tagList={['tag1', 'tag2', 'tag3']}
+						onSubmit={handleOnSubmit}
+					/>
 				</QuizletFormWrapper>
 				<QuizletListWrapper>
 					{quizletList.map(({ _id: quizletId, ...quizletInfo }) => (
@@ -104,28 +77,6 @@ const Container = styled.div`
 
 const QuizletFormWrapper = styled.div`
 	width: 100%;
-`;
-
-const QuizletForm = styled(Form)`
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-`;
-
-const SearchWrapper = styled.div`
-	display: flex;
-	flex-direction: row;
-	gap: 10px;
-`;
-
-const StyledInput = styled(TextField)`
-	width: 100%;
-`;
-
-const SearchButton = styled(Button)``;
-
-const SearchButtonIcon = styled(SearchIcon)`
-	font-size: 2rem;
 `;
 
 const QuizletListWrapper = styled.div`
