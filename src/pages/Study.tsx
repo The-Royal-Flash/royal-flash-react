@@ -8,7 +8,7 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import StyleIcon from '@mui/icons-material/Style';
 import { LinearProgress } from '@mui/material';
-import { ToggleGuideCard } from '../components';
+import { ToggleGuideCard, GhostCard, EmptyCard } from '../components';
 
 function Study() {
 	// 💡 API 연동 - 학습세트 가져오기 (id로 구분)
@@ -16,14 +16,28 @@ function Study() {
 	const [step, setStep] = React.useState(1);
 	const [cardMode, setCardMode] = React.useState('question');
 	const [togglerHovered, setTogglerHovered] = React.useState(false);
+	const [isDragging, setIsDragging] = React.useState(false);
+	const [dragCoordinates, setDragCoordinates] = React.useState({ x: 0, y: 0 });
 
+	/* ----- 질문 or 답안 보기 누르면 카드 내용 변경 -----*/
 	const toggleCard = () => {
 		setTogglerHovered(false);
 		setCardMode((prev) => (prev === 'question' ? 'answer' : 'question'));
 	};
 
+	/* ----- 카드 드래그 이벤트 핸들러  -----*/
+	const dragCard = (event: React.DragEvent) => {
+		setIsDragging(true);
+		setDragCoordinates({ x: event.clientX, y: event.clientY });
+	};
+
 	return (
 		<Container>
+			<GhostCard
+				isWrong={false}
+				display={isDragging}
+				coordinates={dragCoordinates}
+			/>
 			<Header>
 				<div>
 					<ModeInfo>
@@ -42,11 +56,15 @@ function Study() {
 			</Header>
 			<ProgressBar variant="determinate" value={(22 / 50) * 100} />
 			<QuestionBox>
-				<MainCard>
+				<MainCard
+					onDrag={(event) => dragCard(event)}
+					onDragEnd={() => setIsDragging(false)}
+				>
 					<ToggleGuideCard
 						target={cardMode === 'question' ? 'answer' : 'question'}
 						display={togglerHovered}
 					/>
+					<EmptyCard display={isDragging} />
 					<MainCardContents>
 						<p>Question {step}.</p>
 						<p>
@@ -121,6 +139,7 @@ const MainCard = styled.div`
 	height: 500px;
 	width: 800px;
 	position: relative;
+	cursor: pointer;
 `;
 
 const MainCardContents = styled.div`
