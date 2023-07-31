@@ -23,3 +23,9 @@ export interface SearchApiResponse {
 	totalPages: number;
 	quizletList: Array<SearchQuizletItem>;
 }
+
+export interface TagApiResponse {
+	isSuccess: boolean;
+	message: string;
+	tagList: string[];
+}

@@ -1,5 +1,9 @@
 import { BaseApiResponse } from '../types/response';
-import { SearchApiResponse, SearchRequest } from '../types/search';
+import {
+	SearchApiResponse,
+	SearchRequest,
+	TagApiResponse,
+} from '../types/search';
 import { http } from './base';
 
 // 학습세트 검색 (전체)
@@ -15,7 +19,7 @@ export const fetchAllQuizletSearch = async (
 
 // 태그 목록 가져오기 - 모든 학습세트 전체
 export const fetchAllQuizletTags = async () =>
-	await http.get<BaseApiResponse>('/quizlet/tag');
+	await http.get<TagApiResponse>('/quizlet/tag');
 
 // 태그 목록 가져오기 - 로그인한 사용자의 학습기록이 있는 학습 세트
 export const fetchAllMyquizletTags = async () =>

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useInView } from 'react-intersection-observer';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import CircularProgress from '@mui/material/CircularProgress';
 import { StyledContainer } from '../components/quizlet/styles';
 import { QuizletItem, SearchForm } from '../components';
 import { SearchApiResponse, SearchRequest } from '../types';
-import { fetchAllQuizletSearchQuery } from '../queries';
+import { fetchAllQuizletSearchQuery, fetchQuizletTagsQuery } from '../queries';
 
 function Search() {
 	const [observerRef, observerInView] = useInView({ threshold: 0.5 });
@@ -18,7 +18,7 @@ function Search() {
 	});
 
 	// TODO: tag 목록 가져오기
-	const tags = ['tag1', 'tag2', 'tmp'];
+	const { data: tags } = useQuery(fetchQuizletTagsQuery());
 
 	const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
 		SearchApiResponse,
@@ -48,10 +48,7 @@ function Search() {
 		<StyledContainer>
 			<Container>
 				<QuizletFormWrapper>
-					<SearchForm
-						tagList={['tag1', 'tag2', 'tag3']}
-						onSubmit={handleOnSubmit}
-					/>
+					<SearchForm tagList={tags || []} onSubmit={handleOnSubmit} />
 				</QuizletFormWrapper>
 				<QuizletListWrapper>
 					{quizletList.map(({ _id: quizletId, ...quizletInfo }) => (
