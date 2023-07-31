@@ -8,23 +8,45 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import StyleIcon from '@mui/icons-material/Style';
 import { LinearProgress } from '@mui/material';
+import { ToggleGuideCard } from '../components';
 
 function Study() {
+	// 💡 API 연동 - 학습세트 가져오기 (id로 구분)
+
 	const [step, setStep] = React.useState(1);
 	const [cardMode, setCardMode] = React.useState('question');
-	// 학습세트 가져오기 (id로 구분)
+	const [togglerHovered, setTogglerHovered] = React.useState(false);
+
+	const toggleCard = () => {
+		setTogglerHovered(false);
+		setCardMode((prev) => (prev === 'question' ? 'answer' : 'question'));
+	};
 
 	return (
 		<Container>
 			<Header>
-				<ModeInfo>
-					<ImportContactsIcon color="inherit" />
-					<p>전체 학습모드</p>
-				</ModeInfo>
-				<h2>프론트엔드 면접대비 질문집</h2>
+				<div>
+					<ModeInfo>
+						<ImportContactsIcon color="inherit" />
+						<p>전체 학습모드</p>
+					</ModeInfo>
+					<h2>프론트엔드 면접대비 질문집</h2>
+				</div>
+				<ProgressBox>
+					<StyleIcon color="inherit" fontSize="large" />
+					<ProgressFraction>
+						<p>22</p>
+						<p>/50</p>
+					</ProgressFraction>
+				</ProgressBox>
 			</Header>
+			<ProgressBar variant="determinate" value={(22 / 50) * 100} />
 			<QuestionBox>
 				<MainCard>
+					<ToggleGuideCard
+						target={cardMode === 'question' ? 'answer' : 'question'}
+						display={togglerHovered}
+					/>
 					<MainCardContents>
 						<p>Question {step}.</p>
 						<p>
@@ -35,10 +57,14 @@ function Study() {
 						</p>
 					</MainCardContents>
 				</MainCard>
-				<ToggleCard>
-					답안 보기
+				<Toggler
+					onMouseOver={() => setTogglerHovered(true)}
+					onMouseOut={() => setTogglerHovered(false)}
+					onClick={() => toggleCard()}
+				>
+					<p>{cardMode === 'question' ? '답안 보기' : '질문 보기'}</p>
 					<AutoStoriesIcon color="inherit" />
-				</ToggleCard>
+				</Toggler>
 			</QuestionBox>
 			<ControlBox>
 				<IncorrectSide>
@@ -47,7 +73,7 @@ function Study() {
 						<p>오답노트 등록</p>
 					</DragGuideContents>
 				</IncorrectSide>
-				<UndoButton size="large">
+				<UndoButton size="large" disabled={step === 1}>
 					<UndoIcon fontSize="inherit" />
 				</UndoButton>
 				<CorrectSide>
@@ -57,14 +83,6 @@ function Study() {
 					</DragGuideContents>
 				</CorrectSide>
 			</ControlBox>
-			<ProgressBox>
-				<StyleIcon color="inherit" fontSize="large" />
-				<ProgressFraction>
-					<p>22</p>
-					<p>/50</p>
-				</ProgressFraction>
-				<ProgressBar variant="determinate" value={(22 / 50) * 100} />
-			</ProgressBox>
 		</Container>
 	);
 }
@@ -78,7 +96,9 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-	width: 95%;
+	width: 800px;
+	display: flex;
+	justify-content: space-between;
 `;
 
 const ModeInfo = styled.div`
@@ -100,6 +120,7 @@ const MainCard = styled.div`
 	padding: 5%;
 	height: 500px;
 	width: 800px;
+	position: relative;
 `;
 
 const MainCardContents = styled.div`
@@ -122,7 +143,7 @@ const MainCardContents = styled.div`
 	}
 `;
 
-const ToggleCard = styled.div`
+const Toggler = styled.div`
 	background-color: #999999;
 	border-radius: 0 0 10px 10px;
 	color: #fff;
@@ -196,7 +217,6 @@ const UndoButton = styled(IconButton)`
 
 const ProgressBox = styled.div`
 	color: var(--primary-color);
-	width: 95%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -217,8 +237,7 @@ const ProgressFraction = styled.div`
 `;
 
 const ProgressBar = styled(LinearProgress)`
-	width: 100%;
-	z-index: 999;
+	width: 800px;
 `;
 
 export default Study;
