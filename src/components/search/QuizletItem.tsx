@@ -63,9 +63,9 @@ const Container = styled(Link)`
 	transition: 0.1s ease-in;
 	:hover {
 		scale: 1.008;
-		border: 2px solid #91b0c4;
+		border: 2px solid #b6c6d0;
 		& > hr {
-			border: 1px solid #91b0c4;
+			border: 1px solid #b6c6d0;
 		}
 		& > div:first-child {
 			/* background: rgb(173 173 173 / 10%); */
