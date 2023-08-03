@@ -1,27 +1,25 @@
-import React from 'react';
 import styled from '@emotion/styled';
+import { keyframes, css } from '@emotion/react';
 
 interface GhostCardProps {
 	display: boolean;
 	isWrong: boolean;
-	coordinates: { x: number; y: number };
 }
 
 interface ContainerProps {
 	display: boolean;
-	x: number;
-	y: number;
+	isWrong: boolean;
 }
 
 interface ContentsProps {
 	isWrong: boolean;
 }
 
-function GhostCard({ isWrong, display, coordinates }: GhostCardProps) {
-	const { x, y } = coordinates;
+function GhostCard({ isWrong, display }: GhostCardProps) {
+	console.log(display);
 
 	return (
-		<Container display={display} x={x} y={y}>
+		<Container display={display} isWrong={isWrong}>
 			<Contents isWrong={isWrong}>
 				{isWrong ? '오답노트 등록' : '학습 완료'}
 			</Contents>
@@ -29,21 +27,63 @@ function GhostCard({ isWrong, display, coordinates }: GhostCardProps) {
 	);
 }
 
+const swipeRight = keyframes`
+  from {
+    rotate: 0deg; 
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    rotate: 10deg;
+    left: 200px;
+    top: -50px;
+    opacity: 0;
+  }
+`;
+
+const swipeLeft = keyframes`
+  from {
+    rotate: 0deg; 
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    rotate: -10deg;
+    left: -200px;
+    top: -50px;
+    opacity: 0;
+  }
+`;
+
 const Container = styled.div<ContainerProps>`
 	display: ${(props) => (props.display ? 'block' : 'none')};
+	opacity: 0;
 	transition: 0.1s ease-in;
 	border: 1px solid #999999;
 	border-radius: 10px 10px 0 0;
 	padding: 5%;
 	height: 500px;
 	width: 800px;
-	rotate: 3deg;
+	rotate: 10deg;
 	position: absolute;
-	// 💡 TODO : x, y 좌표 계산하는 방법 따로 생각해봐야 함
-	top: ${(props) => `${props.y}px`};
-	left: ${(props) => `${props.x}px`};
+	top: 0;
+	left: 0;
 	z-index: 9999;
 	cursor: pointer;
+	animation: ${(props) =>
+		props.isWrong
+			? css`
+					${swipeLeft} 0.8s ease
+			  `
+			: css`
+					${swipeRight} 0.8s ease
+			  `};
 `;
 
 const Contents = styled.div<ContentsProps>`
@@ -65,9 +105,5 @@ const Contents = styled.div<ContentsProps>`
 	border: ${(props) =>
 		props.isWrong ? '2px solid #f05757cf' : '2px solid #55b855d5'};
 `;
-
-/*
-
-*/
 
 export default GhostCard;
