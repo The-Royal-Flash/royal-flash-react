@@ -97,7 +97,11 @@ function Study() {
 						<p>오답노트 등록</p>
 					</DragGuideContents>
 				</IncorrectSide>
-				<UndoButton size="large" disabled={step === 1}>
+				<UndoButton
+					size="large"
+					disabled={step === 1}
+					onClick={() => setStep((prev) => prev - 1)}
+				>
 					<UndoIcon fontSize="inherit" />
 				</UndoButton>
 				<CorrectSide>
