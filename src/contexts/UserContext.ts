@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-// interface UserContext {
-// 	user?: { email: string; nickname: string };
-// 	setUser?: (user: { email: string; nickname: string }) => void;
-// }
+export interface User {
+	id: string;
+	email: string;
+	nickname: string;
+	name: string;
+	avatarUrl: string;
+}
 
-// export const UserContext = React.createContext<null | UserContext>(null);
+export interface UserContextProps {
+	readonly user: User | null;
+	readonly setUser: (user: User | null) => void;
+	readonly loadUser: () => Promise<void>;
+	readonly logoutUser: () => void;
+}
 
-export const UserContext = React.createContext<any>(null);
+export const UserContext = React.createContext<UserContextProps>({
+	user: null,
+	setUser: () => null,
+	loadUser: async () => {},
+	logoutUser: () => null,
+});
+
+export function useUserContext() {
+	return useContext(UserContext);
+}
