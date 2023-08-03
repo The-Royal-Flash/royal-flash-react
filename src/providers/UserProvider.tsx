@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { User, UserContext } from '../../contexts/UserContext';
-import { fetchProfile, logOut } from '../../api';
+import { User, UserContext } from '../contexts/UserContext';
+import { fetchProfile, logOut } from '../api';
 
 interface UserProviderProps {
 	children: React.ReactElement | React.ReactElement[];
