@@ -1,18 +1,19 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
 import { checkForDuplicate, changeNickname } from '../api';
-import { UserContext } from '../contexts/UserContext';
 import { ChangePwModal } from '../components';
+import { useUserContext } from '../contexts/UserContext';
 
 function Profile() {
-	const { user, setUser } = React.useContext(UserContext);
-	const navi = useNavigate();
+	const { user, setUser } = useUserContext();
 
-	const [nickname, setNickname] = React.useState(user?.nickname);
+	// TODO: profile api
+	// const { data } = useQuery<ProflieResponse>(fetchProfileQuery());
+
+	const [nickname, setNickname] = React.useState(user!.nickname);
 	const [editingNickname, setEditingNickname] = React.useState(false);
 	const nicknameFieldRef = React.useRef<HTMLDivElement>(null);
 	const [changingPw, setChangingPw] = React.useState(false);
@@ -23,11 +24,6 @@ function Profile() {
 
 		nicknameFieldRef.current?.querySelector('input')?.focus();
 	}, [editingNickname]);
-
-	/*----- 유저 정보 없으면 로그인 페이지로 이동 -----*/
-	React.useEffect(() => {
-		if (!user) navi('/login');
-	}, []);
 
 	/*----- nicknameField 값 업데이트 -----*/
 	const updateNickname = (
@@ -47,7 +43,7 @@ function Profile() {
 		event.preventDefault();
 
 		// 1. 현재 유저의 닉네임과 새로운 값이 같은 경우
-		if (nickname === user.nickname) {
+		if (nickname === user!.nickname) {
 			window.alert('닉네임을 변경해주세요.');
 			nicknameFieldRef.current?.querySelector('input')?.focus();
 			return;
@@ -72,7 +68,7 @@ function Profile() {
 				setEditingNickname(false);
 
 				const { data } = await changeNickname(nickname);
-				if (data.isSuccess) setUser({ ...user, nickname });
+				if (data.isSuccess) setUser({ ...user!, nickname });
 			} else {
 				nicknameFieldRef.current?.querySelector('input')?.focus();
 			}
