@@ -147,12 +147,15 @@ function Header() {
 }
 
 const Container = styled.div`
+	position: sticky;
 	display: flex;
+	top: 0;
 	width: 100%;
 	height: var(--header-height);
 	min-height: var(--header-height);
 	background: var(--bg-color);
 	user-select: none;
+	z-index: 1000;
 `;
 
 const Wrapper = styled.div`

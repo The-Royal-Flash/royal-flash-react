@@ -6,9 +6,12 @@ import { TextField } from '@mui/material';
 import { checkForDuplicate, changeNickname } from '../api';
 import { ChangePwModal } from '../components';
 import { useUserContext } from '../contexts/UserContext';
+import { useToastContext } from '../contexts/ToastContext';
+import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
 
 function Profile() {
 	const { user, setUser } = useUserContext();
+	const { addToast } = useToastContext();
 
 	// TODO: profile api
 	// const { data } = useQuery<ProflieResponse>(fetchProfileQuery());
@@ -44,14 +47,22 @@ function Profile() {
 
 		// 1. 현재 유저의 닉네임과 새로운 값이 같은 경우
 		if (nickname === user!.nickname) {
-			window.alert('닉네임을 변경해주세요.');
+			addToast({
+				type: TOAST_TYPE.ERROR,
+				msg_type: TOAST_MSG_TYPE.CHANGE_NICKNAME,
+			});
+
 			nicknameFieldRef.current?.querySelector('input')?.focus();
 			return;
 		}
 
 		// 2. 새로 입력된 닉네임의 길이가 3글자 이상이 아닌 경우
 		if (nickname.length < 3) {
-			window.alert('닉네임은 3글자 이상이어야 합니다.');
+			addToast({
+				type: TOAST_TYPE.ERROR,
+				msg_type: TOAST_MSG_TYPE.NICKNAME_LENGTH,
+			});
+
 			nicknameFieldRef.current?.querySelector('input')?.focus();
 			return;
 		}
