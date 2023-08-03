@@ -19,14 +19,13 @@ function LoginForm() {
 	});
 
 	const logUserIn = async (data: loginSchema) => {
-		const user = await logIn(data);
+		const res = await logIn(data);
 
-		if (!user.data.isSuccess) {
+		if (!res.data.isSuccess) {
 			setLoginError(true);
 		} else {
-			const { email, nickname } = user;
-
-			setUser({ email, nickname });
+			console.log('user ->', res.data.user);
+			setUser(res.data.user);
 			navi('/');
 		}
 	};

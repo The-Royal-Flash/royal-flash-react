@@ -14,11 +14,13 @@ const GlobalStyle = css`
 		--font-color: #27374d;
 		--primary-color: #22577e;
 		--secondary-color: #1b6b93;
+		--card-color: #1478db;
 		--light-yellow-color: #fbfddd;
 		--yellow-color: #f3e996;
 		--dark-yellow-color: #e5bb3c;
 		--border-color: #6686a0;
 		--button-color: #7297ae;
+		--chip-color: #cfe2f3;
 		--bg-color: #98b4c5;
 		--light-bg-color: #eaeff2;
 		--footer-bg-color: #69737ce6;
@@ -51,6 +53,7 @@ const GlobalStyle = css`
 
 	a {
 		text-decoration: none;
+		color: inherit;
 	}
 
 	#root {

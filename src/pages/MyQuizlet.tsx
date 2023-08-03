@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { SearchForm } from '../components/common';
+import { SearchForm } from '../components';
 import { Toggler, Quizlets, NoResultMessage } from '../components/myQuizlet';
+import { SubmitHandler } from 'react-hook-form';
+import { SearchRequest } from '../types';
 
 function MyQuizlet() {
+	const [formData, setFormData] = useState<SearchRequest>({
+		keyword: '',
+		tagList: [],
+	});
+
 	const [order, setOrder] = React.useState('내림차순');
 
 	const reorder = () => {
@@ -12,23 +19,20 @@ function MyQuizlet() {
 		// 💡 TODO: 유저 학습 세트 데이터 가져온 후, 점수 오름차순/내림차순 정렬
 	};
 
-	const filterUserQuizlets = (
-		event: React.KeyboardEvent,
-		keyword: string,
-		tags: string[],
-	) => {
-		if (event.key !== 'Enter') return;
+	// TODO: tag 목록 가져오기
+	const tags = ['tag1', 'tag2', 'tmp'];
 
-		console.log('[Searching]:', keyword, tags);
+	// TODO: fetchAllMyQuizletSearchQuery 및 pagination 처리
 
-		// 💡 TODO: 유저 학습 세트 데이터 가져온 후, 검색 내용 기반 filter해서 재 렌더링하는 로직 추가하기
+	const onSubmitSearch: SubmitHandler<SearchRequest> = async (formData) => {
+		setFormData(formData);
 	};
 
 	return (
 		<Container>
 			<SearchBox>
 				<SearchMessage>원하는 학습세트를 검색하세요.</SearchMessage>
-				<SearchForm onSubmit={filterUserQuizlets} />
+				<SearchForm tagList={tags} onSubmit={onSubmitSearch} />
 			</SearchBox>
 			<Toggler order={order} onChange={reorder} />
 			<Quizlets />

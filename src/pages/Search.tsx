@@ -1,39 +1,67 @@
-import React, { useState } from 'react';
-import { StyledContainer } from '../components/quizlet/styles';
-import { SearchForm } from '../components';
-import { fetchAllQuizletSearch } from '../api/search';
-import { SearchQuizletItem } from '../types';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
+import { useInView } from 'react-intersection-observer';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
+import CircularProgress from '@mui/material/CircularProgress';
+import { StyledContainer } from '../components/quizlet/styles';
+import { QuizletItem, SearchForm } from '../components';
+import { SearchApiResponse, SearchRequest } from '../types';
+import { fetchAllQuizletSearchQuery, fetchQuizletTagsQuery } from '../queries';
 
 function Search() {
-	const [quizletList, setQuizletList] = useState<SearchQuizletItem[]>([]);
+	const [observerRef, observerInView] = useInView({ threshold: 0.5 });
 
-	const handleSubmit = () => {
-		(async () => {
-			const { quizletList } = await fetchAllQuizletSearch({
-				keyword: '',
-				tagList: [],
-			});
-			setQuizletList(quizletList);
-		})();
+	const [formData, setFormData] = useState<SearchRequest>({
+		keyword: '',
+		tagList: [],
+	});
+
+	// TODO: tag 목록 가져오기
+	const { data: tags } = useQuery(fetchQuizletTagsQuery());
+
+	const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
+		SearchApiResponse,
+		Error
+	>(
+		fetchAllQuizletSearchQuery({
+			keyword: formData.keyword,
+			tagList: formData.tagList,
+		}),
+	);
+
+	useEffect(() => {
+		if (isFetching) return;
+		if (hasNextPage && observerInView) fetchNextPage();
+	}, [observerInView]);
+
+	// TODO: fetchAllQuizletSearchQuery - select에서 처리
+	const quizletList = data
+		? data.pages.map((res) => res.quizletList).flat()
+		: [];
+
+	const handleOnSubmit: SubmitHandler<SearchRequest> = async (formData) => {
+		setFormData(formData);
 	};
 
 	return (
 		<StyledContainer>
 			<Container>
 				<QuizletFormWrapper>
-					<SearchForm onSubmit={handleSubmit} />
+					<SearchForm tagList={tags || []} onSubmit={handleOnSubmit} />
 				</QuizletFormWrapper>
 				<QuizletListWrapper>
-					{quizletList.map(({ _id, title, description, questionCardList }) => (
-						<QuizletItem key={_id} to={`/quizlet/detail/${_id}`}>
-							<p>{title}</p>
-							<p>{description}</p>
-							<p>{questionCardList.length}</p>
-						</QuizletItem>
+					{quizletList.map(({ _id: quizletId, ...quizletInfo }) => (
+						<QuizletItem
+							key={quizletId}
+							quizletId={quizletId}
+							link={`/quizlet/detail/${quizletId}`}
+							{...quizletInfo}
+						/>
 					))}
 				</QuizletListWrapper>
+				{hasNextPage && <Observer ref={observerRef} />}
+				<LoadingBox>{isFetching && <CircularProgress />}</LoadingBox>
 			</Container>
 		</StyledContainer>
 	);
@@ -51,13 +79,17 @@ const QuizletFormWrapper = styled.div`
 const QuizletListWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin-top: 20px;
-	gap: 10px;
+	margin-top: 40px;
+	gap: 17px;
 `;
 
-const QuizletItem = styled(Link)`
-	width: 100%;
-	border: 1px solid gray;
+const Observer = styled.div`
+	height: 20px;
+`;
+
+const LoadingBox = styled.div`
+	display: flex;
+	justify-content: center;
 `;
 
 export default Search;

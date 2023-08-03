@@ -1,6 +1,8 @@
 import { fetchAllQuizletSearch } from '../../api/search';
+import { SearchApiResponse } from '../../types';
 
-const staleTime = 1000;
+const staleTime = 60000;
+const pageSize = 10;
 
 interface fetchAllQuizletQueryProps {
 	keyword: string;
@@ -16,14 +18,14 @@ const fetchAllQuizletSearchQuery = ({
 		const data = await fetchAllQuizletSearch({
 			keyword,
 			tagList,
+			pageSize,
 			page: pageParam,
 		});
 		return data;
 	},
-	// getNextPageParam: (lastPage, pages) => {
-	// TODO: infinite scroll
-	// },
-	// select: (data) => ({}),
+	getNextPageParam: (lastPage: SearchApiResponse) => {
+		return +lastPage.page === +lastPage.totalPages ? false : +lastPage.page + 1;
+	},
 	staleTime,
 });
 

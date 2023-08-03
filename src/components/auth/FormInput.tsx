@@ -10,12 +10,12 @@ import {
 	PathValue,
 } from 'react-hook-form';
 import { useDebounce } from '../../hooks';
-// import { signupSchema, loginSchema } from '../../schemas/authSchema';
 import { TextField } from '@mui/material';
 import { AUTH_LABELS } from '../../constants';
 
 interface InputFieldProps<TSchema extends FieldValues> {
 	variant?: string;
+	isOutlined?: boolean;
 	isPassword?: boolean;
 	trigger: UseFormTrigger<TSchema>;
 	name: Path<TSchema>;
@@ -31,6 +31,7 @@ interface InputFieldProps<TSchema extends FieldValues> {
 
 function FormInput<TSchema extends {}>({
 	variant = 'unwrapped',
+	isOutlined = true,
 	isPassword = false,
 	register,
 	name,
@@ -70,12 +71,13 @@ function FormInput<TSchema extends {}>({
 			required
 			id={`${name}-input`}
 			label={AUTH_LABELS[name as string]}
-			variant="outlined"
+			variant={isOutlined ? 'outlined' : 'standard'}
 			name={name}
 			error={isDirty && error ? true : false}
 			helperText={isDirty && error ? error?.message : null}
 			onChange={handleInputChange}
 			type={isPassword ? 'password' : ''}
+			disabled={uniqueState}
 		/>
 	) : (
 		<InputButtonWrapper>
@@ -83,7 +85,7 @@ function FormInput<TSchema extends {}>({
 				required
 				id={`${name}-input`}
 				label={AUTH_LABELS[name as string]}
-				variant="outlined"
+				variant={isOutlined ? 'outlined' : 'standard'}
 				{...register(name)}
 				error={isDirty && error ? true : false}
 				helperText={
@@ -118,6 +120,8 @@ const DuplicateChecker = styled.button`
 	border: none;
 	transition: 0.1s ease-in;
 	color: gray;
+	font-size: 12px;
+	min-width: 70px;
 
 	:hover {
 		color: var(--font-color);
@@ -130,6 +134,7 @@ const DuplicateChecker = styled.button`
 
 const StyledTextField = styled(TextField)`
 	min-width: 80%;
+	width: 100%;
 `;
 
 const InputButtonWrapper = styled.div`

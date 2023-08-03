@@ -15,3 +15,18 @@ export const logOut = async (): Promise<AuthResponse> =>
 
 export const signUp = async (newUserData: NewUserData): Promise<AuthResponse> =>
 	await http.post('auth/register/local', newUserData);
+
+export const checkForDuplicate = async (
+	event: React.MouseEvent<HTMLSpanElement>,
+	dataType: string,
+) => {
+	const target = event.target as HTMLInputElement;
+	const userInput = target.parentNode?.querySelector('input')?.value;
+
+	const { data } =
+		dataType === 'email'
+			? await checkEmail(userInput as string)
+			: await checkNickname(userInput as string);
+
+	return data;
+};
