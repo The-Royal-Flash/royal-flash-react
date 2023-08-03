@@ -1,10 +1,14 @@
 import { BaseApiResponse } from './response';
 
-export interface ProfileResponse extends BaseApiResponse {
-	email: string;
-	name: string;
-	nickname: string;
-	avatarUrl?: string;
+export interface ProflieResponse {
+	isSuccess: boolean;
+	user: {
+		id: string;
+		email: string;
+		nickname: string;
+		name: string;
+		avatarUrl: string;
+	};
 }
 
 export interface AuthResponse extends BaseApiResponse {
