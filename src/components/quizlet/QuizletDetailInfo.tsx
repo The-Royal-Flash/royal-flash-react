@@ -28,7 +28,7 @@ function QuizletDetailInfo({ quizletId }: QuizletDetailInfoProps) {
 				nickname={quizlet?.owner.nickname!}
 				avatarUrl={quizlet?.owner.avatarUrl}
 			/>
-			<QuestionCarousel questionList={quizlet?.questionCardList || []} />
+			<QuestionCarousel questionList={quizlet?.questionList || []} />
 			{/* TODO: 학습 기록 있는 경우 학습 현황 */}
 			{/* TODO: 학습하기 버튼 (전체/오답) */}
 		</Container>
