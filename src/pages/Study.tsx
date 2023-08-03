@@ -17,7 +17,8 @@ function Study() {
 	const [cardMode, setCardMode] = React.useState('question');
 	const [togglerHovered, setTogglerHovered] = React.useState(false);
 	const [isDragging, setIsDragging] = React.useState(false);
-	const [dragCoordinates, setDragCoordinates] = React.useState({ x: 0, y: 0 });
+	const [touchStart, setTouchStart] = React.useState<null | number>(null);
+	// const [dragCoordinates, setDragCoordinates] = React.useState({ x: 0, y: 0 });
 
 	/* ----- 질문 or 답안 보기 누르면 카드 내용 변경 -----*/
 	const toggleCard = () => {
@@ -26,18 +27,43 @@ function Study() {
 	};
 
 	/* ----- 카드 드래그 이벤트 핸들러  -----*/
-	const dragCard = (event: React.DragEvent) => {
-		setIsDragging(true);
-		setDragCoordinates({ x: event.clientX, y: event.clientY });
+	// const dragCard = (event: React.DragEvent) => {
+	// 	setIsDragging(true);
+	// 	// setDragCoordinates({ x: event.clientX, y: event.clientY });
+
+	// 	const $ghost = (event.target as HTMLElement)
+	// 		.closest('#main-card')
+	// 		?.cloneNode(true);
+
+	// 	// document.body.appendChild($ghost as HTMLElement);
+
+	// 	event.dataTransfer.setDragImage(
+	// 		$ghost as HTMLElement,
+	// 		event.clientX,
+	// 		event.clientY,
+	// 	);
+	// };
+
+	const onMouseDown = (event: React.MouseEvent) => {
+		setTouchStart(event.clientX);
+	};
+
+	const onMouseOut = (event: React.MouseEvent) => {
+		if (!touchStart) return;
+
+		console.log('Started => ', touchStart);
+		console.log('Ended => ', event.clientX);
+
+		setTouchStart(null);
 	};
 
 	return (
 		<Container>
-			<GhostCard
+			{/* <GhostCard
 				isWrong={false}
 				display={isDragging}
 				coordinates={dragCoordinates}
-			/>
+			/> */}
 			<Header>
 				<div>
 					<ModeInfo>
@@ -57,8 +83,11 @@ function Study() {
 			<ProgressBar variant="determinate" value={(22 / 50) * 100} />
 			<QuestionBox>
 				<MainCard
-					onDrag={(event) => dragCard(event)}
-					onDragEnd={() => setIsDragging(false)}
+					id="main-card"
+					// onDragStart={(event) => dragCard(event)}
+					// onDragEnd={() => setIsDragging(false)}
+					onMouseDown={onMouseDown}
+					onMouseOut={onMouseOut}
 				>
 					<ToggleGuideCard
 						target={cardMode === 'question' ? 'answer' : 'question'}
