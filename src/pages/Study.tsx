@@ -266,7 +266,12 @@ const ProgressFraction = styled.div`
 `;
 
 const ProgressBar = styled(LinearProgress)`
-	width: 800px;
+	/* width: 800px; */
+	/* width: calc(800px - 10px); */
+	width: 100%;
+	height: 5px;
+	position: absolute;
+	top: 90px;
 `;
 
 export default Study;
