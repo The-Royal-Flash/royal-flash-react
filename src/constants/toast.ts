@@ -10,6 +10,8 @@ export const TOAST_MSG_TYPE = {
 	NICKNAME_LENGTH: 'NICKNAME_LENGTH',
 	NEED_CHECK_DUPLICATE: 'NEED_CHECK_DUPLICATE',
 	NEED_AUTH: 'NEED_AUTH',
+	NOT_FOUND: 'NOT_FOUND',
+	SERVER_ERROR: 'SERVER_ERROR',
 } as const;
 
 export const TOAST_MESSAGE = {
@@ -17,4 +19,6 @@ export const TOAST_MESSAGE = {
 	[TOAST_MSG_TYPE.NICKNAME_LENGTH]: '닉네임은 3글자 이상이어야 합니다.',
 	[TOAST_MSG_TYPE.NEED_CHECK_DUPLICATE]: '중복 확인을 해주세요.',
 	[TOAST_MSG_TYPE.NEED_AUTH]: '로그인 후 이용 가능합니다.',
+	[TOAST_MSG_TYPE.NOT_FOUND]: '해당 페이지가 존재하지 않습니다.',
+	[TOAST_MSG_TYPE.SERVER_ERROR]: '나중에 다시 시도해주세요.',
 } as const;

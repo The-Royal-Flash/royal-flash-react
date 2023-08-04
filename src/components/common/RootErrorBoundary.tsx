@@ -1,23 +1,42 @@
-import { AxiosError } from 'axios';
-import { useRouteError } from 'react-router-dom';
+import axios from 'axios';
+import { Navigate, useRouteError } from 'react-router-dom';
+import { useToastContext } from '../../contexts/ToastContext';
+import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
 
 function RootErrorBoundary() {
 	const error = useRouteError();
+	const { addToast } = useToastContext();
 
-	console.log('에러!', error);
+	console.error('에러', error);
 
-	if (error instanceof AxiosError) {
+	if (axios.isAxiosError(error)) {
 		if (error.response?.status === 401 || error.response?.status === 419) {
-			return <div>로그인 해주세요.</div>;
+			addToast({
+				type: TOAST_TYPE.WARNING,
+				msg_type: TOAST_MSG_TYPE.NEED_AUTH,
+			});
+			return <Navigate to={'/login'} />;
 		} else if (error.response?.status === 404) {
 			// TODO: Not Found Page ?
-			return <div>Not Found 404</div>;
+			addToast({
+				type: TOAST_TYPE.WARNING,
+				msg_type: TOAST_MSG_TYPE.NEED_AUTH,
+			});
+			return <Navigate to={'/'} />;
 		} else if (error.response?.status === 500) {
-			return <div>나중에 다시 시도해주세요.</div>;
+			addToast({
+				type: TOAST_TYPE.INFO,
+				msg_type: TOAST_MSG_TYPE.SERVER_ERROR,
+			});
+			return <Navigate to={'/'} />;
 		}
 	}
 
-	return <div>Error</div>;
+	addToast({
+		type: TOAST_TYPE.INFO,
+		msg_type: TOAST_MSG_TYPE.SERVER_ERROR,
+	});
+	return <Navigate to={'/'} />;
 }
 
 export default RootErrorBoundary;
