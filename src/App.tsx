@@ -1,9 +1,13 @@
-import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Global } from '@emotion/react';
 import GlobalStyle from './GlobalStyle';
-import { Layout, RootErrorBoundary } from './components';
+import {
+	AuthenticationGuard,
+	Layout,
+	ToastStack,
+	RootErrorBoundary,
+} from './components';
 import { UserContext } from './contexts/UserContext';
 import {
 	CreateQuizlet,
@@ -16,6 +20,8 @@ import {
 	Signup,
 	Main,
 } from './pages';
+import UserProvider from './providers/UserProvider';
+import ToastProvider from './providers/ToastProvider';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -32,15 +38,41 @@ const router = createBrowserRouter([
 		errorElement: <RootErrorBoundary />,
 		children: [
 			{ index: true, element: <Main /> },
-			{ path: 'profile', element: <Profile /> },
+			{
+				path: 'profile',
+				element: (
+					<AuthenticationGuard redirectTo="/login" component={Profile} />
+				),
+			},
 			{
 				path: 'quizlet',
 				children: [
 					{ index: true, element: <Search /> },
-					{ path: 'create', element: <CreateQuizlet /> },
-					{ path: 'edit/:quizletId', element: <EditQuizlet /> },
+					{
+						path: 'create',
+						element: (
+							<AuthenticationGuard
+								redirectTo="/login"
+								component={CreateQuizlet}
+							/>
+						),
+					},
+					{
+						path: 'edit/:quizletId',
+						element: (
+							<AuthenticationGuard
+								redirectTo="/login"
+								component={EditQuizlet}
+							/>
+						),
+					},
 					{ path: 'detail/:quizletId', element: <QuizletDetail /> },
-					{ path: 'my-quizlet', element: <MyQuizlet /> },
+					{
+						path: 'my-quizlet',
+						element: (
+							<AuthenticationGuard redirectTo="/login" component={MyQuizlet} />
+						),
+					},
 				],
 			},
 		],
@@ -50,15 +82,16 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-	const [user, setUser] = React.useState();
-
 	return (
-		<UserContext.Provider value={{ user, setUser }}>
-			<QueryClientProvider client={queryClient}>
-				<Global styles={GlobalStyle} />
-				<RouterProvider router={router} />
-			</QueryClientProvider>
-		</UserContext.Provider>
+		<ToastProvider>
+			<UserProvider>
+				<QueryClientProvider client={queryClient}>
+					<Global styles={GlobalStyle} />
+					<RouterProvider router={router} />
+					<ToastStack />
+				</QueryClientProvider>
+			</UserProvider>
+		</ToastProvider>
 	);
 }
 

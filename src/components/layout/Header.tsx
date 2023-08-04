@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Button, IconButton, Tooltip, useMediaQuery } from '@mui/material';
@@ -10,12 +9,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { ExpandTooltipButton, ImageButton } from '../common';
 import SpreadLogoWithText from './SpreadLogoWithText';
-import { UserContext } from '../../contexts/UserContext';
-import { logOut } from '../../api';
+import { useUserContext } from '../../contexts/UserContext';
 
 function Header() {
 	const move = useNavigate();
-	const { user, setUser } = React.useContext(UserContext);
+	const { user, logoutUser } = useUserContext();
 
 	const isMobile = useMediaQuery(mobileMediaQuery);
 
@@ -76,10 +74,8 @@ function Header() {
 									</Tooltip>
 									<Tooltip title="Logout">
 										<ColorIconButton
-											onClick={async () => {
-												const res = await logOut();
-
-												setUser(null);
+											onClick={() => {
+												logoutUser();
 												move('/');
 											}}
 										>
@@ -134,11 +130,9 @@ function Header() {
 									<ExpandTooltipButton
 										tooltip="Logout"
 										widthToExpand={70}
-										handleClick={async () => {
-											const res = await logOut();
-
+										handleClick={() => {
+											logoutUser();
 											move('/');
-											setUser(null);
 										}}
 										icon={<LogoutIcon />}
 									/>
@@ -153,12 +147,15 @@ function Header() {
 }
 
 const Container = styled.div`
+	position: sticky;
 	display: flex;
+	top: 0;
 	width: 100%;
 	height: var(--header-height);
 	min-height: var(--header-height);
 	background: var(--bg-color);
 	user-select: none;
+	z-index: 1000;
 `;
 
 const Wrapper = styled.div`
