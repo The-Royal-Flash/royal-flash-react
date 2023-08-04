@@ -1,18 +1,22 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
 import { checkForDuplicate, changeNickname } from '../api';
-import { UserContext } from '../contexts/UserContext';
 import { ChangePwModal } from '../components';
+import { useUserContext } from '../contexts/UserContext';
+import { useToastContext } from '../contexts/ToastContext';
+import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
 
 function Profile() {
-	const { user, setUser } = React.useContext(UserContext);
-	const navi = useNavigate();
+	const { user, setUser } = useUserContext();
+	const { addToast } = useToastContext();
 
-	const [nickname, setNickname] = React.useState(user?.nickname);
+	// TODO: profile api
+	// const { data } = useQuery<ProflieResponse>(fetchProfileQuery());
+
+	const [nickname, setNickname] = React.useState(user!.nickname);
 	const [editingNickname, setEditingNickname] = React.useState(false);
 	const nicknameFieldRef = React.useRef<HTMLDivElement>(null);
 	const [changingPw, setChangingPw] = React.useState(false);
@@ -23,11 +27,6 @@ function Profile() {
 
 		nicknameFieldRef.current?.querySelector('input')?.focus();
 	}, [editingNickname]);
-
-	/*----- 유저 정보 없으면 로그인 페이지로 이동 -----*/
-	React.useEffect(() => {
-		if (!user) navi('/login');
-	}, []);
 
 	/*----- nicknameField 값 업데이트 -----*/
 	const updateNickname = (
@@ -47,15 +46,23 @@ function Profile() {
 		event.preventDefault();
 
 		// 1. 현재 유저의 닉네임과 새로운 값이 같은 경우
-		if (nickname === user.nickname) {
-			window.alert('닉네임을 변경해주세요.');
+		if (nickname === user!.nickname) {
+			addToast({
+				type: TOAST_TYPE.ERROR,
+				msg_type: TOAST_MSG_TYPE.CHANGE_NICKNAME,
+			});
+
 			nicknameFieldRef.current?.querySelector('input')?.focus();
 			return;
 		}
 
 		// 2. 새로 입력된 닉네임의 길이가 3글자 이상이 아닌 경우
 		if (nickname.length < 3) {
-			window.alert('닉네임은 3글자 이상이어야 합니다.');
+			addToast({
+				type: TOAST_TYPE.ERROR,
+				msg_type: TOAST_MSG_TYPE.NICKNAME_LENGTH,
+			});
+
 			nicknameFieldRef.current?.querySelector('input')?.focus();
 			return;
 		}
@@ -72,7 +79,7 @@ function Profile() {
 				setEditingNickname(false);
 
 				const { data } = await changeNickname(nickname);
-				if (data.isSuccess) setUser({ ...user, nickname });
+				if (data.isSuccess) setUser({ ...user!, nickname });
 			} else {
 				nicknameFieldRef.current?.querySelector('input')?.focus();
 			}
@@ -90,7 +97,7 @@ function Profile() {
 			)}
 			<Section>
 				<UserImage
-					src={user?.avatarUrl || '/public/logo/royal-flash-logo.png'}
+					src={user?.avatarUrl || '/logo/royal-flash-logo.png'}
 					alt="User Image"
 				/>
 				<StyledButton variant="contained" size="small">

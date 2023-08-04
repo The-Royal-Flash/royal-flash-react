@@ -2,28 +2,30 @@ import { searchSchema } from '../schemas/searchSchema';
 
 export type SearchRequest = z.infer<typeof searchSchema>;
 
-export interface SearchQuizletItem {
-	// _id: string;
-	// title: string;
-	// taglist: string[];
-	// description: string;
-	// numOfCards: number;
-	// owner: string;
-	// ownerNickname: string;
-	// ownerAvatarId: string;
+export interface QuizletOwnerInfo {
+	_id: string;
+	avatarUrl: string;
+	nickname: string;
+}
 
-	// TODO: tmp
+export interface SearchQuizletItem {
 	_id: string;
 	title: string;
-	taglist: string[];
+	tagList: string[];
 	description: string;
 	questionCardList: string[];
-	owner: string;
-	createAt: string;
+	owner: QuizletOwnerInfo;
 }
 
 export interface SearchApiResponse {
-	// page: number;
-	// totalPage: number;
+	isSuccess: boolean;
+	page: number;
+	totalPages: number;
 	quizletList: Array<SearchQuizletItem>;
+}
+
+export interface TagApiResponse {
+	isSuccess: boolean;
+	message: string;
+	tagList: string[];
 }

@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '../../schemas/authSchema';
 import { signUp, checkForDuplicate } from '../../api';
 import { FormInput } from '.';
+import { useToastContext } from '../../contexts/ToastContext';
+import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
 
 function SignupForm() {
 	const [isEmailUnique, setIsEmailUnique] = React.useState(false);
@@ -15,13 +17,17 @@ function SignupForm() {
 	const [nicknameCheckFailed, setNicknameCheckFailed] = React.useState(false);
 
 	const navi = useNavigate();
+	const { addToast } = useToastContext();
 	const { control, register, trigger, handleSubmit } = useForm<signupSchema>({
 		resolver: zodResolver(signupSchema),
 	});
 
 	const signUserUp = async (data: signupSchema) => {
 		if (!isNicknameUnique || !isEmailUnique) {
-			window.alert('중복 확인 후 진행해 주세요.');
+			addToast({
+				type: TOAST_TYPE.ERROR,
+				msg_type: TOAST_MSG_TYPE.NEED_CHECK_DUPLICATE,
+			});
 			return;
 		}
 

@@ -1,15 +1,20 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { Container } from '@mui/material';
 import { AuthContents } from '../components/auth';
+import { useUserContext } from '../contexts/UserContext';
+import { Navigate } from 'react-router-dom';
 
 function Signup() {
-	return (
+	const { user } = useUserContext();
+
+	return !user ? (
 		<Background>
 			<AuthBox maxWidth="sm">
 				<AuthContents variant="signup" />
 			</AuthBox>
 		</Background>
+	) : (
+		<Navigate to={'/'} />
 	);
 }
 
