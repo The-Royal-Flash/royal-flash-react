@@ -9,8 +9,9 @@ function Toast({ id, type, message }: ToastType) {
 	const { removeToast } = useToastContext();
 
 	useEffect(() => {
-		setTimeout(() => {
+		const timer = setTimeout(() => {
 			removeToast(id);
+			return () => clearTimeout(timer);
 		}, CLOSE_DELAY_TIME);
 	}, []);
 
