@@ -145,7 +145,12 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-	width: 800px;
+	${mobileMediaQuery} {
+		width: 100%;
+	}
+	${desktopMediaQuery} {
+		width: 800px;
+	}
 	display: flex;
 	justify-content: space-between;
 `;
@@ -168,7 +173,14 @@ const MainCard = styled.div`
 	border-radius: 10px 10px 0 0;
 	padding: 5%;
 	height: 500px;
-	width: 800px;
+	${mobileMediaQuery} {
+		width: 100%;
+		height: 400px;
+	}
+	${desktopMediaQuery} {
+		width: 800px;
+		height: 500px;
+	}
 	position: relative;
 	cursor: pointer;
 `;
@@ -217,7 +229,12 @@ const Toggler = styled.div`
 const ControlBox = styled.div`
 	display: flex;
 	justify-content: space-between;
-	width: 800px;
+	${mobileMediaQuery} {
+		width: 100%;
+	}
+	${desktopMediaQuery} {
+		width: 800px;
+	}
 `;
 
 const DragGuideContents = styled.div`
@@ -233,11 +250,16 @@ const DragGuideContents = styled.div`
 
 const IncorrectSide = styled.div`
 	width: 250px;
+	border-radius: 0 100px 100px 0;
 	background-color: #f05757af;
 	border: 1px dashed red;
-	border-radius: 0 100px 100px 0;
 	transition: 0.1s ease-in;
 	cursor: pointer;
+
+	${mobileMediaQuery} {
+		border-radius: 100px;
+		width: 200px;
+	}
 
 	:hover {
 		color: #eeeeee;
@@ -252,6 +274,11 @@ const CorrectSide = styled.div`
 	border-radius: 100px 0 0 100px;
 	transition: 0.1s ease-in;
 	cursor: pointer;
+
+	${mobileMediaQuery} {
+		border-radius: 100px;
+		width: 200px;
+	}
 
 	:hover {
 		color: #eeeeee;
@@ -287,12 +314,14 @@ const ProgressFraction = styled.div`
 `;
 
 const ProgressBar = styled(LinearProgress)`
-	/* width: 800px; */
-	/* width: calc(800px - 10px); */
 	width: 100%;
-	height: 5px;
 	position: absolute;
-	top: 90px;
+	${mobileMediaQuery} {
+		top: 50px;
+	}
+	${desktopMediaQuery} {
+		top: 90px;
+	}
 `;
 
 export default Study;

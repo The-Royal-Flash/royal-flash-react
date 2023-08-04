@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { keyframes, css } from '@emotion/react';
+import { mobileMediaQuery, desktopMediaQuery } from '../../utils/mediaQueries';
 
 interface GhostCardProps {
 	display: boolean;
@@ -66,8 +67,14 @@ const Container = styled.div<ContainerProps>`
 	border: 1px solid #999999;
 	border-radius: 10px 10px 0 0;
 	padding: 5%;
-	height: 500px;
-	width: 800px;
+	${mobileMediaQuery} {
+		width: 100%;
+		height: 400px;
+	}
+	${desktopMediaQuery} {
+		width: 800px;
+		height: 500px;
+	}
 	rotate: 10deg;
 	position: absolute;
 	top: 0;
