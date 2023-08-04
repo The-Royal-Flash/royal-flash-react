@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Navigate, useRouteError } from 'react-router-dom';
 import { useToastContext } from '../../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
@@ -20,7 +20,7 @@ function RootErrorBoundary() {
 			// TODO: Not Found Page ?
 			addToast({
 				type: TOAST_TYPE.WARNING,
-				msg_type: TOAST_MSG_TYPE.NEED_AUTH,
+				msg_type: TOAST_MSG_TYPE.NOT_FOUND,
 			});
 			return <Navigate to={'/'} />;
 		} else if (error.response?.status === 500) {
