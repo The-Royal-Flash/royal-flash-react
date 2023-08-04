@@ -11,7 +11,7 @@ interface QuizletItem {
 	title: string;
 	tagList: string[];
 	description: string;
-	numOfQuestionCard: number;
+	questionCardList: string[];
 	owner: QuizletOwnerInfo;
 	link: string;
 }
@@ -21,7 +21,7 @@ function QuizletItem({
 	title,
 	tagList,
 	description,
-	numOfQuestionCard,
+	questionCardList,
 	link,
 	owner: { avatarUrl, nickname },
 }: QuizletItem) {
@@ -31,7 +31,7 @@ function QuizletItem({
 				<NumOfCardContainer>
 					<NumOfCardWrapper>
 						<CardIcon />
-						<NumOfCard>{numOfQuestionCard}</NumOfCard>
+						<NumOfCard>{questionCardList.length}</NumOfCard>
 					</NumOfCardWrapper>
 				</NumOfCardContainer>
 				<Title>{title}</Title>

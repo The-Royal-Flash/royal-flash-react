@@ -13,7 +13,7 @@ export interface SearchQuizletItem {
 	title: string;
 	tagList: string[];
 	description: string;
-	numOfQuestionCard: number;
+	questionCardList: string[];
 	owner: QuizletOwnerInfo;
 }
 
