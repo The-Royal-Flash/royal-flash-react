@@ -97,7 +97,7 @@ function Profile() {
 			)}
 			<Section>
 				<UserImage
-					src={user?.avatarUrl || '/public/logo/royal-flash-logo.png'}
+					src={user?.avatarUrl || '/logo/royal-flash-logo.png'}
 					alt="User Image"
 				/>
 				<StyledButton variant="contained" size="small">
