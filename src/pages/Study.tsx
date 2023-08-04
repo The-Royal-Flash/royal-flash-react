@@ -9,15 +9,21 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import StyleIcon from '@mui/icons-material/Style';
 import { LinearProgress } from '@mui/material';
+import { fetchQuizletById } from '../api';
 import { ToggleGuideCard, GhostCard, EmptyCard } from '../components';
+import { STUDY_MODE } from '../constants';
+import { useUserContext } from '../contexts/UserContext';
+import { desktopMediaQuery, mobileMediaQuery } from '../utils/mediaQueries';
 
 const MIN_SWIPE_DISTANCE = 50;
 
 function Study() {
+	const { user } = useUserContext();
 	const { pathname } = useLocation();
 	const [, , quizletId, mode] = pathname.split('/');
+	const studyMode = STUDY_MODE[mode.toUpperCase() as 'ALL' | 'WRONG'];
 
-	// 💡 API 연동 - 학습세트 가져오기 (id로 구분)
+	// 💡 API 연동 - 학습세트 가져오기 (fetchQuizletById)
 
 	const [step, setStep] = React.useState(1);
 	const [cardMode, setCardMode] = React.useState('question');
