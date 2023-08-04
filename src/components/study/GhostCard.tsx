@@ -16,8 +16,6 @@ interface ContentsProps {
 }
 
 function GhostCard({ isWrong, display }: GhostCardProps) {
-	console.log(display);
-
 	return (
 		<Container display={display} isWrong={isWrong}>
 			<Contents isWrong={isWrong}>

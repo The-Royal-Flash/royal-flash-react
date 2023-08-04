@@ -10,7 +10,7 @@ import StyleIcon from '@mui/icons-material/Style';
 import { LinearProgress } from '@mui/material';
 import { ToggleGuideCard, GhostCard, EmptyCard } from '../components';
 
-const MIN_SWIPE_DISTANCE = 100;
+const MIN_SWIPE_DISTANCE = 50;
 
 function Study() {
 	// 💡 API 연동 - 학습세트 가져오기 (id로 구분)
@@ -28,15 +28,24 @@ function Study() {
 		setCardMode((prev) => (prev === 'question' ? 'answer' : 'question'));
 	};
 
-	const onMouseDown = (event: React.MouseEvent) => {
+	const beginSwipe = (event: React.MouseEvent) => {
 		setTouchStart(event.clientX);
 	};
 
-	const onMouseOut = (event: React.MouseEvent) => {
+	const endSwipe = (event: React.MouseEvent) => {
 		if (!touchStart) return;
 		if (Math.abs(touchStart - event.clientX) < MIN_SWIPE_DISTANCE) return;
 
 		isLeftSwipe.current = touchStart > event.clientX ? true : false;
+
+		setTimeout(() => setTouchEnd(false), 800);
+		setTouchEnd(true);
+		setTouchStart(null);
+		setStep((prev) => prev + 1);
+	};
+
+	const swipeOnClick = (direction: string) => {
+		isLeftSwipe.current = direction === 'incorrect' ? true : false;
 
 		setTimeout(() => setTouchEnd(false), 800);
 		setTouchEnd(true);
@@ -64,7 +73,7 @@ function Study() {
 			</Header>
 			<ProgressBar variant="determinate" value={(22 / 50) * 100} />
 			<QuestionBox>
-				<MainCard onMouseDown={onMouseDown} onMouseOut={onMouseOut}>
+				<MainCard onDragStart={beginSwipe} onDragEnd={endSwipe}>
 					<ToggleGuideCard
 						target={cardMode === 'question' ? 'answer' : 'question'}
 						display={togglerHovered}
@@ -91,7 +100,7 @@ function Study() {
 				</Toggler>
 			</QuestionBox>
 			<ControlBox>
-				<IncorrectSide>
+				<IncorrectSide onClick={() => swipeOnClick('incorrect')}>
 					<DragGuideContents>
 						<PlaylistAddIcon color="inherit" fontSize="inherit" />
 						<p>오답노트 등록</p>
@@ -104,7 +113,7 @@ function Study() {
 				>
 					<UndoIcon fontSize="inherit" />
 				</UndoButton>
-				<CorrectSide>
+				<CorrectSide onClick={() => swipeOnClick('correct')}>
 					<DragGuideContents>
 						<BeenhereIcon color="inherit" fontSize="inherit" />
 						<p>학습 완료</p>
