@@ -17,6 +17,7 @@ import {
 	Profile,
 	QuizletDetail,
 	Search,
+	Study,
 	Signup,
 	Main,
 } from './pages';
@@ -44,6 +45,7 @@ const router = createBrowserRouter([
 					<AuthenticationGuard redirectTo="/login" component={Profile} />
 				),
 			},
+			{ path: 'study/:quizletId/:mode', element: <Study /> },
 			{
 				path: 'quizlet',
 				children: [

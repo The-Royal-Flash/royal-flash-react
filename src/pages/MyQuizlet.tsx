@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import {
+	Toggler,
+	Quizlets,
+	NoResultMessage,
+	QuizletPagination,
+} from '../components/myQuizlet';
 import { SearchForm } from '../components';
-import { Toggler, Quizlets, NoResultMessage } from '../components/myQuizlet';
 import { SubmitHandler } from 'react-hook-form';
 import { SearchRequest } from '../types';
 
@@ -37,6 +42,7 @@ function MyQuizlet() {
 			<Toggler order={order} onChange={reorder} />
 			<Quizlets />
 			{/* <NoResultMessage /> */}
+			<QuizletPagination count={5} page={2} />
 		</Container>
 	);
 }
