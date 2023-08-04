@@ -5,6 +5,7 @@ export { default as SlideScroll } from './SlideScroll';
 export { default as FadeIn } from './FadeIn';
 export { default as QuestionCarousel } from './QuestionCarousel';
 export { default as AvatarCard } from './AvatarCard';
+export { default as RootErrorBoundary } from './RootErrorBoundary';
 export { default as Loader } from './Loader';
 export { default as ToastStack } from './ToastStack';
 export { default as Toast } from './Toast';

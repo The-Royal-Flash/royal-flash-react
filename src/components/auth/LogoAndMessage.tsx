@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 function LogoAndMessage({ variant }: LogoAndMessageProps) {
 	return (
 		<LogoMessageWrapper>
-			<Logo src="/public/logo/royal-flash-logo.png" alt="로얄플래시 로고" />
+			<Logo src="/logo/royal-flash-logo.png" alt="로얄플래시 로고" />
 			{variant === 'login' ? (
 				<WelcomeMessage>
 					<span>Royal Flash</span> 팀은 당신의 내일을 응원합니다!

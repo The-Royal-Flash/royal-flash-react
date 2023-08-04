@@ -5,8 +5,8 @@ const staleTime = 1000;
 const fetchQuizletDetailQuery = (quizletId: string) => ({
 	queryKey: ['quizlet-detail', quizletId],
 	queryFn: async () => {
-		const { quizlet } = await fetchQuizletDetail(quizletId);
-		return quizlet;
+		const res = await fetchQuizletDetail(quizletId);
+		return res;
 	},
 	suspense: true,
 	staleTime,

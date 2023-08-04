@@ -78,7 +78,7 @@ export interface BaseMyQuizlet {
 export interface QuizletDetailInfo
 	extends BaseQuizletInfo,
 		Partial<BaseMyQuizlet> {
-	questionCardList: Array<{ _id: string; question: string }>;
+	questionList: Array<{ _id: string; question: string }>;
 	owner: {
 		name: string;
 		nickname: string;
@@ -86,9 +86,8 @@ export interface QuizletDetailInfo
 		avatarUrl: string;
 	};
 }
-export interface QuizletDetailResponse {
+export interface QuizletDetailResponse extends QuizletDetailInfo {
 	isSuccess: boolean;
-	quizlet: QuizletDetailInfo;
 }
 
 // /** 페이지네이션 필수 정보 */

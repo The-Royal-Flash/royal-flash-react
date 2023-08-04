@@ -31,7 +31,7 @@ const GradientImage = styled.div`
 	margin: 20px 0px;
 	border-radius: 10px;
 	background: linear-gradient(to bottom, transparent, var(--light-bg-color)),
-		url('/public/images/search-page.png');
+		url('/images/search-page.png');
 	background-size: cover;
 	background-position: top;
 	${mobileMediaQuery} {
