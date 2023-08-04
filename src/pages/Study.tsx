@@ -28,6 +28,7 @@ function Study() {
 		setCardMode((prev) => (prev === 'question' ? 'answer' : 'question'));
 	};
 
+	/* ----- drag 이벤트에 따라 카드 swipe -----*/
 	const beginSwipe = (event: React.MouseEvent) => {
 		setTouchStart(event.clientX);
 	};
@@ -44,6 +45,7 @@ function Study() {
 		setStep((prev) => prev + 1);
 	};
 
+	/* ----- click 이벤트에 따라 카드 swipe -----*/
 	const swipeOnClick = (direction: string) => {
 		isLeftSwipe.current = direction === 'incorrect' ? true : false;
 
