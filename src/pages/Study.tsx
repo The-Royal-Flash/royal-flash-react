@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { useLocation } from 'react-router-dom';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import IconButton from '@mui/material/IconButton';
@@ -13,6 +14,9 @@ import { ToggleGuideCard, GhostCard, EmptyCard } from '../components';
 const MIN_SWIPE_DISTANCE = 50;
 
 function Study() {
+	const { pathname } = useLocation();
+	const [, , quizletId, mode] = pathname.split('/');
+
 	// 💡 API 연동 - 학습세트 가져오기 (id로 구분)
 
 	const [step, setStep] = React.useState(1);
