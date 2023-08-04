@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Global } from '@emotion/react';
 import GlobalStyle from './GlobalStyle';
-import { Layout } from './components';
+import { Layout, RootErrorBoundary } from './components';
 import { UserContext } from './contexts/UserContext';
 import {
 	CreateQuizlet,
@@ -29,6 +29,7 @@ const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Layout />,
+		errorElement: <RootErrorBoundary />,
 		children: [
 			{ index: true, element: <Main /> },
 			{ path: 'profile', element: <Profile /> },
