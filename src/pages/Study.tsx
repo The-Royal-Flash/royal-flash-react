@@ -31,6 +31,7 @@ function Study() {
 	const [touchStart, setTouchStart] = React.useState<null | number>(null);
 	const [touchEnd, setTouchEnd] = React.useState(false);
 	const isLeftSwipe = React.useRef(false);
+	const lastTouch = React.useRef(0);
 
 	/* ----- 질문 or 답안 보기 누르면 카드 내용 변경 -----*/
 	const toggleCard = () => {
@@ -39,15 +40,30 @@ function Study() {
 	};
 
 	/* ----- drag 이벤트에 따라 카드 swipe -----*/
-	const beginSwipe = (event: React.MouseEvent) => {
-		setTouchStart(event.clientX);
+	const beginSwipe = (event: React.MouseEvent | React.TouchEvent) => {
+		const clientX =
+			event.type === 'touchstart'
+				? (event as React.TouchEvent).touches[0].clientX
+				: (event as React.MouseEvent).clientX;
+
+		setTouchStart(clientX);
 	};
 
-	const endSwipe = (event: React.MouseEvent) => {
-		if (!touchStart) return;
-		if (Math.abs(touchStart - event.clientX) < MIN_SWIPE_DISTANCE) return;
+	const recordTouch = (event: React.TouchEvent) => {
+		lastTouch.current = event.touches[0].clientX;
+	};
 
-		isLeftSwipe.current = touchStart > event.clientX ? true : false;
+	const endSwipe = (event: React.MouseEvent | React.TouchEvent) => {
+		if (!touchStart) return;
+
+		const clientX =
+			event.type === 'touchend'
+				? lastTouch.current
+				: (event as React.MouseEvent).clientX;
+
+		if (Math.abs(touchStart - clientX) < MIN_SWIPE_DISTANCE) return;
+
+		isLeftSwipe.current = touchStart > clientX ? true : false;
 
 		setTimeout(() => setTouchEnd(false), 800);
 		setTouchEnd(true);
@@ -85,7 +101,13 @@ function Study() {
 			</Header>
 			<ProgressBar variant="determinate" value={(22 / 50) * 100} />
 			<QuestionBox>
-				<MainCard onDragStart={beginSwipe} onDragEnd={endSwipe}>
+				<MainCard
+					onDragStart={beginSwipe}
+					onDragEnd={endSwipe}
+					onTouchStart={beginSwipe}
+					onTouchMove={recordTouch}
+					onTouchEnd={endSwipe}
+				>
 					<ToggleGuideCard
 						target={cardMode === 'question' ? 'answer' : 'question'}
 						display={togglerHovered}
