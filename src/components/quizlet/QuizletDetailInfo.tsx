@@ -1,18 +1,28 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
-import { Chip, Paper } from '@mui/material';
+import { Button, Chip, Paper, Typography } from '@mui/material';
+import SchoolIcon from '@mui/icons-material/School';
 import { StyledTitle } from './styles';
 import { fetchQuizletDetailQuery } from '../../queries';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { AvatarCard, QuestionCarousel } from '../';
+import StudyLog from './StudyLog';
+import { useNavigate } from 'react-router-dom';
+import { STUDY_MODE } from '../../constants';
+import { useUserContext } from '../../contexts/UserContext';
 
 interface QuizletDetailInfoProps {
 	quizletId: string;
 }
 
 function QuizletDetailInfo({ quizletId }: QuizletDetailInfoProps) {
+	const { user } = useUserContext();
 	const { data: quizlet } = useQuery(fetchQuizletDetailQuery(quizletId));
+	const navigate = useNavigate();
+
+	const goStudy = (mode: keyof typeof STUDY_MODE) => {
+		navigate(`/study/${quizletId}/${mode}`);
+	};
 
 	return (
 		<Container>
@@ -29,8 +39,42 @@ function QuizletDetailInfo({ quizletId }: QuizletDetailInfoProps) {
 				avatarUrl={quizlet?.owner.avatarUrl}
 			/>
 			<QuestionCarousel questionList={quizlet?.questionList || []} />
-			{/* TODO: 학습 기록 있는 경우 학습 현황 */}
-			{/* TODO: 학습하기 버튼 (전체/오답) */}
+
+			{quizlet?.studyLog?.studyCount && (
+				<StudyLog studyLog={quizlet.studyLog} />
+			)}
+
+			{user ? (
+				<Wrapper elevation={3}>
+					<Title>
+						<Icon />
+						학습을 시작해보세요.
+					</Title>
+					<ButtonWrapper>
+						<StudyAllButton
+							variant="outlined"
+							onClick={() => goStudy(STUDY_MODE.ALL)}
+						>
+							<ButtonText>전체 학습하기</ButtonText>
+						</StudyAllButton>
+						{(quizlet?.studyLog?.numOfQuestionListToReview ?? 0) > 0 && (
+							<StudyWrongButton
+								variant="contained"
+								onClick={() => goStudy(STUDY_MODE.WRONG)}
+							>
+								<ButtonText>오답 학습하기</ButtonText>
+							</StudyWrongButton>
+						)}
+					</ButtonWrapper>
+				</Wrapper>
+			) : (
+				<Wrapper elevation={3}>
+					<Title>
+						<Icon />
+						로그인 후 학습을 시작해보세요.
+					</Title>
+				</Wrapper>
+			)}
 		</Container>
 	);
 }
@@ -66,6 +110,52 @@ const StyledChip = styled(Chip)`
 const Description = styled.p`
 	margin-top: 20px;
 	font-size: 1.1rem;
+`;
+
+const Wrapper = styled(Paper)`
+	display: flex;
+	flex-direction: row;
+	position: relative;
+	justify-content: space-between;
+	width: 100%;
+	margin-top: 50px;
+	padding: 40px;
+	border: 1px solid #ededed;
+`;
+
+const Title = styled.div`
+	font-size: 1.4rem;
+	font-weight: 500;
+	color: var(--font-color);
+	display: flex;
+	align-items: center;
+	gap: 14px;
+`;
+
+const ButtonWrapper = styled.div`
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+`;
+
+const Icon = styled(SchoolIcon)`
+	color: var(--dark-yellow-color);
+	color: var(--button-color);
+	width: 40px;
+	height: 40px;
+`;
+
+const BaseButton = styled(Button)`
+	display: flex;
+	flex-direction: row;
+`;
+
+const StudyAllButton = styled(BaseButton)``;
+
+const StudyWrongButton = styled(BaseButton)``;
+
+const ButtonText = styled(Typography)`
+	font-size: 1rem;
 `;
 
 export default QuizletDetailInfo;
