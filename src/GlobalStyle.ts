@@ -24,6 +24,8 @@ const GlobalStyle = css`
 		--bg-color: #98b4c5;
 		--light-bg-color: #eaeff2;
 		--footer-bg-color: #69737ce6;
+		--card-border-color: #dcdcdc;
+		--hover-card-color: #b6c6d0;
 		--warn-color: #c22d2a;
 	}
 
