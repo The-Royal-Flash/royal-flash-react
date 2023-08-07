@@ -1,6 +1,6 @@
 import { BaseApiResponse } from './response';
 
-export interface QuizletResponse {
+export interface StudyQuizletResponse {
 	isSuccess: boolean;
 	message: string;
 	title: string;
