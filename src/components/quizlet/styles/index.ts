@@ -10,3 +10,4 @@ export { default as StyledContainer } from './StyledContainer';
 export { default as StyledTitle } from './StyledTitle';
 export { default as QuestionCardTitle } from './QuestionCardTitle';
 export { default as QuestionCardRemoveButton } from './QuestionCardRemoveButton';
+export { default as StatusContainer } from './StatusContainer';
