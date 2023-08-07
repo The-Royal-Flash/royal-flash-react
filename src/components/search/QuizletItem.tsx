@@ -67,8 +67,7 @@ const Container = styled(Link)`
 		& > hr {
 			border: 1px solid var(--hover-card-color);
 		}
-		& > div:first-child {
-			/* background: rgb(173 173 173 / 10%); */
+		& > div:first-of-type {
 			background-color: #d1e0e970;
 		}
 	}

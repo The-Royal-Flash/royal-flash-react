@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { Button, Chip, Typography } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
+import EditIcon from '@mui/icons-material/Edit';
 import { StyledTitle } from './styles';
 import { fetchQuizletDetailQuery } from '../../queries';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
@@ -24,8 +25,20 @@ function QuizletDetailInfo({ quizletId }: QuizletDetailInfoProps) {
 		navigate(`/study/${quizletId}/${mode}`);
 	};
 
+	const goEdit = () => {
+		navigate(`/quizlet/edit/${quizletId}`);
+	};
+
 	return (
 		<Container>
+			{quizlet?.owner._id === user?.id && (
+				<EditWrapper>
+					<EditButton variant="contained" onClick={goEdit}>
+						<EditIcon />
+						수정하기
+					</EditButton>
+				</EditWrapper>
+			)}
 			<StyledTitle>{quizlet?.title}</StyledTitle>
 			<ChipWrapper>
 				{quizlet?.tagList.map((tag, index) => (
@@ -165,6 +178,18 @@ const StudyWrongButton = styled(BaseButton)``;
 
 const ButtonText = styled(Typography)`
 	font-size: 1rem;
+`;
+
+const EditWrapper = styled.div`
+	position: relative;
+	font-size: 1.2rem;
+`;
+
+const EditButton = styled(BaseButton)`
+	position: absolute;
+	right: 0;
+	font-size: 1rem;
+	gap: 10px;
 `;
 
 export default QuizletDetailInfo;
