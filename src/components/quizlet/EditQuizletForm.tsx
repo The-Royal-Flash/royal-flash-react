@@ -82,8 +82,7 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 	};
 
 	const handleOnSubmit: SubmitHandler<EditQuizletRequest> = async (data) => {
-		const res = await editQuizlet(quizletId, { ...data, questionListToRemove });
-		console.log(res);
+		await editQuizlet(quizletId, { ...data, questionListToRemove });
 		navigate(`/quizlet/detail/${quizletId}`);
 	};
 
