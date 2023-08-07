@@ -26,7 +26,7 @@ export const editQuizlet = async (
 
 // 학습세트 삭제
 export const deleteQuizlet = async (quizletId: string) =>
-	await http.get<BaseApiResponse>(`quizlet/detail/${quizletId}`);
+	await http.delete<BaseApiResponse>(`quizlet/delete/${quizletId}`);
 
 // 학습세트 상세정보
 export const fetchQuizletDetail = async (quizletId: string) =>

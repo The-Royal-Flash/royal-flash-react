@@ -9,7 +9,7 @@ import {
 	QuizletResponse,
 } from '../../types';
 import { editQuizletSchema } from '../../schemas/quizletSchema';
-import { editQuizlet } from '../../api';
+import { deleteQuizlet, editQuizlet } from '../../api';
 import { fetchQuizletQuery } from '../../queries';
 import {
 	QuestionCardInputField,
@@ -24,20 +24,24 @@ import {
 	StyledForm,
 	ButtonGroup,
 } from './styles';
+import { useToastContext } from '../../contexts/ToastContext';
+import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
 
 interface EditQuizletFormProps {
 	quizletId: string;
 }
 
 const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
-	const navi = useNavigate();
+	const navigate = useNavigate();
+	const { addToast } = useToastContext();
 
 	const { data: oldData } = useQuery<QuizletResponse>(
 		fetchQuizletQuery(quizletId),
 	);
+
 	const [oldQuestionList, setOldQuestionList] = useState<
 		Array<QuestionCardInfo>
-	>(oldData?.quizlet.questionCardList || []);
+	>(oldData?.questionCardList || []);
 	const [questionListToRemove, setQuestionListToRemove] = useState<string[]>(
 		[],
 	);
@@ -50,9 +54,9 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 	} = useForm<EditQuizletRequest>({
 		resolver: zodResolver(editQuizletSchema),
 		defaultValues: {
-			title: oldData?.quizlet.title,
-			description: oldData?.quizlet.description,
-			tagList: oldData?.quizlet.tagList,
+			title: oldData?.title,
+			description: oldData?.description,
+			tagList: oldData?.tagList,
 			questionListToRemove: [],
 			questionCardListToAdd: [],
 		},
@@ -78,16 +82,32 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 	};
 
 	const handleOnSubmit: SubmitHandler<EditQuizletRequest> = async (data) => {
-		editQuizlet(quizletId, { ...data, questionListToRemove });
-		navi(`/quizlet/detail/${quizletId}`);
+		const res = await editQuizlet(quizletId, { ...data, questionListToRemove });
+		console.log(res);
+		navigate(`/quizlet/detail/${quizletId}`);
 	};
 
-	const handleRemoveQuizlet = () => {
-		// TODO: 학습세트 삭제
-		// redirect('/')
+	const handleRemoveQuizlet = async () => {
+		const {
+			data: { isSuccess },
+		} = await deleteQuizlet(quizletId);
+
+		if (isSuccess) {
+			addToast({
+				type: TOAST_TYPE.SUCCESS,
+				msg_type: TOAST_MSG_TYPE.SUCCESS_DELETE,
+			});
+			navigate(`/`);
+		} else {
+			addToast({
+				type: TOAST_TYPE.ERROR,
+				msg_type: TOAST_MSG_TYPE.FAIL_DELETE,
+			});
+			navigate(`/`);
+		}
 	};
 
-	const goBack = () => navi(-1);
+	const goBack = () => navigate(-1);
 
 	return (
 		<StyledForm onSubmit={handleSubmit(handleOnSubmit)}>

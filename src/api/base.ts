@@ -15,7 +15,7 @@ export const http = {
 	post: function post<T>(url: string, data: any): Promise<T> {
 		return service.post(url, { ...data });
 	},
-	delete: function remove<T>(url: string, data: any): Promise<T> {
-		return service.delete(url, { ...data });
+	delete: function remove<T>(url: string): Promise<T> {
+		return service.delete(url);
 	},
 };

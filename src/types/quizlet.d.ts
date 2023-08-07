@@ -50,9 +50,7 @@ export interface CreateQuizletResponse extends BaseApiResponse {
 }
 
 /** 학습세트 기본 정보 (수정시 사용) */
-export interface QuizletResponse {
-	quizlet: QuizletInfo;
-}
+export interface QuizletResponse extends QuizletInfo {}
 
 /** 학습 세트 수정 */
 export type EditQuizletRequest = z.infer<typeof editQuizletSchema>;
