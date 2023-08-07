@@ -93,6 +93,7 @@ const Container = styled.div<ContainerProps>`
 
 const Contents = styled.div<ContentsProps>`
 	transition: 0.1s ease-in;
+	transform: rotateY(0);
 	width: 100%;
 	height: 100%;
 	display: flex;
