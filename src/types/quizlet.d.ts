@@ -80,6 +80,7 @@ export interface BaseMyQuizlet {
 export interface QuizletDetailInfo extends BaseQuizletInfo {
 	questionList: Array<{ _id: string; question: string }>;
 	owner: {
+		_id: string;
 		name: string;
 		nickname: string;
 		email: string;
