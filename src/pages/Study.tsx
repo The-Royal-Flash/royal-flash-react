@@ -1,6 +1,6 @@
-import React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import IconButton from '@mui/material/IconButton';
@@ -12,34 +12,40 @@ import { LinearProgress } from '@mui/material';
 import { fetchQuizletById } from '../api';
 import { ToggleGuideCard, GhostCard, EmptyCard } from '../components';
 import { STUDY_MODE } from '../constants';
-import { useUserContext } from '../contexts/UserContext';
 import { desktopMediaQuery, mobileMediaQuery } from '../utils/mediaQueries';
 
 const MIN_SWIPE_DISTANCE = 50;
 
 function Study() {
-	const { user } = useUserContext();
-	const { pathname } = useLocation();
-	const [, , quizletId, mode] = pathname.split('/');
-	const studyMode = STUDY_MODE[mode.toUpperCase() as 'ALL' | 'WRONG'];
+	const { quizletId, mode } = useParams();
+	const studyMode = STUDY_MODE[mode as 'ALL' | 'WRONG'];
 
-	// 💡 API 연동 - 학습세트 가져오기 (fetchQuizletById)
+	useEffect(() => {
+		(async () => {
+			const res = await fetchQuizletById(
+				quizletId as string,
+				studyMode as string,
+			);
 
-	const [step, setStep] = React.useState(1);
-	const [cardMode, setCardMode] = React.useState('question');
-	const [togglerHovered, setTogglerHovered] = React.useState(false);
-	const [touchStart, setTouchStart] = React.useState<null | number>(null);
-	const [touchEnd, setTouchEnd] = React.useState(false);
-	const isLeftSwipe = React.useRef(false);
-	const lastTouch = React.useRef(0);
+			console.log('RES -> ', res);
+		})();
+	}, []);
 
-	/* ----- 질문 or 답안 보기 누르면 카드 내용 변경 -----*/
+	const [step, setStep] = useState(1);
+	const [cardMode, setCardMode] = useState('question');
+	const [togglerHovered, setTogglerHovered] = useState(false);
+	const [touchStart, setTouchStart] = useState<null | number>(null);
+	const [touchEnd, setTouchEnd] = useState(false);
+	const isLeftSwipe = useRef(false);
+	const lastTouch = useRef(0);
+
+	/** 질문 or 답안 보기 누르면 카드 내용 변경 */
 	const toggleCard = () => {
 		setTogglerHovered(false);
 		setCardMode((prev) => (prev === 'question' ? 'answer' : 'question'));
 	};
 
-	/* ----- drag 이벤트에 따라 카드 swipe -----*/
+	/** drag 이벤트에 따라 카드 swipe 로직 실행 */
 	const beginSwipe = (event: React.MouseEvent | React.TouchEvent) => {
 		const clientX =
 			event.type === 'touchstart'
@@ -49,10 +55,12 @@ function Study() {
 		setTouchStart(clientX);
 	};
 
+	/** (For mobile) touchmove 이벤트에 따라 유저의 touch 종료 지점 기록 */
 	const recordTouch = (event: React.TouchEvent) => {
 		lastTouch.current = event.touches[0].clientX;
 	};
 
+	/** 카드 swipe 애니메이션 종료 후의 로직 수행  */
 	const endSwipe = (event: React.MouseEvent | React.TouchEvent) => {
 		if (!touchStart) return;
 
@@ -71,7 +79,7 @@ function Study() {
 		setStep((prev) => prev + 1);
 	};
 
-	/* ----- click 이벤트에 따라 카드 swipe -----*/
+	/** click 이벤트에 따라 카드 swipe */
 	const swipeOnClick = (direction: string) => {
 		isLeftSwipe.current = direction === 'incorrect' ? true : false;
 
