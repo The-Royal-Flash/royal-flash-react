@@ -1,6 +1,7 @@
-import React from 'react';
+import { useState, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import IconButton from '@mui/material/IconButton';
@@ -8,38 +9,42 @@ import UndoIcon from '@mui/icons-material/Undo';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import StyleIcon from '@mui/icons-material/Style';
-import { LinearProgress } from '@mui/material';
-import { fetchQuizletById } from '../api';
+import { css, LinearProgress } from '@mui/material';
 import { ToggleGuideCard, GhostCard, EmptyCard } from '../components';
 import { STUDY_MODE } from '../constants';
-import { useUserContext } from '../contexts/UserContext';
 import { desktopMediaQuery, mobileMediaQuery } from '../utils/mediaQueries';
+import { fetchStudyQuestionListQuery } from '../queries';
 
 const MIN_SWIPE_DISTANCE = 50;
 
+interface MainCardProps {
+	cardMode: string;
+}
+
 function Study() {
-	const { user } = useUserContext();
-	const { pathname } = useLocation();
-	const [, , quizletId, mode] = pathname.split('/');
-	const studyMode = STUDY_MODE[mode.toUpperCase() as 'ALL' | 'WRONG'];
+	const { quizletId, mode } = useParams();
+	const studyMode = STUDY_MODE[mode as 'ALL' | 'WRONG'];
+	const { data } = useQuery(
+		fetchStudyQuestionListQuery(quizletId as string, studyMode),
+	);
 
-	// 💡 API 연동 - 학습세트 가져오기 (fetchQuizletById)
+	const [step, setStep] = useState(1);
+	const [cardMode, setCardMode] = useState('question');
+	const [togglerHovered, setTogglerHovered] = useState(false);
+	const [isToggling, setIsToggling] = useState(false);
+	const [touchStart, setTouchStart] = useState<null | number>(null);
+	const [touchEnd, setTouchEnd] = useState(false);
+	const isLeftSwipe = useRef(false);
+	const lastTouch = useRef(0);
 
-	const [step, setStep] = React.useState(1);
-	const [cardMode, setCardMode] = React.useState('question');
-	const [togglerHovered, setTogglerHovered] = React.useState(false);
-	const [touchStart, setTouchStart] = React.useState<null | number>(null);
-	const [touchEnd, setTouchEnd] = React.useState(false);
-	const isLeftSwipe = React.useRef(false);
-	const lastTouch = React.useRef(0);
-
-	/* ----- 질문 or 답안 보기 누르면 카드 내용 변경 -----*/
+	/** 질문 or 답안 보기 누르면 카드 내용 변경 */
 	const toggleCard = () => {
 		setTogglerHovered(false);
 		setCardMode((prev) => (prev === 'question' ? 'answer' : 'question'));
+		setIsToggling(true);
 	};
 
-	/* ----- drag 이벤트에 따라 카드 swipe -----*/
+	/** drag/touch 이벤트에 따라 카드 swipe 로직 실행 */
 	const beginSwipe = (event: React.MouseEvent | React.TouchEvent) => {
 		const clientX =
 			event.type === 'touchstart'
@@ -49,10 +54,12 @@ function Study() {
 		setTouchStart(clientX);
 	};
 
+	/** (For mobile) touchmove 이벤트에 따라 유저의 touch 종료 지점 기록 */
 	const recordTouch = (event: React.TouchEvent) => {
 		lastTouch.current = event.touches[0].clientX;
 	};
 
+	/** drag/touch 이벤트로 인한 swipe 애니메이션 종료된 후의 로직  */
 	const endSwipe = (event: React.MouseEvent | React.TouchEvent) => {
 		if (!touchStart) return;
 
@@ -71,7 +78,7 @@ function Study() {
 		setStep((prev) => prev + 1);
 	};
 
-	/* ----- click 이벤트에 따라 카드 swipe -----*/
+	/** click 이벤트에 따라 카드 swipe */
 	const swipeOnClick = (direction: string) => {
 		isLeftSwipe.current = direction === 'incorrect' ? true : false;
 
@@ -81,27 +88,33 @@ function Study() {
 		setStep((prev) => prev + 1);
 	};
 
+	console.log(data);
+
 	return (
 		<Container>
 			<Header>
 				<div>
 					<ModeInfo>
 						<ImportContactsIcon color="inherit" />
-						<p>전체 학습모드</p>
+						<p>{studyMode === 'ALL' ? '전체' : '오답'} 학습모드</p>
 					</ModeInfo>
-					<h2>프론트엔드 면접대비 질문집</h2>
+					<h2>{data?.title}</h2>
 				</div>
 				<ProgressBox>
 					<StyleIcon color="inherit" fontSize="large" />
 					<ProgressFraction>
-						<p>22</p>
-						<p>/50</p>
+						<p>{step}</p>
+						<p>/{data?.questionCardList.length}</p>
 					</ProgressFraction>
 				</ProgressBox>
 			</Header>
-			<ProgressBar variant="determinate" value={(22 / 50) * 100} />
+			<ProgressBar
+				variant="determinate"
+				value={(step / data?.questionCardList.length) * 100}
+			/>
 			<QuestionBox>
 				<MainCard
+					cardMode={cardMode}
 					onDragStart={beginSwipe}
 					onDragEnd={endSwipe}
 					onTouchStart={beginSwipe}
@@ -112,16 +125,16 @@ function Study() {
 						target={cardMode === 'question' ? 'answer' : 'question'}
 						display={togglerHovered}
 					/>
-					<EmptyCard display={touchEnd} />
+					<EmptyCard display={touchEnd || isToggling} />
 					<GhostCard isWrong={isLeftSwipe.current} display={touchEnd} />
-					<MainCardContents>
-						<p>Question {step}.</p>
+					<MainCardContents
+						cardMode={cardMode}
+						onTransitionEnd={() => setIsToggling(false)}
+					>
 						<p>
-							질문 질문 질문 질문 질문 질문 질문 질문 질문 질문 질문 질문 질문
-							질문 질문 질문 질문 질문 질문 질문 질문 질문 질문 질문 질문 질문
-							질문 질문 질문 질문 질문 질문 질문 질문 질문 질문 질문 질문 질문
-							질문 질문 질문 질문 질문 질문 질문 질문 질문 질문 질문
+							{cardMode.slice(0, 1).toUpperCase() + cardMode.slice(1)} {step}.
 						</p>
+						<p>{data?.questionCardList[step - 1][cardMode]}</p>
 					</MainCardContents>
 				</MainCard>
 				<Toggler
@@ -188,13 +201,19 @@ const QuestionBox = styled.main`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	perspective: 10000px;
+	${mobileMediaQuery} {
+		width: 100%;
+	}
 `;
 
-const MainCard = styled.div`
+const MainCard = styled.div<MainCardProps>`
 	border: 1px solid #999999;
-	border-radius: 10px 10px 0 0;
+	transition: 0.6s;
 	padding: 5%;
 	height: 500px;
+	backface-visibility: visible;
+	border-radius: 10px 10px 0 0;
 	${mobileMediaQuery} {
 		width: 100%;
 		height: 400px;
@@ -203,15 +222,33 @@ const MainCard = styled.div`
 		width: 800px;
 		height: 500px;
 	}
+	${({ cardMode }) =>
+		cardMode === 'question'
+			? css(`
+        transform: rotateY(0);
+      `)
+			: css(`
+        transform: rotateY(180deg);
+      `)};
+	transform-style: preserve-3d;
 	position: relative;
 	cursor: pointer;
 `;
 
-const MainCardContents = styled.div`
+const MainCardContents = styled.div<MainCardProps>`
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+	transition: 0.3s;
+	${({ cardMode }) =>
+		cardMode === 'question'
+			? css(`
+        transform: rotateY(0);
+      `)
+			: css(`
+        transform: rotateY(180deg);
+      `)};
 
 	> p:first-of-type {
 		font-weight: bold;
