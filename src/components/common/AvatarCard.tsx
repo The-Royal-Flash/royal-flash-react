@@ -1,6 +1,4 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { Paper } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 interface AvatarCardProps {
@@ -11,7 +9,7 @@ interface AvatarCardProps {
 
 function AvatarCard({ email, nickname, avatarUrl }: AvatarCardProps) {
 	return (
-		<Container elevation={2}>
+		<Container>
 			<AvatarWrapper>
 				{!!avatarUrl ? <AvatarImg src={avatarUrl} /> : <AvatarIcon />}
 			</AvatarWrapper>
@@ -21,25 +19,24 @@ function AvatarCard({ email, nickname, avatarUrl }: AvatarCardProps) {
 	);
 }
 
-const Container = styled(Paper)`
-	border: 1px solid #e5eaee;
+const Container = styled.div`
+	border: 1px solid var(--card-border-color);
 	display: grid;
 	grid-template-columns: 50px 1fr;
-	grid-template-rows: 1fr 1fr;
-	column-gap: 20px;
+	column-gap: 3px;
 	border-radius: 10px;
 	margin-top: 35px;
 	padding: 12px;
 `;
 
 const AvatarIcon = styled(AccountCircleIcon)`
-	font-size: 50px;
+	font-size: 40px;
 	color: gray;
 `;
 
 const AvatarImg = styled.img`
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	border-radius: 100%;
 `;
 
@@ -50,13 +47,13 @@ const AvatarWrapper = styled.div`
 `;
 
 const Nickname = styled.div`
-	font-size: 1.2rem;
-	font-weight: 600;
+	font-size: 1rem;
+	font-weight: 500;
 	color: black;
 `;
 
 const Email = styled.div`
-	font-size: 1rem;
+	font-size: 0.7rem;
 	font-weight: 400;
 	color: gray;
 `;

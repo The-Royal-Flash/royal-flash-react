@@ -33,12 +33,13 @@ const Container = styled.div`
 	display: flex;
 	width: 100%;
 	margin-top: 50px;
-	gap: 10px;
 	${mobileMediaQuery} {
 		flex-direction: column;
+		gap: 30px;
 	}
 	${desktopMediaQuery} {
 		flex-direction: row;
+		gap: 10px;
 	}
 `;
 

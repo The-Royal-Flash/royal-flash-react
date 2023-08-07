@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
-import { Button, Chip, Paper, Typography } from '@mui/material';
+import { Button, Chip, Typography } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import { StyledTitle } from './styles';
 import { fetchQuizletDetailQuery } from '../../queries';
@@ -29,7 +29,7 @@ function QuizletDetailInfo({ quizletId }: QuizletDetailInfoProps) {
 			<StyledTitle>{quizlet?.title}</StyledTitle>
 			<ChipWrapper>
 				{quizlet?.tagList.map((tag, index) => (
-					<StyledChip key={index} label={tag} variant="filled" />
+					<StyledChip key={index} label={tag} variant="outlined" />
 				))}
 			</ChipWrapper>
 			<Description>{quizlet?.description}</Description>
@@ -45,7 +45,7 @@ function QuizletDetailInfo({ quizletId }: QuizletDetailInfoProps) {
 			)}
 
 			{user ? (
-				<Wrapper elevation={3}>
+				<Wrapper>
 					<Title>
 						<Icon />
 						학습을 시작해보세요.
@@ -68,7 +68,7 @@ function QuizletDetailInfo({ quizletId }: QuizletDetailInfoProps) {
 					</ButtonWrapper>
 				</Wrapper>
 			) : (
-				<Wrapper elevation={3}>
+				<Wrapper>
 					<Title>
 						<Icon />
 						로그인 후 학습을 시작해보세요.
@@ -94,17 +94,18 @@ const Container = styled.div`
 const ChipWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
-	margin-top: 12px;
+	margin-top: 4px;
 	gap: 10px;
 `;
 
 const StyledChip = styled(Chip)`
-	padding: 5px;
-	font-size: 1.1rem;
-	font-weight: 600;
-	border-radius: 5px;
-	background-color: #c6e3f5;
-	color: var(--font-color);
+	padding: 0px;
+	font-size: 1rem;
+	font-weight: 500;
+	letter-spacing: 0.01rem;
+	height: 28px;
+	color: var(--card-color);
+	border: 1px solid var(--card-color);
 `;
 
 const Description = styled.p`
@@ -112,7 +113,7 @@ const Description = styled.p`
 	font-size: 1.1rem;
 `;
 
-const Wrapper = styled(Paper)`
+const Wrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	position: relative;
@@ -120,16 +121,24 @@ const Wrapper = styled(Paper)`
 	width: 100%;
 	margin-top: 50px;
 	padding: 40px;
-	border: 1px solid #ededed;
+	border: 1px solid var(--card-border-color);
+	${mobileMediaQuery} {
+		flex-direction: column;
+		align-items: center;
+		gap: 20px;
+	}
+	${desktopMediaQuery} {
+		flex-direction: row;
+	}
 `;
 
 const Title = styled.div`
-	font-size: 1.4rem;
 	font-weight: 500;
 	color: var(--font-color);
 	display: flex;
 	align-items: center;
 	gap: 14px;
+	font-size: 1.4rem;
 `;
 
 const ButtonWrapper = styled.div`
