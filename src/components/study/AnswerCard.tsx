@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import LanguageIcon from '@mui/icons-material/Language';
+import { mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface AnswerCardProps {
 	isToggling: boolean;
@@ -58,17 +59,23 @@ const Question = styled.p`
 	color: var(--primary-color);
 	border-bottom: 1px solid #999999;
 	padding-bottom: 10px;
+	${mobileMediaQuery} {
+		font-size: 16px;
+	}
 
 	> span {
 		font-weight: bold;
 		color: var(--primary-color);
-		font-size: 20px;
 		margin: 0;
 	}
 `;
 
 const Answer = styled.p`
+	overflow-y: scroll;
 	font-size: 18px;
+	${mobileMediaQuery} {
+		font-size: 16px;
+	}
 
 	> span {
 		font-weight: bold;

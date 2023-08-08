@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@mui/material';
+import { mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface QuestionCardProps {
 	isToggling: boolean;
@@ -42,6 +43,9 @@ const Container = styled.div<ContainerProps>`
 		font-weight: bold;
 		color: var(--primary-color);
 		font-size: 20px;
+		${mobileMediaQuery} {
+			font-size: 16px;
+		}
 	}
 
 	> p:nth-of-type(2) {
@@ -49,6 +53,9 @@ const Container = styled.div<ContainerProps>`
 		font-weight: 500;
 		font-size: 18px;
 		color: var(--font-color);
+		${mobileMediaQuery} {
+			font-size: 16px;
+		}
 	}
 `;
 
