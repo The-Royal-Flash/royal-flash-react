@@ -56,7 +56,8 @@ const Question = styled.p`
 	font-size: 20px;
 	font-weight: bold;
 	color: var(--primary-color);
-	border-bottom: 1px solid #e9e9e9;
+	border-bottom: 1px solid #999999;
+	padding-bottom: 10px;
 
 	> span {
 		font-weight: bold;
