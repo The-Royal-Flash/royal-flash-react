@@ -11,15 +11,15 @@ import {
 	QuestionCard,
 	FinishedCard,
 } from '.';
-import { MIN_SWIPE_DISTANCE } from '../../constants';
+import { MIN_SWIPE_DISTANCE, STUDY_MODE } from '../../constants';
 
 interface CardProps {
 	goToNextCard: (isWrong: boolean, _id: string) => void;
 	goToPrevCard: (_id: string) => void;
 	step: number;
 	isFinished: boolean;
-	questionListToReview: string[];
-	questionListToCorrect: string[];
+	studyMode: keyof typeof STUDY_MODE;
+	quizletId: string;
 	current?: {
 		_id: string;
 		question: string;
@@ -42,8 +42,8 @@ function Card({
 	isFinished,
 	step,
 	current,
-	questionListToReview,
-	questionListToCorrect,
+	studyMode,
+	quizletId,
 }: CardProps) {
 	const [swipeStartX, setSwipeStartX] = useState<null | number>(null);
 	const [isSwiping, setIsSwiping] = useState(false);
@@ -131,10 +131,7 @@ function Card({
 					{isSwiping && <EmptyCard />}
 					{isSwiping && <GhostCard isWrong={isLeftSwipe.current} />}
 					{isFinished ? (
-						<FinishedCard
-							questionListToCorrect={questionListToCorrect}
-							questionListToReview={questionListToReview}
-						/>
+						<FinishedCard quizletId={quizletId} />
 					) : cardMode === 'answer' ? (
 						<AnswerCard
 							isToggling={isToggling}
@@ -183,7 +180,7 @@ const CardContainer = styled.main`
 	perspective: 10000px;
 
 	${mobileMediaQuery} {
-		min-width: 0;
+		width: 90%;
 	}
 `;
 

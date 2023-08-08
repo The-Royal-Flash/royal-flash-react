@@ -48,7 +48,7 @@ const Container = styled.div<ContainerProps>`
 		isFinished ? 'center' : 'space-between'};
 
 	${mobileMediaQuery} {
-		width: 100%;
+		width: 90%;
 	}
 	${desktopMediaQuery} {
 		width: 800px;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { Navigate, useParams } from 'react-router-dom';
@@ -28,20 +28,45 @@ function Study() {
 		return <Navigate to="/" />;
 	}
 
+	useEffect(() => {
+		localStorage.setItem(
+			`${quizletId}`,
+			JSON.stringify({
+				questionListToReview: [],
+				questionListToCorrect: [],
+				mode: studyMode,
+			}),
+		);
+	}, []);
+
+	const updateQuestionLists = () => {
+		const current = JSON.parse(localStorage.getItem(`${quizletId}`)!);
+
+		localStorage.setItem(
+			`${quizletId}`,
+			JSON.stringify({
+				...current,
+				questionListToCorrect,
+				questionListToReview,
+			}),
+		);
+	};
+
 	const { data } = useQuery(fetchStudyQuestionListQuery(quizletId, mode));
 
 	const goToNextCard = (isWrong: boolean, _id: string) => {
-		if (step + 1 <= data?.questionCardList.length!) {
-			setStep((prev) => prev + 1);
-			isWrong
-				? questionListToReview.push(_id)
-				: questionListToCorrect.push(_id);
-		} else {
-			setIsFinished(true);
-		}
+		if (isWrong) questionListToReview.push(_id);
+		else questionListToCorrect.push(_id);
+
+		if (step + 1 <= data?.questionCardList.length!) setStep((prev) => prev + 1);
+		else setIsFinished(true);
+
+		updateQuestionLists();
 	};
 
 	const goToPrevCard = (_id: string) => {
+		if (step - 1 === 0) return;
+
 		if (step === data?.questionCardList.length! && isFinished) {
 			setIsFinished(false);
 		} else if (step - 1 >= 0) {
@@ -50,6 +75,8 @@ function Study() {
 
 		questionListToReview = questionListToReview.filter((id) => id !== _id);
 		questionListToCorrect = questionListToCorrect.filter((id) => id !== _id);
+
+		updateQuestionLists();
 	};
 
 	return (
@@ -70,8 +97,8 @@ function Study() {
 				step={step}
 				isFinished={isFinished}
 				current={data?.questionCardList[step - 1]}
-				questionListToReview={questionListToReview}
-				questionListToCorrect={questionListToCorrect}
+				studyMode={studyMode}
+				quizletId={quizletId}
 			/>
 		</Container>
 	);
