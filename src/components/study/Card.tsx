@@ -3,7 +3,14 @@ import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { css } from '@mui/material';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import { ToggleGuideCard, GhostCard, EmptyCard, ControlBox } from '.';
+import {
+	ToggleGuideCard,
+	GhostCard,
+	EmptyCard,
+	ControlBox,
+	AnswerCard,
+	QuestionCard,
+} from '.';
 
 interface CardProps {
 	goToNextCard: () => void;
@@ -24,9 +31,9 @@ interface MainCardProps {
 const MIN_SWIPE_DISTANCE = 50;
 
 function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
-	const [touchStart, setTouchStart] = useState<null | number>(null);
-	const [touchEnd, setTouchEnd] = useState(false);
-	const [togglerHovered, setTogglerHovered] = useState(false);
+	const [swipeStartX, setSwipeStartX] = useState<null | number>(null);
+	const [isSwiping, setIsSwiping] = useState(false);
+	// const [togglerHovered, setTogglerHovered] = useState(false);
 	const [cardMode, setCardMode] = useState<'question' | 'answer'>('question');
 	const [isToggling, setIsToggling] = useState(false);
 	const lastTouch = useRef(0);
@@ -34,7 +41,7 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 
 	/** 질문 or 답안 보기 누르면 카드 내용 변경 */
 	const toggleCard = () => {
-		setTogglerHovered(false);
+		// setTogglerHovered(false);
 		setCardMode((prev) => (prev === 'question' ? 'answer' : 'question'));
 		setIsToggling(true);
 	};
@@ -51,26 +58,25 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 				? (event as React.TouchEvent).touches[0].clientX
 				: (event as React.MouseEvent).clientX;
 
-		setTouchStart(clientX);
+		setSwipeStartX(clientX);
 	};
 
 	/** drag/touch 이벤트로 인한 swipe 애니메이션 종료된 후의 로직  */
 	const endSwipe = (event: React.MouseEvent | React.TouchEvent) => {
-		if (!touchStart) return;
+		if (!swipeStartX) return;
 
 		const clientX =
 			event.type === 'touchend'
 				? lastTouch.current
 				: (event as React.MouseEvent).clientX;
 
-		if (Math.abs(touchStart - clientX) < MIN_SWIPE_DISTANCE) return;
+		if (Math.abs(swipeStartX - clientX) < MIN_SWIPE_DISTANCE) return;
 
-		isLeftSwipe.current = touchStart > clientX ? true : false;
+		isLeftSwipe.current = swipeStartX > clientX ? true : false;
 
-		setTimeout(() => setTouchEnd(false), 800);
-		setTouchEnd(true);
-		setTouchStart(null);
-		// setStep((prev) => prev + 1);
+		setTimeout(() => setIsSwiping(false), 800);
+		setIsSwiping(true);
+		setSwipeStartX(null);
 		goToNextCard();
 	};
 
@@ -78,9 +84,9 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 	const swipeOnClick = (direction: string) => {
 		isLeftSwipe.current = direction === 'incorrect' ? true : false;
 
-		setTimeout(() => setTouchEnd(false), 800);
-		setTouchEnd(true);
-		setTouchStart(null);
+		setTimeout(() => setIsSwiping(false), 800);
+		setIsSwiping(true);
+		setSwipeStartX(null);
 		goToNextCard();
 	};
 
@@ -95,25 +101,32 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 					onTouchMove={recordTouch}
 					onTouchEnd={endSwipe}
 				>
-					<ToggleGuideCard
+					{/* <ToggleGuideCard
 						target={cardMode === 'question' ? 'answer' : 'question'}
 						display={togglerHovered}
-					/>
-					<EmptyCard display={touchEnd || isToggling} />
-					<GhostCard isWrong={isLeftSwipe.current} display={touchEnd} />
+					/> */}
+					{isSwiping && <EmptyCard />}
+					{isSwiping && <GhostCard isWrong={isLeftSwipe.current} />}
 					<MainCardContents
 						cardMode={cardMode}
-						onTransitionEnd={() => setIsToggling(false)}
+						// onTransitionEnd={() => setIsToggling(false)}
 					>
-						<p>
-							{cardMode.slice(0, 1).toUpperCase() + cardMode.slice(1)} {step}.
-						</p>
-						<p>{current && current[cardMode]}</p>
+						{cardMode === 'answer' ? (
+							<AnswerCard
+								mode={cardMode}
+								step={step}
+								question={current?.question}
+								answer={current?.answer}
+								link={current?.link}
+							/>
+						) : (
+							<QuestionCard step={step} question={current?.question} />
+						)}
 					</MainCardContents>
 				</MainCard>
 				<Toggler
-					onMouseOver={() => setTogglerHovered(true)}
-					onMouseOut={() => setTogglerHovered(false)}
+					// onMouseOver={() => setTogglerHovered(true)}
+					// onMouseOut={() => setTogglerHovered(false)}
 					onClick={() => toggleCard()}
 				>
 					<p>{cardMode === 'question' ? '답안 보기' : '질문 보기'}</p>
