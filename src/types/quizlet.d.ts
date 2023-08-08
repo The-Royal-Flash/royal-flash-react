@@ -50,9 +50,7 @@ export interface CreateQuizletResponse extends BaseApiResponse {
 }
 
 /** 학습세트 기본 정보 (수정시 사용) */
-export interface QuizletResponse {
-	quizlet: QuizletInfo;
-}
+export interface QuizletResponse extends QuizletInfo {}
 
 /** 학습 세트 수정 */
 export type EditQuizletRequest = z.infer<typeof editQuizletSchema>;
@@ -67,24 +65,26 @@ export interface BaseMyQuizlet {
 	/** 학습 (완료) 횟수 */
 	studyCount: number;
 	/** 문제(질문) 수 */
-	numOfQuestions: number;
+	numOfQuestionList: number;
 	/** 복습할(오답노트) 문제 수 */
-	numOfQuestionsToReview: number;
+	numOfQuestionListToReview: number;
+	/** 정답 문제 수 */
+	numOfQuestionListToCorrect: number;
 	/** 최신 학습 일시 */
 	lastQuizDate: string; // string
 }
 
 /** 학습 세트 상세 정보  */
-export interface QuizletDetailInfo
-	extends BaseQuizletInfo,
-		Partial<BaseMyQuizlet> {
+export interface QuizletDetailInfo extends BaseQuizletInfo {
 	questionList: Array<{ _id: string; question: string }>;
 	owner: {
+		_id: string;
 		name: string;
 		nickname: string;
 		email: string;
 		avatarUrl: string;
 	};
+	studyLog?: BaseMyQuizlet;
 }
 export interface QuizletDetailResponse extends QuizletDetailInfo {
 	isSuccess: boolean;

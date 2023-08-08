@@ -58,17 +58,16 @@ const Container = styled(Link)`
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	border: 2px solid #dcdcdc;
+	border: 2px solid var(--card-border-color);
 	border-radius: 7px;
 	transition: 0.1s ease-in;
 	:hover {
 		scale: 1.008;
-		border: 2px solid #b6c6d0;
+		border: 2px solid var(--hover-card-color);
 		& > hr {
-			border: 1px solid #b6c6d0;
+			border: 1px solid var(--hover-card-color);
 		}
-		& > div:first-child {
-			/* background: rgb(173 173 173 / 10%); */
+		& > div:first-of-type {
 			background-color: #d1e0e970;
 		}
 	}

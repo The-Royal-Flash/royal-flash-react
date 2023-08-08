@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 
 interface EmptyCardProps {
@@ -11,7 +10,6 @@ function EmptyCard({ display }: EmptyCardProps) {
 
 const Container = styled.div<EmptyCardProps>`
 	opacity: ${(props) => (props.display ? 1 : 0)};
-	transition: 0.1s ease-in;
 	width: 100%;
 	height: 100%;
 	display: flex;
