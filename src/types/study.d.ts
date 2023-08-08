@@ -1,6 +1,6 @@
 import { BaseApiResponse } from './response';
 
-export interface QuizletResponse {
+export interface StudyQuizletResponse {
 	isSuccess: boolean;
 	message: string;
 	title: string;
@@ -10,4 +10,11 @@ export interface QuizletResponse {
 		answer: string;
 		link: string;
 	}>;
+}
+
+export interface StudyLogRequest {
+	quizletId: string;
+	questionListToReview: string[];
+	questionListToCorrect: string[];
+	mode: keyof typeof STUDY_MODE;
 }
