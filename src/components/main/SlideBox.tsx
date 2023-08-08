@@ -21,7 +21,7 @@ const Wrapper = styled(Box)`
 	flex-direction: column;
 	align-items: center;
 	min-width: 340px;
-	background: var(--light-bg-color);
+	background: var(--box-bg-color);
 	overflow: hidden;
 	${mobileMediaQuery} {
 		margin: 30px 0;

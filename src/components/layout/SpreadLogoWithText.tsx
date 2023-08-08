@@ -45,7 +45,7 @@ const Flex = styled.div`
 
 const LogoText = styled.div<LogoTextProps>`
 	color: ${(props) =>
-		props.isHover ? 'var(--yellow-color)' : 'var(--font-color)'};
+		props.isHover ? 'var(--btn-color)' : 'var(--font-color)'};
 	font-size: 24px;
 	font-weight: 800;
 	transition: all 0.3s ease;

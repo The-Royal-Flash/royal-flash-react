@@ -153,7 +153,8 @@ const Container = styled.div`
 	width: 100%;
 	height: var(--header-height);
 	min-height: var(--header-height);
-	background: var(--bg-color);
+	background: white;
+	border-bottom: 1px solid var(--light-gray);
 	user-select: none;
 	z-index: 1000;
 `;
@@ -201,8 +202,8 @@ const ResponsiveLoginIcon = styled(LoginIcon)`
 `;
 
 const ColorIconButton = styled(IconButton)`
-	color: var(--border-color);
-	border: 1px solid var(--border-color);
+	color: var(--btn-border-color);
+	border: 1px solid var(--btn-border-color);
 	border-radius: 13px;
 	padding: 4px;
 `;

@@ -131,13 +131,13 @@ const ScoreWrapper = styled.div`
 const WrongQuestion = styled.div`
 	font-size: 2.2rem;
 	font-weight: 600;
-	color: var(--card-color);
+	color: var(--primary-color);
 `;
 
 const AllQuestion = styled.div`
 	font-size: 1.1rem;
 	font-weight: 500;
-	color: var(--footer-bg-color);
+	color: var(--gray);
 `;
 
 export default WrongAnswerStatus;

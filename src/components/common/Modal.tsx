@@ -65,7 +65,7 @@ const Title = styled(DialogTitle)`
 
 const CloseButton = styled(IconButton)`
 	position: absolute;
-	color: var(--footer-bg-color);
+	color: var(--gray-2);
 	${mobileMediaQuery} {
 		right: 5px;
 		top: 5px;

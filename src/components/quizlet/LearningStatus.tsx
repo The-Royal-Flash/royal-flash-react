@@ -115,13 +115,13 @@ const ScoreWrapper = styled.div`
 const CorrectQuestion = styled.div`
 	font-size: 2.9rem;
 	font-weight: 500;
-	color: var(--card-color);
+	color: var(--primary-color);
 `;
 
 const AllQuestion = styled.div`
 	font-size: 1.5rem;
 	font-weight: 500;
-	color: var(--footer-bg-color);
+	color: var(--gray);
 `;
 
 export default LearningStatus;

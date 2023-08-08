@@ -39,8 +39,8 @@ const Container = styled.button<ContainerProps>`
 	width: 40px;
 	height: 60px;
 	border-radius: 5px;
-	border: 2.5px solid var(--border-color);
-	background: var(--button-color);
+	border: 2.5px solid var(--btn-border-color);
+	background: white;
 	box-shadow:
 		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
 		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
@@ -58,9 +58,12 @@ const Container = styled.button<ContainerProps>`
 
 	:hover {
 		width: ${(props) => 40 + props.widthToExpand}px;
-		background: var(--secondary-color);
-		border: 2.5px solid var(--secondary-color);
+		background: var(--btn-color);
+		border: 2.5px solid var(--btn-color);
 		transition: all 0.3s ease;
+		> div {
+			color: white;
+		}
 		:after {
 			content: '${(props) => props.tooltip}';
 			text-align: left;
@@ -81,7 +84,7 @@ const IconWrapper = styled.div`
 	left: 3.4px;
 	width: 30px;
 	height: 30px;
-	color: white;
+	color: #7f8192;
 	font-size: 28px;
 `;
 

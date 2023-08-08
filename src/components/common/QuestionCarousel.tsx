@@ -93,7 +93,7 @@ const Carousel = styled.div`
 	margin-top: 40px;
 	padding: 10px 0;
 	border-radius: 10px;
-	background-color: var(--card-bg-color);
+	background-color: var(--box-bg-color);
 `;
 
 const CardContainer = styled.div`
@@ -138,7 +138,7 @@ const CardLabel = styled.div`
 	font-size: 1.1rem;
 	font-weight: 500;
 	color: white;
-	background-color: var(--secondary-color);
+	background-color: var(--gray);
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
 `;
@@ -163,12 +163,12 @@ const StepperWrapper = styled.div`
 
 const Stepper = styled(MobileStepper)`
 	background: none;
-	color: var(--footer-bg-color);
+	color: var(--gray);
 	user-select: none;
 `;
 
 const MoveButton = styled(IconButton)`
-	color: var(--card-color);
+	color: var(--btn-color);
 `;
 
 export default QuestionCarousel;

@@ -11,22 +11,31 @@ const GlobalStyle = css`
 	}
 
 	body {
+		--primary-color: #0064ff;
+		--secondary-color: #1250d8;
+
 		--font-color: #27374d;
-		--primary-color: #22577e;
-		--secondary-color: #1b6b93;
-		--card-color: #1478db;
-		--light-yellow-color: #fbfddd;
-		--yellow-color: #f3e996;
-		--dark-yellow-color: #e5bb3c;
-		--border-color: #6686a0;
-		--button-color: #7297ae;
-		--chip-color: #cfe2f3;
-		--bg-color: #98b4c5;
-		--light-bg-color: #eaeff2;
-		--footer-bg-color: #69737ce6;
-		--card-border-color: #eaeaea;
-		--hover-card-color: #b6c6d0;
-		--card-bg-color: #f4f6f9;
+		--font-hover-color: #276af3;
+
+		--btn-color: #0064ff;
+		--btn-font-color: #1a57df;
+		--btn-bg-hover-color: #dcecff;
+		--btn-border-color: #8c8e9c;
+		--btn-hover-color: #1250d8;
+		--btn-hover-border-color: #3081ff;
+
+		--box-border-color: #d8dde6;
+		--box-bg-color: #eff0f2;
+
+		--footer-bg-color: #202632;
+
+		--light-gray: #e0e4e6;
+		--gray: #8c8e9c;
+		--gray-2: #69737ce6;
+		--dark-gray: #202632;
+
+		--chip-color: #2a67e4;
+
 		--warn-color: #c22d2a;
 	}
 

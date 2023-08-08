@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
-import { Button, Chip, Typography } from '@mui/material';
+import { Button, Chip } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import EditIcon from '@mui/icons-material/Edit';
 import { StyledTitle } from './styles';
@@ -64,19 +64,19 @@ function QuizletDetailInfo({ quizletId }: QuizletDetailInfoProps) {
 						학습을 시작해보세요.
 					</Title>
 					<ButtonWrapper>
-						<StudyAllButton
+						<BaseButton
 							variant="outlined"
 							onClick={() => goStudy(STUDY_MODE.ALL)}
 						>
-							<ButtonText>전체 학습하기</ButtonText>
-						</StudyAllButton>
+							전체 학습하기
+						</BaseButton>
 						{(quizlet?.studyLog?.numOfQuestionListToReview ?? 0) > 0 && (
-							<StudyWrongButton
+							<BaseButton
 								variant="contained"
 								onClick={() => goStudy(STUDY_MODE.WRONG)}
 							>
-								<ButtonText>오답 학습하기</ButtonText>
-							</StudyWrongButton>
+								오답 학습하기
+							</BaseButton>
 						)}
 					</ButtonWrapper>
 				</Wrapper>
@@ -117,8 +117,8 @@ const StyledChip = styled(Chip)`
 	font-weight: 500;
 	letter-spacing: 0.01rem;
 	height: 28px;
-	color: var(--card-color);
-	border: 1px solid var(--card-color);
+	color: var(--chip-color);
+	border: 1px solid var(--chip-color);
 `;
 
 const Description = styled.p`
@@ -134,7 +134,7 @@ const Wrapper = styled.div`
 	width: 100%;
 	margin-top: 50px;
 	padding: 40px;
-	border: 1px solid var(--card-border-color);
+	border: 1px solid var(--box-border-color);
 	${mobileMediaQuery} {
 		flex-direction: column;
 		align-items: center;
@@ -161,8 +161,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const Icon = styled(SchoolIcon)`
-	color: var(--dark-yellow-color);
-	color: var(--button-color);
+	color: var(--font-color);
 	width: 40px;
 	height: 40px;
 `;
@@ -170,13 +169,6 @@ const Icon = styled(SchoolIcon)`
 const BaseButton = styled(Button)`
 	display: flex;
 	flex-direction: row;
-`;
-
-const StudyAllButton = styled(BaseButton)``;
-
-const StudyWrongButton = styled(BaseButton)``;
-
-const ButtonText = styled(Typography)`
 	font-size: 1rem;
 `;
 

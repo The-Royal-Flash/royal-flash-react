@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
@@ -30,7 +29,7 @@ const GradientImage = styled.div`
 	height: 400px;
 	margin: 20px 0px;
 	border-radius: 10px;
-	background: linear-gradient(to bottom, transparent, var(--light-bg-color)),
+	background: linear-gradient(to bottom, transparent, var(--box-bg-color)),
 		url('/images/search-page.png');
 	background-size: cover;
 	background-position: top;

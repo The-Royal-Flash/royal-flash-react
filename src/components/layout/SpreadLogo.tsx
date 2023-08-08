@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 
 interface SpreadLogoProps {
@@ -59,9 +58,9 @@ const Card = styled.div<{
     translateY(-30px);
     transition: all 0.3s ease;
     top: 25px;
-		background: var(--light-yellow-color);
-	  border: 2.5px solid var(--dark-yellow-color);
-    color: var(--dark-yellow-color);
+		background: white;
+	  border: 2.5px solid var(--btn-color);
+    color: var(--btn-color);
   `}
 `;
 

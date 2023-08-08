@@ -41,7 +41,7 @@ function QuizletCard() {
 }
 
 const Container = styled.div`
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--box-border-color);
 	width: 100%;
 	padding: 15px;
 	position: relative;
