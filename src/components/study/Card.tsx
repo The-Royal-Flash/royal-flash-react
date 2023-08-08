@@ -3,14 +3,7 @@ import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { css } from '@mui/material';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import {
-	ToggleGuideCard,
-	GhostCard,
-	EmptyCard,
-	ControlBox,
-	AnswerCard,
-	QuestionCard,
-} from '.';
+import { GhostCard, EmptyCard, ControlBox, AnswerCard, QuestionCard } from '.';
 
 interface CardProps {
 	goToNextCard: () => void;
@@ -33,15 +26,15 @@ const MIN_SWIPE_DISTANCE = 50;
 function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 	const [swipeStartX, setSwipeStartX] = useState<null | number>(null);
 	const [isSwiping, setIsSwiping] = useState(false);
-	// const [togglerHovered, setTogglerHovered] = useState(false);
-	const [cardMode, setCardMode] = useState<'question' | 'answer'>('question');
 	const [isToggling, setIsToggling] = useState(false);
+	const [cardMode, setCardMode] = useState<'question' | 'answer'>('question');
 	const lastTouch = useRef(0);
 	const isLeftSwipe = useRef(false);
 
 	/** 질문 or 답안 보기 누르면 카드 내용 변경 */
 	const toggleCard = () => {
-		// setTogglerHovered(false);
+		if (isToggling) return;
+
 		setCardMode((prev) => (prev === 'question' ? 'answer' : 'question'));
 		setIsToggling(true);
 	};
@@ -90,10 +83,15 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 		goToNextCard();
 	};
 
+	const displayCardText = () => {
+		setIsToggling(false);
+	};
+
 	return (
 		<>
 			<CardContainer>
 				<MainCard
+					onTransitionEnd={displayCardText}
 					cardMode={cardMode}
 					onDragStart={beginSwipe}
 					onDragEnd={endSwipe}
@@ -101,34 +99,27 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 					onTouchMove={recordTouch}
 					onTouchEnd={endSwipe}
 				>
-					{/* <ToggleGuideCard
-						target={cardMode === 'question' ? 'answer' : 'question'}
-						display={togglerHovered}
-					/> */}
 					{isSwiping && <EmptyCard />}
 					{isSwiping && <GhostCard isWrong={isLeftSwipe.current} />}
-					<MainCardContents
-						cardMode={cardMode}
-						// onTransitionEnd={() => setIsToggling(false)}
-					>
-						{cardMode === 'answer' ? (
-							<AnswerCard
-								mode={cardMode}
-								step={step}
-								question={current?.question}
-								answer={current?.answer}
-								link={current?.link}
-							/>
-						) : (
-							<QuestionCard step={step} question={current?.question} />
-						)}
-					</MainCardContents>
+					{cardMode === 'answer' ? (
+						<AnswerCard
+							isToggling={isToggling}
+							mode={cardMode}
+							step={step}
+							question={current?.question}
+							answer={current?.answer}
+							link={current?.link}
+						/>
+					) : (
+						<QuestionCard
+							isToggling={isToggling}
+							mode={cardMode}
+							step={step}
+							question={current?.question}
+						/>
+					)}
 				</MainCard>
-				<Toggler
-					// onMouseOver={() => setTogglerHovered(true)}
-					// onMouseOut={() => setTogglerHovered(false)}
-					onClick={() => toggleCard()}
-				>
+				<Toggler onClick={() => toggleCard()}>
 					<p>{cardMode === 'question' ? '답안 보기' : '질문 보기'}</p>
 					<AutoStoriesIcon color="inherit" />
 				</Toggler>
@@ -174,35 +165,6 @@ const MainCard = styled.div<MainCardProps>`
 	transform-style: preserve-3d;
 	position: relative;
 	cursor: pointer;
-`;
-
-const MainCardContents = styled.div<MainCardProps>`
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-	transition: 0.3s;
-	${({ cardMode }) =>
-		cardMode === 'question'
-			? css(`
-        transform: rotateY(0);
-      `)
-			: css(`
-        transform: rotateY(180deg);
-      `)};
-
-	> p:first-of-type {
-		font-weight: bold;
-		color: var(--primary-color);
-		font-size: 20px;
-	}
-
-	> p:nth-of-type(2) {
-		padding: 10px;
-		font-weight: 500;
-		font-size: 18px;
-		color: var(--font-color);
-	}
 `;
 
 const Toggler = styled.div`

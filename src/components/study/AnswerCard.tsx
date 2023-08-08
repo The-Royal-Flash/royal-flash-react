@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import LanguageIcon from '@mui/icons-material/Language';
 
 interface AnswerCardProps {
+	isToggling: boolean;
 	mode: string;
 	step: number;
 	question?: string;
@@ -9,9 +10,19 @@ interface AnswerCardProps {
 	link?: string;
 }
 
-function AnswerCard({ step, question, answer, link }: AnswerCardProps) {
+interface ContainerProps {
+	isToggling: boolean;
+}
+
+function AnswerCard({
+	isToggling,
+	step,
+	question,
+	answer,
+	link,
+}: AnswerCardProps) {
 	return (
-		<Container>
+		<Container isToggling={isToggling}>
 			<Question>
 				<span>Question {step}. </span>
 				{question}
@@ -30,13 +41,15 @@ function AnswerCard({ step, question, answer, link }: AnswerCardProps) {
 	);
 }
 
-const Container = styled.div`
+const Container = styled.div<ContainerProps>`
+	opacity: ${({ isToggling }) => (isToggling ? 0 : 1)};
+	transition: 0.3s;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
-	transition: 0.3s;
 	position: relative;
+	transform: rotateY(180deg);
 `;
 
 const Question = styled.p`
