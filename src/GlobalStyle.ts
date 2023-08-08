@@ -31,7 +31,9 @@ const GlobalStyle = css`
 
 		--light-gray: #e0e4e6;
 		--gray: #8c8e9c;
+		--gray-1: #e6eaee;
 		--gray-2: #69737ce6;
+		--gray-3: #4e5968;
 		--dark-gray: #202632;
 
 		--chip-color: #2a67e4;
