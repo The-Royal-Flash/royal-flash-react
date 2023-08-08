@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import StyleIcon from '@mui/icons-material/Style';
+import { ProgressFraction } from '../../components';
 import { STUDY_MODE } from '../../constants';
 
 interface StudyHeaderProps {
@@ -23,10 +24,7 @@ function StudyHeader({ mode, step, title, total }: StudyHeaderProps) {
 			</div>
 			<ProgressBox>
 				<StyleIcon color="inherit" fontSize="large" />
-				<ProgressFraction>
-					<p>{step}</p>
-					<p>/{total}</p>
-				</ProgressFraction>
+				<ProgressFraction numerator={step} denominator={total} />
 			</ProgressBox>
 		</Container>
 	);
@@ -55,20 +53,6 @@ const ProgressBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-`;
-
-const ProgressFraction = styled.div`
-	display: flex;
-	margin-bottom: 10px;
-
-	> p {
-		font-weight: bold;
-		font-size: 25px;
-	}
-
-	> p:nth-of-type(2) {
-		color: #000;
-	}
 `;
 
 export default StudyHeader;

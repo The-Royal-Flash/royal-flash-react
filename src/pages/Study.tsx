@@ -15,6 +15,7 @@ function Study() {
 	const { quizletId, mode } = useParams();
 	const studyMode = mode as (typeof STUDY_MODE)[keyof typeof STUDY_MODE];
 	const [step, setStep] = useState(1);
+	const [isFinished, setIsFinished] = useState(false);
 
 	if (!quizletId || !mode || !(mode in STUDY_MODE)) {
 		addToast({
@@ -27,11 +28,16 @@ function Study() {
 	const { data } = useQuery(fetchStudyQuestionListQuery(quizletId, mode));
 
 	const goToNextCard = () => {
-		setStep((prev) => prev + 1);
+		if (step + 1 <= data?.questionCardList.length!) setStep((prev) => prev + 1);
+		else setIsFinished(true);
 	};
 
 	const goToPrevCard = () => {
-		if (step - 1 >= 0) setStep((prev) => prev - 1);
+		if (step === data?.questionCardList.length! && isFinished) {
+			setIsFinished(false);
+		} else if (step - 1 >= 0) {
+			setStep((prev) => prev - 1);
+		}
 	};
 
 	return (
@@ -50,6 +56,7 @@ function Study() {
 				goToNextCard={goToNextCard}
 				goToPrevCard={goToPrevCard}
 				step={step}
+				isFinished={isFinished}
 				current={data?.questionCardList[step - 1]}
 			/>
 		</Container>

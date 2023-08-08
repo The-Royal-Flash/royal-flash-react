@@ -3,13 +3,21 @@ import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { css } from '@mui/material';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import { GhostCard, EmptyCard, ControlBox, AnswerCard, QuestionCard } from '.';
+import {
+	GhostCard,
+	EmptyCard,
+	ControlBox,
+	AnswerCard,
+	QuestionCard,
+	FinishedCard,
+} from '.';
 import { MIN_SWIPE_DISTANCE } from '../../constants';
 
 interface CardProps {
 	goToNextCard: () => void;
 	goToPrevCard: () => void;
 	step: number;
+	isFinished: boolean;
 	current?: {
 		_id: string;
 		question: string;
@@ -22,7 +30,17 @@ interface MainCardProps {
 	cardMode: string;
 }
 
-function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
+interface TogglerProps {
+	isFinished: boolean;
+}
+
+function Card({
+	goToNextCard,
+	goToPrevCard,
+	isFinished,
+	step,
+	current,
+}: CardProps) {
 	const [swipeStartX, setSwipeStartX] = useState<null | number>(null);
 	const [isSwiping, setIsSwiping] = useState(false);
 	const [isToggling, setIsToggling] = useState(false);
@@ -32,7 +50,7 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 
 	/** 질문 or 답안 보기 누르면 카드 내용 변경 */
 	const toggleCard = () => {
-		if (isToggling) return;
+		if (isToggling || isFinished) return;
 
 		setCardMode((prev) => (prev === 'question' ? 'answer' : 'question'));
 		setIsToggling(true);
@@ -50,7 +68,7 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 
 	/** mousedown/touch 이벤트에 따라 카드 swipe 로직 실행 */
 	const beginSwipe = (event: React.MouseEvent | React.TouchEvent) => {
-		console.log('drag start', '🔥');
+		if (isFinished) return;
 
 		const clientX =
 			event.type === 'touchstart'
@@ -108,7 +126,9 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 				>
 					{isSwiping && <EmptyCard />}
 					{isSwiping && <GhostCard isWrong={isLeftSwipe.current} />}
-					{cardMode === 'answer' ? (
+					{isFinished ? (
+						<FinishedCard />
+					) : cardMode === 'answer' ? (
 						<AnswerCard
 							isToggling={isToggling}
 							mode={cardMode}
@@ -126,12 +146,20 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 						/>
 					)}
 				</MainCard>
-				<Toggler onClick={() => toggleCard()}>
-					<p>{cardMode === 'question' ? '답안 보기' : '질문 보기'}</p>
-					<AutoStoriesIcon color="inherit" />
+				<Toggler onClick={() => toggleCard()} isFinished={isFinished}>
+					{!isFinished && (
+						<>
+							<p>{cardMode === 'question' ? '답안 보기' : '질문 보기'}</p>
+							<AutoStoriesIcon color="inherit" />
+						</>
+					)}
 				</Toggler>
 			</CardContainer>
-			<ControlBox goToPrevCard={goToPrevCard} swipe={swipeOnClick} />
+			<ControlBox
+				goToPrevCard={goToPrevCard}
+				swipe={swipeOnClick}
+				isFinished={isFinished}
+			/>
 		</Container>
 	);
 }
@@ -181,7 +209,7 @@ const MainCard = styled.div<MainCardProps>`
 	cursor: pointer;
 `;
 
-const Toggler = styled.div`
+const Toggler = styled.div<TogglerProps>`
 	background-color: #999999;
 	border-radius: 0 0 10px 10px;
 	color: #fff;
@@ -202,8 +230,13 @@ const Toggler = styled.div`
 	}
 
 	:hover {
-		color: #eeeeee;
-		background-color: #b1b1b1;
+		${({ isFinished }) =>
+			!isFinished
+				? css`
+						color: #eeeeee;
+						background-color: #b1b1b1;
+				  `
+				: ''}
 	}
 `;
 
