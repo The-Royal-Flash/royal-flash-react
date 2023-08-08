@@ -68,7 +68,7 @@ const Container = styled.button<ContainerProps>`
 		}
 		:after {
 			content: '${(props) => props.tooltip}';
-			text-align: left;
+			text-align: center;
 			padding-left: 30px;
 			margin-left: 3px;
 			color: white;
