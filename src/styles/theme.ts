@@ -9,6 +9,9 @@ const theme = createTheme({
 			main: '#1250d8',
 		},
 	},
+	typography: {
+		fontFamily: `'Noto Sans KR', sans-serif`,
+	},
 });
 
 export default theme;
