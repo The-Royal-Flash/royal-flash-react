@@ -3,12 +3,12 @@ import { keyframes, css } from '@emotion/react';
 import { mobileMediaQuery, desktopMediaQuery } from '../../utils/mediaQueries';
 
 interface GhostCardProps {
-	display: boolean;
+	display?: boolean;
 	isWrong: boolean;
 }
 
 interface ContainerProps {
-	display: boolean;
+	display?: boolean;
 	isWrong: boolean;
 }
 
@@ -61,7 +61,8 @@ const swipeLeft = keyframes`
 `;
 
 const Container = styled.div<ContainerProps>`
-	display: ${(props) => (props.display ? 'block' : 'none')};
+	/* display: ${(props) => (props.display ? 'block' : 'none')}; */
+	display: block;
 	opacity: 0;
 	transition: 0.1s ease-in;
 	border: 1px solid #999999;
