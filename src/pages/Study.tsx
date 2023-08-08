@@ -10,6 +10,9 @@ import { fetchStudyQuestionListQuery } from '../queries';
 import { useToastContext } from '../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
 
+let questionListToReview: string[] = [];
+let questionListToCorrect: string[] = [];
+
 function Study() {
 	const { addToast } = useToastContext();
 	const { quizletId, mode } = useParams();
@@ -27,17 +30,26 @@ function Study() {
 
 	const { data } = useQuery(fetchStudyQuestionListQuery(quizletId, mode));
 
-	const goToNextCard = () => {
-		if (step + 1 <= data?.questionCardList.length!) setStep((prev) => prev + 1);
-		else setIsFinished(true);
+	const goToNextCard = (isWrong: boolean, _id: string) => {
+		if (step + 1 <= data?.questionCardList.length!) {
+			setStep((prev) => prev + 1);
+			isWrong
+				? questionListToReview.push(_id)
+				: questionListToCorrect.push(_id);
+		} else {
+			setIsFinished(true);
+		}
 	};
 
-	const goToPrevCard = () => {
+	const goToPrevCard = (_id: string) => {
 		if (step === data?.questionCardList.length! && isFinished) {
 			setIsFinished(false);
 		} else if (step - 1 >= 0) {
 			setStep((prev) => prev - 1);
 		}
+
+		questionListToReview = questionListToReview.filter((id) => id !== _id);
+		questionListToCorrect = questionListToCorrect.filter((id) => id !== _id);
 	};
 
 	return (
@@ -58,6 +70,8 @@ function Study() {
 				step={step}
 				isFinished={isFinished}
 				current={data?.questionCardList[step - 1]}
+				questionListToReview={questionListToReview}
+				questionListToCorrect={questionListToCorrect}
 			/>
 		</Container>
 	);

@@ -5,14 +5,25 @@ import CreateIcon from '@mui/icons-material/Create';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { ProgressFraction } from '../../components';
 
-function FinishedCard() {
+interface FinishedCardProps {
+	questionListToReview: string[];
+	questionListToCorrect: string[];
+}
+
+function FinishedCard({
+	questionListToCorrect,
+	questionListToReview,
+}: FinishedCardProps) {
+	const correctCount = questionListToCorrect.length;
+	const totalCount = questionListToCorrect.length + questionListToReview.length;
+
 	return (
 		<Container>
 			<MainMessage>수고하셨습니다!</MainMessage>
 			<ScoreBox>
 				<Score>
 					<StyledCircularProgress variant="determinate" value={80} size={180} />
-					<ProgressFraction numerator={3} denominator={5} />
+					<ProgressFraction numerator={correctCount} denominator={totalCount} />
 				</Score>
 				<MemorizedMessage>암기 완료</MemorizedMessage>
 			</ScoreBox>

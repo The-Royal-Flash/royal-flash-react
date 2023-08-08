@@ -14,10 +14,12 @@ import {
 import { MIN_SWIPE_DISTANCE } from '../../constants';
 
 interface CardProps {
-	goToNextCard: () => void;
-	goToPrevCard: () => void;
+	goToNextCard: (isWrong: boolean, _id: string) => void;
+	goToPrevCard: (_id: string) => void;
 	step: number;
 	isFinished: boolean;
+	questionListToReview: string[];
+	questionListToCorrect: string[];
 	current?: {
 		_id: string;
 		question: string;
@@ -40,6 +42,8 @@ function Card({
 	isFinished,
 	step,
 	current,
+	questionListToReview,
+	questionListToCorrect,
 }: CardProps) {
 	const [swipeStartX, setSwipeStartX] = useState<null | number>(null);
 	const [isSwiping, setIsSwiping] = useState(false);
@@ -99,7 +103,7 @@ function Card({
 		setTimeout(() => setIsSwiping(false), 800);
 		setIsSwiping(true);
 		setSwipeStartX(null);
-		goToNextCard();
+		goToNextCard(isLeftSwipe.current, current?._id as string);
 	};
 
 	/** click 이벤트에 따라 카드 swipe */
@@ -109,7 +113,7 @@ function Card({
 		setTimeout(() => setIsSwiping(false), 800);
 		setIsSwiping(true);
 		setSwipeStartX(null);
-		goToNextCard();
+		goToNextCard(isLeftSwipe.current, current?._id as string);
 	};
 
 	return (
@@ -127,7 +131,10 @@ function Card({
 					{isSwiping && <EmptyCard />}
 					{isSwiping && <GhostCard isWrong={isLeftSwipe.current} />}
 					{isFinished ? (
-						<FinishedCard />
+						<FinishedCard
+							questionListToCorrect={questionListToCorrect}
+							questionListToReview={questionListToReview}
+						/>
 					) : cardMode === 'answer' ? (
 						<AnswerCard
 							isToggling={isToggling}
@@ -156,7 +163,7 @@ function Card({
 				</Toggler>
 			</CardContainer>
 			<ControlBox
-				goToPrevCard={goToPrevCard}
+				goToPrevCard={() => goToPrevCard(current?._id as string)}
 				swipe={swipeOnClick}
 				isFinished={isFinished}
 			/>
