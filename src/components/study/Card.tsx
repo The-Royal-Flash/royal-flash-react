@@ -4,6 +4,7 @@ import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { css } from '@mui/material';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { GhostCard, EmptyCard, ControlBox, AnswerCard, QuestionCard } from '.';
+import { MIN_SWIPE_DISTANCE } from '../../constants';
 
 interface CardProps {
 	goToNextCard: () => void;
@@ -20,8 +21,6 @@ interface CardProps {
 interface MainCardProps {
 	cardMode: string;
 }
-
-const MIN_SWIPE_DISTANCE = 100;
 
 function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 	const [swipeStartX, setSwipeStartX] = useState<null | number>(null);
