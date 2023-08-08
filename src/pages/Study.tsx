@@ -1,20 +1,30 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { LinearProgress } from '@mui/material';
 import { StudyHeader, Card } from '../components';
 import { STUDY_MODE } from '../constants';
 import { desktopMediaQuery, mobileMediaQuery } from '../utils/mediaQueries';
 import { fetchStudyQuestionListQuery } from '../queries';
+import { useToastContext } from '../contexts/ToastContext';
+import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
 
 function Study() {
+	const { addToast } = useToastContext();
 	const { quizletId, mode } = useParams();
-	const studyMode = STUDY_MODE[mode as 'ALL' | 'WRONG'];
+	const studyMode = mode as (typeof STUDY_MODE)[keyof typeof STUDY_MODE];
 	const [step, setStep] = useState(1);
-	const { data } = useQuery(
-		fetchStudyQuestionListQuery(quizletId as string, studyMode),
-	);
+
+	if (!quizletId || !mode || !(mode in STUDY_MODE)) {
+		addToast({
+			type: TOAST_TYPE.WARNING,
+			msg_type: TOAST_MSG_TYPE.NOT_FOUND,
+		});
+		return <Navigate to="/" />;
+	}
+
+	const { data } = useQuery(fetchStudyQuestionListQuery(quizletId, mode));
 
 	const goToNextCard = () => {
 		setStep((prev) => prev + 1);
