@@ -38,6 +38,8 @@ const Container = styled.button<ContainerProps>`
 	width: 40px;
 	height: 60px;
 	border-radius: 5px;
+	padding-right: 10px;
+	padding-left: 5px;
 
 	border: 2.5px solid var(--gray-1);
 	background: var(--gray-1);
@@ -52,7 +54,7 @@ const Container = styled.button<ContainerProps>`
 		opacity: 0;
 		color: white;
 		font-weight: 500;
-		font-size: 17px;
+		font-size: 15px;
 		transition: all 0.3s ease;
 	}
 

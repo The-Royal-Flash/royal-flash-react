@@ -19,7 +19,7 @@ const GlobalStyle = css`
 		--btn-color: #0064ff;
 		--btn-font-color: #1a57df;
 		--btn-bg-hover-color: #dcecff;
-		--btn-border-color: #8c8e9c;
+		--btn-border-color: #c6c6c6;
 		--btn-hover-color: #1250d8;
 		--btn-hover-border-color: #3081ff;
 
