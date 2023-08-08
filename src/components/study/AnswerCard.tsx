@@ -71,7 +71,6 @@ const Question = styled.p`
 `;
 
 const Answer = styled.p`
-	overflow-y: scroll;
 	font-size: 18px;
 	${mobileMediaQuery} {
 		font-size: 16px;

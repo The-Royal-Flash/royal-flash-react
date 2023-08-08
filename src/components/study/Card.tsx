@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { css } from '@mui/material';
@@ -21,7 +21,7 @@ interface MainCardProps {
 	cardMode: string;
 }
 
-const MIN_SWIPE_DISTANCE = 50;
+const MIN_SWIPE_DISTANCE = 100;
 
 function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 	const [swipeStartX, setSwipeStartX] = useState<null | number>(null);
@@ -39,13 +39,20 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 		setIsToggling(true);
 	};
 
+	/** 카드 toggle transition 종료 후 isToggling 상태 false로 변경 */
+	const displayCardText = () => {
+		setIsToggling(false);
+	};
+
 	/** (For mobile) touchmove 이벤트에 따라 유저의 touch 종료 지점 기록 */
 	const recordTouch = (event: React.TouchEvent) => {
 		lastTouch.current = event.touches[0].clientX;
 	};
 
-	/** drag/touch 이벤트에 따라 카드 swipe 로직 실행 */
+	/** mousedown/touch 이벤트에 따라 카드 swipe 로직 실행 */
 	const beginSwipe = (event: React.MouseEvent | React.TouchEvent) => {
+		console.log('drag start', '🔥');
+
 		const clientX =
 			event.type === 'touchstart'
 				? (event as React.TouchEvent).touches[0].clientX
@@ -54,7 +61,12 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 		setSwipeStartX(clientX);
 	};
 
-	/** drag/touch 이벤트로 인한 swipe 애니메이션 종료된 후의 로직  */
+	/** card 위에서 MouseUp이 발생한 경우 card를 swipe할 마음이 없다고 판단해서 swipe 로직 중단 */
+	const cancelSwipe = () => {
+		setSwipeStartX(null);
+	};
+
+	/** mousedown/touch 이벤트로 인한 swipe 애니메이션 종료된 후의 로직  */
 	const endSwipe = (event: React.MouseEvent | React.TouchEvent) => {
 		if (!swipeStartX) return;
 
@@ -83,18 +95,14 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 		goToNextCard();
 	};
 
-	const displayCardText = () => {
-		setIsToggling(false);
-	};
-
 	return (
-		<>
+		<Container onMouseUp={endSwipe}>
 			<CardContainer>
 				<MainCard
 					onTransitionEnd={displayCardText}
 					cardMode={cardMode}
-					onDragStart={beginSwipe}
-					onDragEnd={endSwipe}
+					onMouseDown={beginSwipe}
+					onMouseUp={cancelSwipe}
 					onTouchStart={beginSwipe}
 					onTouchMove={recordTouch}
 					onTouchEnd={endSwipe}
@@ -125,17 +133,23 @@ function Card({ goToNextCard, goToPrevCard, step, current }: CardProps) {
 				</Toggler>
 			</CardContainer>
 			<ControlBox goToPrevCard={goToPrevCard} swipe={swipeOnClick} />
-		</>
+		</Container>
 	);
 }
 
-const CardContainer = styled.main`
+const Container = styled.div`
+	width: 100vw;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	gap: 30px;
+`;
+
+const CardContainer = styled.main`
 	perspective: 10000px;
+
 	${mobileMediaQuery} {
-		width: 100%;
+		min-width: 0;
 	}
 `;
 
@@ -146,6 +160,7 @@ const MainCard = styled.div<MainCardProps>`
 	height: 500px;
 	backface-visibility: visible;
 	border-radius: 10px 10px 0 0;
+
 	${mobileMediaQuery} {
 		width: 100%;
 		height: 400px;
@@ -179,8 +194,13 @@ const Toggler = styled.div`
 	font-weight: 500;
 	cursor: pointer;
 	transition: 0.1s ease-in;
-	width: 100%;
 	height: 40px;
+	${mobileMediaQuery} {
+		width: 100%;
+	}
+	${desktopMediaQuery} {
+		width: 800px;
+	}
 
 	:hover {
 		color: #eeeeee;
