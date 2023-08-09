@@ -8,6 +8,7 @@ import BeenhereIcon from '@mui/icons-material/Beenhere';
 interface ControlBoxProps {
 	swipe: (direction: string) => void;
 	isFinished: boolean;
+	step: number;
 	goToPrevCard: () => void;
 }
 
@@ -15,7 +16,12 @@ interface ContainerProps {
 	isFinished: boolean;
 }
 
-function ControlBox({ swipe, isFinished, goToPrevCard }: ControlBoxProps) {
+function ControlBox({
+	swipe,
+	step,
+	isFinished,
+	goToPrevCard,
+}: ControlBoxProps) {
 	return (
 		<Container isFinished={isFinished}>
 			{!isFinished && (
@@ -27,7 +33,11 @@ function ControlBox({ swipe, isFinished, goToPrevCard }: ControlBoxProps) {
 				</IncorrectSide>
 			)}
 
-			<UndoButton size="large" onClick={() => goToPrevCard()}>
+			<UndoButton
+				size="large"
+				onClick={() => goToPrevCard()}
+				disabled={step === 1}
+			>
 				<UndoIcon fontSize="inherit" />
 			</UndoButton>
 			{!isFinished && (

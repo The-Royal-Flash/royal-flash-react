@@ -20,6 +20,7 @@ function Study() {
 	const [questionListToCorrect, setQuestionListToCorrect] = useState<string[]>([]);
 	// prettier-ignore
 	const [questionListToReview, setQuestionListToReview] = useState<string[]>([]);
+	const [pastIds, setPastIds] = useState<string[]>([]);
 
 	if (!quizletId || !mode || !(mode in STUDY_MODE)) {
 		addToast({
@@ -57,26 +58,30 @@ function Study() {
 			]);
 		}
 
+		setPastIds((prevPastIds) => [...prevPastIds, _id]);
+
 		if (step + 1 <= data?.questionCardList.length!) setStep((prev) => prev + 1);
 		else setIsFinished(true);
 	};
 
 	/** UndoButton 클릭시 이전 카드로 이동 */
-	const goToPrevCard = (_id: string) => {
-		if (step - 1 === 0) return;
+	const goToPrevCard = () => {
+		let questionIdToRemove: string = '';
 
 		if (step === data?.questionCardList.length! && isFinished) {
 			setIsFinished(false);
+			questionIdToRemove = pastIds.at(-1) as string;
 		} else if (step - 1 >= 0) {
 			setStep((prev) => prev - 1);
+			questionIdToRemove = pastIds[step - 2];
 		}
 
 		setQuestionListToReview((prevQuestionListToReview) =>
-			prevQuestionListToReview.filter((id) => id !== _id),
+			prevQuestionListToReview.filter((id) => id !== questionIdToRemove),
 		);
 
 		setQuestionListToCorrect((prevQuestionListToCorrect) =>
-			prevQuestionListToCorrect.filter((id) => id !== _id),
+			prevQuestionListToCorrect.filter((id) => id !== questionIdToRemove),
 		);
 	};
 
