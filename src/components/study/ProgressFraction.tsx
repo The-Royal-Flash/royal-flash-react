@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface ProgressFractionProps {
 	numerator: number;
@@ -22,6 +23,10 @@ const Container = styled.div`
 		font-weight: bold;
 		font-size: 25px;
 		color: var(--primary-color);
+
+		${mobileMediaQuery} {
+			font-size: 14px;
+		}
 	}
 
 	> p:nth-of-type(2) {

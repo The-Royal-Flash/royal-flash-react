@@ -180,6 +180,9 @@ const Container = styled.div`
 
 const CardContainer = styled.main`
 	perspective: 10000px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
 	${mobileMediaQuery} {
 		width: 90%;
@@ -199,6 +202,9 @@ const MainCard = styled.div<MainCardProps>`
 		height: 400px;
 	}
 	${desktopMediaQuery} {
+		@media (max-width: 900px) {
+			width: 600px;
+		}
 		width: 800px;
 		height: 500px;
 	}
@@ -232,6 +238,10 @@ const Toggler = styled.div<TogglerProps>`
 		width: 100%;
 	}
 	${desktopMediaQuery} {
+		@media (max-width: 900px) {
+			width: 600px;
+		}
+
 		width: 800px;
 	}
 

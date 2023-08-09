@@ -51,6 +51,10 @@ const Container = styled.div<ContainerProps>`
 		width: 90%;
 	}
 	${desktopMediaQuery} {
+		@media (max-width: 900px) {
+			width: 600px;
+		}
+
 		width: 800px;
 	}
 `;

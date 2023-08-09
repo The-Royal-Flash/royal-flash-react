@@ -32,9 +32,14 @@ function StudyHeader({ mode, step, title, total }: StudyHeaderProps) {
 
 const Container = styled.header`
 	${mobileMediaQuery} {
-		width: 100%;
+		width: 90%;
+		font-size: 14px;
 	}
 	${desktopMediaQuery} {
+		@media (max-width: 900px) {
+			width: 600px;
+		}
+
 		width: 800px;
 	}
 	display: flex;
