@@ -17,6 +17,10 @@ interface ContainerProps {
 	cardMode: string;
 }
 
+interface StyledCircularProgressProps {
+	isAllWrong: boolean;
+}
+
 function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 	const navigate = useNavigate();
 
@@ -61,8 +65,9 @@ function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 					<StyledCircularProgress
 						variant="determinate"
 						value={correctCount ? correctScore : 100}
-						color={correctCount ? 'primary' : 'inherit'}
+						color="inherit"
 						size={180}
+						isAllWrong={!correctCount}
 					/>
 					<ProgressFraction numerator={correctCount} denominator={totalCount} />
 				</Score>
@@ -143,9 +148,12 @@ const ButtonBox = styled.div`
 	}
 `;
 
-const StyledCircularProgress = styled(CircularProgress)`
+const StyledCircularProgress = styled(
+	CircularProgress,
+)<StyledCircularProgressProps>`
 	position: absolute;
-	color: #e9e9e9;
+	color: ${({ isAllWrong }) =>
+		isAllWrong ? '#e9e9e9' : 'var(--primary-color)'};
 `;
 
 export default FinishedCard;
