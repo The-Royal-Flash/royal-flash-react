@@ -1,16 +1,10 @@
 import styled from '@emotion/styled';
 
-interface EmptyCardProps {
-	display?: boolean;
+function EmptyCard() {
+	return <Container></Container>;
 }
 
-function EmptyCard({ display }: EmptyCardProps) {
-	return <Container display={display}></Container>;
-}
-
-const Container = styled.div<EmptyCardProps>`
-	/* opacity: ${(props) => (props.display ? 1 : 0)}; */
-	background-color: red;
+const Container = styled.div`
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -21,7 +15,7 @@ const Container = styled.div<EmptyCardProps>`
 	left: 0;
 	top: 0;
 	z-index: 9999;
-	/* background-color: #fff; */
+	background-color: #fff;
 	border-radius: 10px 10px 0 0;
 `;
 
