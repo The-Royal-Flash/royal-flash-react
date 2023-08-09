@@ -3,4 +3,4 @@ export const STUDY_STATUS = {
 	wrong: 'wrong',
 } as const;
 
-export const MIN_SWIPE_DISTANCE = 100;
+export const MIN_SWIPE_DISTANCE = 50;

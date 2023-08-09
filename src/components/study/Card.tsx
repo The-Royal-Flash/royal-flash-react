@@ -11,14 +11,13 @@ import {
 	QuestionCard,
 	FinishedCard,
 } from '.';
-import { MIN_SWIPE_DISTANCE, STUDY_MODE } from '../../constants';
+import { MIN_SWIPE_DISTANCE } from '../../constants';
 
 interface CardProps {
 	goToNextCard: (isWrong: boolean, _id: string) => void;
 	goToPrevCard: (_id: string) => void;
 	step: number;
 	isFinished: boolean;
-	studyMode: keyof typeof STUDY_MODE;
 	quizletId: string;
 	current?: {
 		_id: string;
@@ -42,7 +41,6 @@ function Card({
 	isFinished,
 	step,
 	current,
-	studyMode,
 	quizletId,
 }: CardProps) {
 	const [swipeStartX, setSwipeStartX] = useState<null | number>(null);
@@ -129,7 +127,9 @@ function Card({
 					onTouchEnd={endSwipe}
 				>
 					{isSwiping && <EmptyCard />}
-					{isSwiping && <GhostCard isWrong={isLeftSwipe.current} />}
+					{isSwiping && (
+						<GhostCard isWrong={isLeftSwipe.current} cardMode={cardMode} />
+					)}
 					{isFinished ? (
 						<FinishedCard quizletId={quizletId} />
 					) : cardMode === 'answer' ? (
