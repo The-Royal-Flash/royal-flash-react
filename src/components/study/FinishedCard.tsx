@@ -33,8 +33,6 @@ function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 	const correctScore = (correctCount / totalCount) * 100;
 
 	const submitStudyLog = async (nextPage: 'wrong' | 'complete') => {
-		localStorage.removeItem(`${quizletId}`);
-
 		const nextUrl =
 			nextPage === 'complete'
 				? `/quizlet/detail/${quizletId}`
@@ -55,6 +53,7 @@ function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 		}
 
 		navigate(nextUrl);
+		navigate(0);
 	};
 
 	return (

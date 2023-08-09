@@ -10,5 +10,9 @@ export const fetchQuizletById = async (
 
 export const createStudyLog = async (
 	studyLogInfo: StudyLogRequest,
-): Promise<BaseApiResponse> =>
-	await http.post(`quizlet/study/${studyLogInfo.quizletId}`, studyLogInfo);
+): Promise<BaseApiResponse> => {
+	return await http.post(
+		`quizlet/study/${studyLogInfo.quizletId}`,
+		studyLogInfo,
+	);
+};
