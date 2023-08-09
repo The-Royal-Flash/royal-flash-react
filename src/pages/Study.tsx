@@ -97,7 +97,6 @@ function Study() {
 				step={step}
 				isFinished={isFinished}
 				current={data?.questionCardList[step - 1]}
-				studyMode={studyMode}
 				quizletId={quizletId}
 			/>
 		</Container>
@@ -110,6 +109,7 @@ const Container = styled.div`
 	flex-direction: column;
 	gap: 30px;
 	align-items: center;
+	overflow-x: hidden;
 `;
 
 const ProgressBar = styled(LinearProgress)`

@@ -174,7 +174,6 @@ const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
 	gap: 30px;
-	overflow-x: hidden;
 `;
 
 const CardContainer = styled.main`
