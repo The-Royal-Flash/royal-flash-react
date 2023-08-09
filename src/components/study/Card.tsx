@@ -218,7 +218,6 @@ const MainCard = styled.div<MainCardProps>`
       `)};
 	transform-style: preserve-3d;
 	position: relative;
-	cursor: pointer;
 `;
 
 const Toggler = styled.div<TogglerProps>`
