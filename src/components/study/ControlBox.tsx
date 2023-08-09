@@ -7,38 +7,54 @@ import BeenhereIcon from '@mui/icons-material/Beenhere';
 
 interface ControlBoxProps {
 	swipe: (direction: string) => void;
+	isFinished: boolean;
 	goToPrevCard: () => void;
 }
 
-function ControlBox({ swipe, goToPrevCard }: ControlBoxProps) {
+interface ContainerProps {
+	isFinished: boolean;
+}
+
+function ControlBox({ swipe, isFinished, goToPrevCard }: ControlBoxProps) {
 	return (
-		<Container>
-			<IncorrectSide onClick={() => swipe('incorrect')}>
-				<DragGuideContents>
-					<PlaylistAddIcon color="inherit" fontSize="inherit" />
-					<p>오답노트 등록</p>
-				</DragGuideContents>
-			</IncorrectSide>
+		<Container isFinished={isFinished}>
+			{!isFinished && (
+				<IncorrectSide onClick={() => swipe('incorrect')}>
+					<DragGuideContents>
+						<PlaylistAddIcon color="inherit" fontSize="inherit" />
+						<p>오답노트 등록</p>
+					</DragGuideContents>
+				</IncorrectSide>
+			)}
+
 			<UndoButton size="large" onClick={() => goToPrevCard()}>
 				<UndoIcon fontSize="inherit" />
 			</UndoButton>
-			<CorrectSide onClick={() => swipe('correct')}>
-				<DragGuideContents>
-					<BeenhereIcon color="inherit" fontSize="inherit" />
-					<p>학습 완료</p>
-				</DragGuideContents>
-			</CorrectSide>
+			{!isFinished && (
+				<CorrectSide onClick={() => swipe('correct')}>
+					<DragGuideContents>
+						<BeenhereIcon color="inherit" fontSize="inherit" />
+						<p>학습 완료</p>
+					</DragGuideContents>
+				</CorrectSide>
+			)}
 		</Container>
 	);
 }
 
-const Container = styled.div`
+const Container = styled.div<ContainerProps>`
 	display: flex;
-	justify-content: space-between;
+	justify-content: ${({ isFinished }) =>
+		isFinished ? 'center' : 'space-between'};
+
 	${mobileMediaQuery} {
-		width: 100%;
+		width: 90%;
 	}
 	${desktopMediaQuery} {
+		@media (max-width: 900px) {
+			width: 600px;
+		}
+
 		width: 800px;
 	}
 `;

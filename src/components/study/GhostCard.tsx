@@ -3,23 +3,24 @@ import { keyframes, css } from '@emotion/react';
 import { mobileMediaQuery, desktopMediaQuery } from '../../utils/mediaQueries';
 
 interface GhostCardProps {
-	display: boolean;
 	isWrong: boolean;
+	cardMode: string;
 }
 
 interface ContainerProps {
-	display: boolean;
 	isWrong: boolean;
+	cardMode: string;
 }
 
 interface ContentsProps {
 	isWrong: boolean;
+	cardMode: string;
 }
 
-function GhostCard({ isWrong, display }: GhostCardProps) {
+function GhostCard({ isWrong, cardMode }: GhostCardProps) {
 	return (
-		<Container display={display} isWrong={isWrong}>
-			<Contents isWrong={isWrong}>
+		<Container isWrong={isWrong} cardMode={cardMode}>
+			<Contents isWrong={isWrong} cardMode={cardMode}>
 				{isWrong ? '오답노트 등록' : '학습 완료'}
 			</Contents>
 		</Container>
@@ -61,7 +62,7 @@ const swipeLeft = keyframes`
 `;
 
 const Container = styled.div<ContainerProps>`
-	display: ${(props) => (props.display ? 'block' : 'none')};
+	display: block;
 	opacity: 0;
 	transition: 0.1s ease-in;
 	border: 1px solid #999999;
@@ -81,19 +82,21 @@ const Container = styled.div<ContainerProps>`
 	left: 0;
 	z-index: 9999;
 	cursor: pointer;
-	animation: ${(props) =>
-		props.isWrong
+	animation: ${({ isWrong, cardMode }) =>
+		isWrong
 			? css`
-					${swipeLeft} 0.8s ease
+					${cardMode === 'question' ? swipeLeft : swipeRight} 0.8s ease
 			  `
 			: css`
-					${swipeRight} 0.8s ease
+					${cardMode === 'question' ? swipeRight : swipeLeft} 0.8s ease
 			  `};
 `;
 
 const Contents = styled.div<ContentsProps>`
 	transition: 0.1s ease-in;
-	transform: rotateY(0);
+	transform: rotateY(
+		${({ cardMode }) => (cardMode === 'answer' ? '180deg' : '0')}
+	);
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -107,7 +110,7 @@ const Contents = styled.div<ContentsProps>`
 	border-radius: 10px 10px 0 0;
 	font-size: 30px;
 	font-weight: bold;
-	color: ${(props) => (props.isWrong ? '#f05757cf' : '#55b855d5')};
+	color: ${({ isWrong }) => (isWrong ? '#f05757cf' : '#55b855d5')};
 	border: ${(props) =>
 		props.isWrong ? '2px solid #f05757cf' : '2px solid #55b855d5'};
 `;

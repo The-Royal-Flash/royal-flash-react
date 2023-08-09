@@ -1,27 +1,83 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { LinearProgress } from '@mui/material';
 import { StudyHeader, Card } from '../components';
 import { STUDY_MODE } from '../constants';
 import { desktopMediaQuery, mobileMediaQuery } from '../utils/mediaQueries';
 import { fetchStudyQuestionListQuery } from '../queries';
+import { useToastContext } from '../contexts/ToastContext';
+import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
 
 function Study() {
+	const { addToast } = useToastContext();
 	const { quizletId, mode } = useParams();
-	const studyMode = STUDY_MODE[mode as 'ALL' | 'WRONG'];
+	const studyMode = mode as (typeof STUDY_MODE)[keyof typeof STUDY_MODE];
 	const [step, setStep] = useState(1);
-	const { data } = useQuery(
-		fetchStudyQuestionListQuery(quizletId as string, studyMode),
-	);
+	const [isFinished, setIsFinished] = useState(false);
+	// prettier-ignore
+	const [questionListToCorrect, setQuestionListToCorrect] = useState<string[]>([]);
+	// prettier-ignore
+	const [questionListToReview, setQuestionListToReview] = useState<string[]>([]);
 
-	const goToNextCard = () => {
-		setStep((prev) => prev + 1);
+	if (!quizletId || !mode || !(mode in STUDY_MODE)) {
+		addToast({
+			type: TOAST_TYPE.WARNING,
+			msg_type: TOAST_MSG_TYPE.NOT_FOUND,
+		});
+
+		return <Navigate to="/" />;
+	}
+
+	useEffect(() => {
+		localStorage.setItem(
+			`${quizletId}`,
+			JSON.stringify({
+				questionListToReview,
+				questionListToCorrect,
+				mode: studyMode,
+			}),
+		);
+	}, [questionListToCorrect, questionListToReview]);
+
+	const { data } = useQuery(fetchStudyQuestionListQuery(quizletId, mode));
+
+	/** 학습 완료 및 오답 등록시 다음 질문 카드로 이동 */
+	const goToNextCard = (isWrong: boolean, _id: string) => {
+		if (isWrong) {
+			setQuestionListToReview((prevQuestionListToReview) => [
+				...prevQuestionListToReview,
+				_id,
+			]);
+		} else {
+			setQuestionListToCorrect((prevQuestionListToCorrect) => [
+				...prevQuestionListToCorrect,
+				_id,
+			]);
+		}
+
+		if (step + 1 <= data?.questionCardList.length!) setStep((prev) => prev + 1);
+		else setIsFinished(true);
 	};
 
-	const goToPrevCard = () => {
-		if (step - 1 >= 0) setStep((prev) => prev - 1);
+	/** UndoButton 클릭시 이전 카드로 이동 */
+	const goToPrevCard = (_id: string) => {
+		if (step - 1 === 0) return;
+
+		if (step === data?.questionCardList.length! && isFinished) {
+			setIsFinished(false);
+		} else if (step - 1 >= 0) {
+			setStep((prev) => prev - 1);
+		}
+
+		setQuestionListToReview((prevQuestionListToReview) =>
+			prevQuestionListToReview.filter((id) => id !== _id),
+		);
+
+		setQuestionListToCorrect((prevQuestionListToCorrect) =>
+			prevQuestionListToCorrect.filter((id) => id !== _id),
+		);
 	};
 
 	return (
@@ -40,7 +96,9 @@ function Study() {
 				goToNextCard={goToNextCard}
 				goToPrevCard={goToPrevCard}
 				step={step}
+				isFinished={isFinished}
 				current={data?.questionCardList[step - 1]}
+				quizletId={quizletId}
 			/>
 		</Container>
 	);
@@ -52,6 +110,7 @@ const Container = styled.div`
 	flex-direction: column;
 	gap: 30px;
 	align-items: center;
+	overflow-x: hidden;
 `;
 
 const ProgressBar = styled(LinearProgress)`
