@@ -12,7 +12,7 @@ const StyledBox = styled(Box)`
 	min-width: calc(var(--min-width) - 40px);
 	max-width: 800px;
 	width: calc(100vw - 40px);
-	background: var(--light-bg-color);
+	background: var(--box-bg-color);
 	overflow: hidden;
 	box-shadow:
 		0 0 4px rgba(0, 0, 0, 0.1),

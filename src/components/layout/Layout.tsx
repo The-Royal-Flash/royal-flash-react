@@ -24,7 +24,7 @@ const Container = styled.div`
 	min-height: 100%;
 	min-width: var(--min-width);
 	${mobileMediaQuery} {
-		--header-height: 50px;
+		--header-height: 65px;
 		--footer-height: 320px;
 	}
 	${desktopMediaQuery} {

@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Chip, Divider, Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import StyleIcon from '@mui/icons-material/Style';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { QuizletOwnerInfo } from '../../types';
@@ -34,17 +33,20 @@ function QuizletItem({
 						<NumOfCard>{questionCardList.length}</NumOfCard>
 					</NumOfCardWrapper>
 				</NumOfCardContainer>
-				<Title>{title}</Title>
+				<Title variant="h3">{title}</Title>
+				<Description>{description}</Description>
 				{tagList?.length > 0 && (
 					<TagWrapper>
 						{tagList.map((tag) => (
-							<Tag key={`${quizletId}-${tag}`} label={tag} variant="filled" />
+							<Tag
+								key={`${quizletId}-${tag}`}
+								label={`#${tag}`}
+								variant="filled"
+							/>
 						))}
 					</TagWrapper>
 				)}
-				<Description>{description}</Description>
 			</Wrapper>
-			<StyledDivider />
 			<OwnerWrapper>
 				{!!avatarUrl ? <AvatarImg src={avatarUrl} /> : <AvatarIcon />}
 				<Nickname>{nickname}</Nickname>
@@ -58,30 +60,32 @@ const Container = styled(Link)`
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	border: 2px solid var(--card-border-color);
+	border: 2px solid var(--box-border-color);
 	border-radius: 7px;
 	transition: 0.1s ease-in;
+	background: white;
+
 	:hover {
 		scale: 1.008;
-		border: 2px solid var(--hover-card-color);
-		& > hr {
-			border: 1px solid var(--hover-card-color);
-		}
-		& > div:first-of-type {
-			background-color: #d1e0e970;
+		box-shadow:
+			0 0 4px rgba(0, 0, 0, 0.1),
+			0 3px 7px rgba(0, 0, 0, 0.15),
+			0 2px 5px rgba(0, 0, 0, 0.17);
+		& h3 {
+			color: var(--font-hover-color);
 		}
 	}
 `;
 
 const Wrapper = styled.div`
 	transition: 0.1s ease-in;
-	padding: 15px;
+	padding: 20px 20px 12px;
 `;
 
 const NumOfCardContainer = styled.div`
 	position: absolute;
-	top: 10px;
-	right: 10px;
+	top: 15px;
+	right: 15px;
 `;
 
 const NumOfCardWrapper = styled.div`
@@ -90,7 +94,7 @@ const NumOfCardWrapper = styled.div`
 	flex-direction: row;
 	align-items: center;
 	gap: 3px;
-	color: var(--card-color);
+	color: var(--primary-color);
 `;
 
 const NumOfCard = styled(Typography)`
@@ -104,7 +108,7 @@ const CardIcon = styled(StyleIcon)`
 
 const Title = styled(Typography)`
 	color: var(--font-color);
-	font-size: 1.3rem;
+	font-size: 1.5rem;
 	white-space: nowrap;
 	font-weight: 600;
 	overflow: hidden;
@@ -115,35 +119,34 @@ const Title = styled(Typography)`
 const TagWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
-	margin-top: 3px;
+	margin-top: 10px;
 	gap: 5px;
 `;
 
 const Tag = styled(Chip)`
-	background: var(--chip-color);
-	font-weight: 600;
+	height: 1.5rem;
 	border-radius: 5px;
-	font-size: 0.8rem;
-	height: 1.4rem;
+	background: white;
+	color: var(--chip-color);
+	font-weight: 500;
+	font-size: 0.9rem;
+	justify-content: flex-start;
+	> span {
+		padding-left: 2px;
+	}
 `;
 
 const Description = styled.div`
-	color: var(--footer-bg-color);
+	color: var(--gray-2);
 	font-size: 0.85rem;
 	padding-left: 2px;
-	margin-top: 17px;
-`;
-
-const StyledDivider = styled(Divider)`
-	color: var(--footer-bg-color);
-	border: 1px solid #dcdcdc;
-	transition: 0.1s ease-in;
+	margin-top: 5px;
 `;
 
 const OwnerWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
-	padding: 3px 10px;
+	padding: 0px 20px 10px;
 `;
 
 const AvatarIcon = styled(AccountCircleIcon)`
@@ -161,7 +164,7 @@ const Nickname = styled.div`
 	margin-left: 4px;
 	font-size: 0.9rem;
 	font-weight: 400;
-	color: var(--footer-bg-color);
+	color: var(--font-color);
 `;
 
 export default QuizletItem;

@@ -1,9 +1,8 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '../common';
-import { TextField, Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { changePassword } from '../../api';
 import { passwordChangeSchema } from '../../schemas/profileSchema';
 
@@ -123,8 +122,7 @@ const PwInputBox = styled.div`
 `;
 
 const StyledButton = styled(Button)`
-	width: 100px;
-	font-size: 10px;
+	font-size: 14px;
 `;
 
 export default ChangePwModal;

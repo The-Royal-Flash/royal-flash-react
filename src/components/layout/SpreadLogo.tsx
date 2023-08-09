@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 
 interface SpreadLogoProps {
@@ -23,7 +22,7 @@ const Container = styled.div<SpreadLogoProps>`
 	position: relative;
 	display: flex;
 	align-items: center;
-	top: 5px;
+	top: 0px;
 	left: 43px;
 	padding-right: ${(props) => (props.active ? '125px' : '85px')};
 	transition: all 0.3s ease;
@@ -33,7 +32,9 @@ const Card = styled.div<{
 	active: boolean;
 	order: number;
 }>`
-	display: block;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	width: 40px;
 	height: 60px;
 	box-sizing: border-box;
@@ -43,7 +44,7 @@ const Card = styled.div<{
 	border-radius: 5px;
 	position: absolute;
 	font-size: 34px;
-	font-weight: 600;
+	font-weight: 700;
 	text-align: center;
 	top: 0;
 	left: 0;
@@ -59,9 +60,9 @@ const Card = styled.div<{
     translateY(-30px);
     transition: all 0.3s ease;
     top: 25px;
-		background: var(--light-yellow-color);
-	  border: 2.5px solid var(--dark-yellow-color);
-    color: var(--dark-yellow-color);
+		background: white;
+	  border: 2.5px solid var(--btn-color);
+    color: var(--btn-color);
   `}
 `;
 

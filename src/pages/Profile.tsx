@@ -183,7 +183,7 @@ const BoxTitle = styled.p`
 `;
 
 const UserImage = styled.img`
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--box-border-color);
 	width: 120px;
 	border-radius: 60px;
 `;

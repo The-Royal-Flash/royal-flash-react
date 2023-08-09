@@ -55,8 +55,9 @@ const CardWrapper = styled.div<CardWrapperProps>`
 const Card = styled.div<CardProps>`
 	width: 130px;
 	height: 80px;
-	border: 1px solid var(--border-color);
-	background: var(--bg-color);
+	border: 1px solid #4e79c5;
+	border-radius: 5px;
+	background: #769de1;
 	position: absolute;
 	top: 50px;
 	transition: all 0.7s ease-in;
@@ -67,7 +68,7 @@ const Card = styled.div<CardProps>`
 	${(props) =>
 		props.active &&
 		`transform: translate(${12 * props.index}px, ${-12 * props.index}px);
-	  opacity:${1 / (4 - props.index)}`};
+	  opacity:${1 / (5 - props.index)}`};
 `;
 
 export default AnimationCardSetList;

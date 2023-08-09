@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../schemas/authSchema';
 import { logIn } from '../../api';
 import { FormInput } from '.';
 import { useUserContext } from '../../contexts/UserContext';
+import { ButtonBox, Form, SubmitButton } from './styles';
 
 function LoginForm() {
 	const navi = useNavigate();
@@ -45,7 +45,9 @@ function LoginForm() {
 				control={control}
 			/>
 			<ButtonBox>
-				<SubmitButton type="submit" value="로그인" />
+				<SubmitButton variant="contained" type="submit" value="로그인">
+					로그인
+				</SubmitButton>
 			</ButtonBox>
 			{loginError && (
 				<ErrorMessage>올바른 아이디와 비밀번호를 입력해주세요</ErrorMessage>
@@ -53,33 +55,6 @@ function LoginForm() {
 		</Form>
 	);
 }
-
-const Form = styled.form`
-	display: flex;
-	flex-direction: column;
-	gap: 30px;
-`;
-
-const ButtonBox = styled(Box)`
-	text-align: center;
-`;
-
-const SubmitButton = styled.input`
-	min-width: 150px;
-	height: 30px;
-	background-color: var(--button-color);
-	color: #fff;
-	font-weight: bold;
-	border: none;
-	border-radius: 5px;
-	margin-top: 20px;
-	cursor: pointer;
-
-	:hover {
-		transition: 0.1s ease-in;
-		background-color: var(--secondary-color);
-	}
-`;
 
 const ErrorMessage = styled.p`
 	color: red;

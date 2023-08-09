@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
@@ -26,6 +26,7 @@ import {
 } from './styles';
 import { useToastContext } from '../../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
+import { Button } from '@mui/material';
 
 interface EditQuizletFormProps {
 	quizletId: string;
@@ -152,14 +153,14 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 				<StyledButton type="button" variant="outlined" onClick={goBack}>
 					취소
 				</StyledButton>
-				<StyledButton
+				<Button
 					type="button"
-					variant="outlined"
+					variant="text"
 					color="error"
 					onClick={handleRemoveQuizlet}
 				>
 					삭제
-				</StyledButton>
+				</Button>
 			</ButtonGroup>
 		</StyledForm>
 	);

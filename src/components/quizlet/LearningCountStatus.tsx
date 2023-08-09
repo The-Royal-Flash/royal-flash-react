@@ -62,7 +62,7 @@ const Label = styled(Typography)`
 `;
 
 const Icon = styled(PlaylistAddCheckIcon)`
-	color: var(--card-color);
+	color: var(--primary-color);
 `;
 
 const StudyCount = styled.div`

@@ -44,7 +44,7 @@ function TeamMember() {
 			</Card>
 			<Card>
 				<CardHead>
-					<Title>Hyeonseok</Title>
+					<Title>Hyounsuk</Title>
 					<SubTitle>Backend</SubTitle>
 				</CardHead>
 

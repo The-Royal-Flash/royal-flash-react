@@ -20,7 +20,7 @@ function AvatarCard({ email, nickname, avatarUrl }: AvatarCardProps) {
 }
 
 const Container = styled.div`
-	border: 1px solid var(--card-border-color);
+	border: 1px solid var(--box-border-color);
 	display: grid;
 	grid-template-columns: 50px 1fr;
 	column-gap: 3px;

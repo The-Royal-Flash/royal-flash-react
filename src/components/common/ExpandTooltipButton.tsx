@@ -34,13 +34,15 @@ const Container = styled.button<ContainerProps>`
 	border: none;
 	cursor: pointer;
 	align-items: center;
-	padding-right: 10px;
-	padding-left: 5px;
+
 	width: 40px;
 	height: 60px;
 	border-radius: 5px;
-	border: 2.5px solid var(--border-color);
-	background: var(--button-color);
+	padding-right: 10px;
+	padding-left: 5px;
+
+	border: 2.5px solid var(--gray-1);
+	background: var(--gray-1);
 	box-shadow:
 		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
 		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
@@ -52,18 +54,21 @@ const Container = styled.button<ContainerProps>`
 		opacity: 0;
 		color: white;
 		font-weight: 500;
-		font-size: 17px;
+		font-size: 15px;
 		transition: all 0.3s ease;
 	}
 
 	:hover {
 		width: ${(props) => 40 + props.widthToExpand}px;
-		background: var(--secondary-color);
-		border: 2.5px solid var(--secondary-color);
+		background: var(--btn-color);
+		border: 2.5px solid var(--btn-color);
 		transition: all 0.3s ease;
+		> div {
+			color: white;
+		}
 		:after {
 			content: '${(props) => props.tooltip}';
-			text-align: left;
+			text-align: center;
 			padding-left: 30px;
 			margin-left: 3px;
 			color: white;
@@ -81,7 +86,7 @@ const IconWrapper = styled.div`
 	left: 3.4px;
 	width: 30px;
 	height: 30px;
-	color: white;
+	color: var(--gray-3);
 	font-size: 28px;
 `;
 

@@ -1,7 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '../../schemas/authSchema';
@@ -9,6 +7,7 @@ import { signUp, checkForDuplicate } from '../../api';
 import { FormInput } from '.';
 import { useToastContext } from '../../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
+import { ButtonBox, Form, SubmitButton } from './styles';
 
 function SignupForm() {
 	const [isEmailUnique, setIsEmailUnique] = React.useState(false);
@@ -96,37 +95,12 @@ function SignupForm() {
 				control={control}
 			/>
 			<ButtonBox>
-				<SubmitButton type="submit" value="가입하기" />
+				<SubmitButton variant="contained" type="submit" value="가입하기">
+					가입하기
+				</SubmitButton>
 			</ButtonBox>
 		</Form>
 	);
 }
-
-const Form = styled.form`
-	display: flex;
-	flex-direction: column;
-	gap: 30px;
-`;
-
-const ButtonBox = styled(Box)`
-	text-align: center;
-`;
-
-const SubmitButton = styled.input`
-	min-width: 150px;
-	height: 30px;
-	background-color: var(--button-color);
-	color: #fff;
-	font-weight: bold;
-	border: none;
-	border-radius: 5px;
-	margin-top: 20px;
-	cursor: pointer;
-
-	:hover {
-		transition: 0.1s ease-in;
-		background-color: var(--secondary-color);
-	}
-`;
 
 export default SignupForm;
