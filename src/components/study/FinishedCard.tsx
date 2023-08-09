@@ -53,7 +53,7 @@ function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 		}
 
 		navigate(nextUrl);
-		navigate(0);
+		if (nextPage === 'wrong') navigate(0);
 	};
 
 	return (
