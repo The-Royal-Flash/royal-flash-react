@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import { css } from '@mui/material';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import { MIN_SWIPE_DISTANCE } from '../../constants';
 import {
 	GhostCard,
 	EmptyCard,
@@ -11,7 +12,6 @@ import {
 	QuestionCard,
 	FinishedCard,
 } from '.';
-import { MIN_SWIPE_DISTANCE } from '../../constants';
 
 interface CardProps {
 	goToNextCard: (isWrong: boolean, _id: string) => void;
@@ -169,7 +169,7 @@ function Card({
 }
 
 const Container = styled.div`
-	width: 100vw;
+	width: 90vw;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
