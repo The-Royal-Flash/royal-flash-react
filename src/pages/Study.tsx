@@ -74,6 +74,8 @@ function Study() {
 		} else if (step - 1 >= 0) {
 			setStep((prev) => prev - 1);
 			questionIdToRemove = pastIds[step - 2];
+		} else if (step - 1 === 0 && isFinished) {
+			questionIdToRemove = pastIds[0];
 		}
 
 		setQuestionListToReview((prevQuestionListToReview) =>

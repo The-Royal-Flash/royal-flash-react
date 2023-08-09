@@ -36,7 +36,7 @@ function ControlBox({
 			<UndoButton
 				size="large"
 				onClick={() => goToPrevCard()}
-				disabled={step === 1}
+				disabled={step === 1 && !isFinished}
 			>
 				<UndoIcon fontSize="inherit" />
 			</UndoButton>
