@@ -8,7 +8,6 @@ export const fetchQuizletById = async (
 ): Promise<StudyQuizletResponse> =>
 	await http.get(`quizlet/study/${quizletId}/${mode}`);
 
-// 학습정보제출 -- 학습하기 결과 제출
 export const createStudyLog = async (
 	studyLogInfo: StudyLogRequest,
 ): Promise<BaseApiResponse> =>
