@@ -60,7 +60,8 @@ function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 				<Score>
 					<StyledCircularProgress
 						variant="determinate"
-						value={correctScore}
+						value={correctCount ? correctScore : 100}
+						color={correctCount ? 'primary' : 'inherit'}
 						size={180}
 					/>
 					<ProgressFraction numerator={correctCount} denominator={totalCount} />
@@ -144,6 +145,7 @@ const ButtonBox = styled.div`
 
 const StyledCircularProgress = styled(CircularProgress)`
 	position: absolute;
+	color: #e9e9e9;
 `;
 
 export default FinishedCard;
