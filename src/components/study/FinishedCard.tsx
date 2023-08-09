@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
@@ -20,7 +19,6 @@ interface ContainerProps {
 
 function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 	const navigate = useNavigate();
-	const location = useLocation();
 
 	const { questionListToCorrect, questionListToReview, mode } = JSON.parse(
 		localStorage.getItem(`${quizletId}`)!,
@@ -28,6 +26,7 @@ function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 
 	const correctCount = questionListToCorrect.length;
 	const totalCount = questionListToCorrect.length + questionListToReview.length;
+	const correctScore = (correctCount / totalCount) * 100;
 
 	const submitStudyLog = async (nextPage: 'wrong' | 'complete') => {
 		localStorage.removeItem(`${quizletId}`);
@@ -59,7 +58,11 @@ function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 			<MainMessage>수고하셨습니다!</MainMessage>
 			<ScoreBox>
 				<Score>
-					<StyledCircularProgress variant="determinate" value={80} size={180} />
+					<StyledCircularProgress
+						variant="determinate"
+						value={correctScore}
+						size={180}
+					/>
 					<ProgressFraction numerator={correctCount} denominator={totalCount} />
 				</Score>
 				<MemorizedMessage>암기 완료</MemorizedMessage>
