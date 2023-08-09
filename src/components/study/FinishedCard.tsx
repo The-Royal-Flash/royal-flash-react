@@ -10,9 +10,14 @@ import { createStudyLog } from '../../api';
 
 interface FinishedCardProps {
 	quizletId: string;
+	cardMode: string;
 }
 
-function FinishedCard({ quizletId }: FinishedCardProps) {
+interface ContainerProps {
+	cardMode: string;
+}
+
+function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 	const navigate = useNavigate();
 
 	const { questionListToCorrect, questionListToReview, mode } = JSON.parse(
@@ -48,7 +53,7 @@ function FinishedCard({ quizletId }: FinishedCardProps) {
 	};
 
 	return (
-		<Container>
+		<Container cardMode={cardMode}>
 			<MainMessage>수고하셨습니다!</MainMessage>
 			<ScoreBox>
 				<Score>
@@ -79,7 +84,10 @@ function FinishedCard({ quizletId }: FinishedCardProps) {
 	);
 }
 
-const Container = styled.div`
+const Container = styled.div<ContainerProps>`
+	transform: rotateY(
+		${({ cardMode }) => (cardMode === 'answer' ? '180deg' : '0')}
+	);
 	display: flex;
 	flex-direction: column;
 	align-items: center;

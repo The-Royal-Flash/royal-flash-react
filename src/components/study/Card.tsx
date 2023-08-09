@@ -131,7 +131,7 @@ function Card({
 						<GhostCard isWrong={isLeftSwipe.current} cardMode={cardMode} />
 					)}
 					{isFinished ? (
-						<FinishedCard quizletId={quizletId} />
+						<FinishedCard quizletId={quizletId} cardMode={cardMode} />
 					) : cardMode === 'answer' ? (
 						<AnswerCard
 							isToggling={isToggling}
