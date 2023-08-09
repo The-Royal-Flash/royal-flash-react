@@ -54,7 +54,7 @@ function DesktopHeader() {
 							handleClick={() => {
 								navitate('/quizlet/my-quizlet');
 							}}
-							icon={<PostAddIcon />}
+							icon={<AutoStoriesIcon />}
 						/>
 						<ExpandTooltipButton
 							tooltip="학습세트 생성"
@@ -62,7 +62,7 @@ function DesktopHeader() {
 							handleClick={() => {
 								navitate('/quizlet/create');
 							}}
-							icon={<AutoStoriesIcon />}
+							icon={<PostAddIcon />}
 						/>
 						<ExpandTooltipButton
 							tooltip="학습세트 관리"
