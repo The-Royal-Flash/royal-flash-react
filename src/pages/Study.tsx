@@ -42,7 +42,18 @@ function Study() {
 		);
 	}, [questionListToCorrect, questionListToReview]);
 
-	const { data } = useQuery(fetchStudyQuestionListQuery(quizletId, mode));
+	const { data, isError } = useQuery(
+		fetchStudyQuestionListQuery(quizletId, mode),
+	);
+
+	if (isError) {
+		addToast({
+			type: TOAST_TYPE.ERROR,
+			msg_type: TOAST_MSG_TYPE.SERVER_ERROR,
+		});
+
+		return <Navigate to="/" />;
+	}
 
 	/** 학습 완료 및 오답 등록시 다음 질문 카드로 이동 */
 	const goToNextCard = (isWrong: boolean, _id: string) => {
