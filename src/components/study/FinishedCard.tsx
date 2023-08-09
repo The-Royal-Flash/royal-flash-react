@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
@@ -19,6 +20,7 @@ interface ContainerProps {
 
 function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const { questionListToCorrect, questionListToReview, mode } = JSON.parse(
 		localStorage.getItem(`${quizletId}`)!,

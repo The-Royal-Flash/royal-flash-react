@@ -10,21 +10,23 @@ import { fetchStudyQuestionListQuery } from '../queries';
 import { useToastContext } from '../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
 
-let questionListToReview: string[] = [];
-let questionListToCorrect: string[] = [];
-
 function Study() {
 	const { addToast } = useToastContext();
 	const { quizletId, mode } = useParams();
 	const studyMode = mode as (typeof STUDY_MODE)[keyof typeof STUDY_MODE];
 	const [step, setStep] = useState(1);
 	const [isFinished, setIsFinished] = useState(false);
+	// prettier-ignore
+	const [questionListToCorrect, setQuestionListToCorrect] = useState<string[]>([]);
+	// prettier-ignore
+	const [questionListToReview, setQuestionListToReview] = useState<string[]>([]);
 
 	if (!quizletId || !mode || !(mode in STUDY_MODE)) {
 		addToast({
 			type: TOAST_TYPE.WARNING,
 			msg_type: TOAST_MSG_TYPE.NOT_FOUND,
 		});
+
 		return <Navigate to="/" />;
 	}
 
@@ -32,38 +34,34 @@ function Study() {
 		localStorage.setItem(
 			`${quizletId}`,
 			JSON.stringify({
-				questionListToReview: [],
-				questionListToCorrect: [],
+				questionListToReview,
+				questionListToCorrect,
 				mode: studyMode,
 			}),
 		);
-	}, []);
-
-	const updateQuestionLists = () => {
-		const current = JSON.parse(localStorage.getItem(`${quizletId}`)!);
-
-		localStorage.setItem(
-			`${quizletId}`,
-			JSON.stringify({
-				...current,
-				questionListToCorrect,
-				questionListToReview,
-			}),
-		);
-	};
+	}, [questionListToCorrect, questionListToReview]);
 
 	const { data } = useQuery(fetchStudyQuestionListQuery(quizletId, mode));
 
+	/** 학습 완료 및 오답 등록시 다음 질문 카드로 이동 */
 	const goToNextCard = (isWrong: boolean, _id: string) => {
-		if (isWrong) questionListToReview.push(_id);
-		else questionListToCorrect.push(_id);
+		if (isWrong) {
+			setQuestionListToReview((prevQuestionListToReview) => [
+				...prevQuestionListToReview,
+				_id,
+			]);
+		} else {
+			setQuestionListToCorrect((prevQuestionListToCorrect) => [
+				...prevQuestionListToCorrect,
+				_id,
+			]);
+		}
 
 		if (step + 1 <= data?.questionCardList.length!) setStep((prev) => prev + 1);
 		else setIsFinished(true);
-
-		updateQuestionLists();
 	};
 
+	/** UndoButton 클릭시 이전 카드로 이동 */
 	const goToPrevCard = (_id: string) => {
 		if (step - 1 === 0) return;
 
@@ -73,10 +71,13 @@ function Study() {
 			setStep((prev) => prev - 1);
 		}
 
-		questionListToReview = questionListToReview.filter((id) => id !== _id);
-		questionListToCorrect = questionListToCorrect.filter((id) => id !== _id);
+		setQuestionListToReview((prevQuestionListToReview) =>
+			prevQuestionListToReview.filter((id) => id !== _id),
+		);
 
-		updateQuestionLists();
+		setQuestionListToCorrect((prevQuestionListToCorrect) =>
+			prevQuestionListToCorrect.filter((id) => id !== _id),
+		);
 	};
 
 	return (
