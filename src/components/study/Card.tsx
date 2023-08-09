@@ -70,7 +70,7 @@ function Card({
 
 	/** mousedown/touch 이벤트에 따라 카드 swipe 로직 실행 */
 	const beginSwipe = (event: React.MouseEvent | React.TouchEvent) => {
-		if (isFinished) return;
+		if (isFinished || isSwiping) return;
 
 		const clientX =
 			event.type === 'touchstart'
@@ -106,6 +106,8 @@ function Card({
 
 	/** click 이벤트에 따라 카드 swipe */
 	const swipeOnClick = (direction: string) => {
+		if (isSwiping) return;
+
 		isLeftSwipe.current = direction === 'incorrect' ? true : false;
 
 		setTimeout(() => setIsSwiping(false), 800);
