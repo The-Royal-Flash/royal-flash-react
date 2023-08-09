@@ -115,7 +115,7 @@ const Container = styled.div`
 
 const ProgressBar = styled(LinearProgress)`
 	width: 100%;
-	position: absolute;
+	position: fixed;
 	${mobileMediaQuery} {
 		top: 50px;
 	}
