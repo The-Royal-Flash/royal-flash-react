@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Grow, Typography } from '@mui/material';
+import { Grow, Slide, Typography } from '@mui/material';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import RuleIcon from '@mui/icons-material/Rule';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
@@ -19,10 +19,10 @@ function IntroductionMyQuizlet() {
 						나의 학습
 					</Title>
 				</Grow>
-				<Grow in={isInView} timeout={2000}>
+				<Grow in={isInView} timeout={1500}>
 					<Text>내가 공부한 학습세트를 한눈에 조회하고 관리하세요.</Text>
 				</Grow>
-				<Grow in={isInView} timeout={3000}>
+				<Grow in={isInView} timeout={2000}>
 					<ListWrapper>
 						<TextItem>
 							<DoneOutlineIcon />
@@ -39,8 +39,12 @@ function IntroductionMyQuizlet() {
 					</ListWrapper>
 				</Grow>
 			</Wrapper>
-			{/* TODO: MyQuizlet 완료 후 이미지 변경 */}
-			<Image src="/images/myquizlet.png" />
+			<Slide direction="up" in={isInView} timeout={2000}>
+				<ImageWrapper>
+					{/* TODO: MyQuizlet 완료 후 이미지 변경 */}
+					<Image src="/images/myquizlet.png" />
+				</ImageWrapper>
+			</Slide>
 		</Container>
 	);
 }
@@ -49,16 +53,15 @@ const Container = styled.div`
 	display: flex;
 	align-items: center;
 	width: 100%;
-	margin-bottom: 100px;
+	margin-bottom: 150px;
 	${mobileMediaQuery} {
 		margin-top: 80px;
 		flex-direction: column;
-		gap: 30px;
+		gap: 20px;
 	}
 	${desktopMediaQuery} {
 		margin-top: 200px;
 		flex-direction: row;
-		height: 400px;
 	}
 `;
 
@@ -74,6 +77,7 @@ const TextWrapper = styled.div`
 	}
 	${desktopMediaQuery} {
 		padding-left: 40px;
+		justify-content: flex-start;
 	}
 `;
 
@@ -104,17 +108,32 @@ const Text = styled(Typography)`
 `;
 
 const Wrapper = styled(TextWrapper)`
+	display: flex;
 	justify-content: flex-start;
 	padding: 30px;
+	height: 100%;
 `;
 
-const Image = styled.img`
+const ImageWrapper = styled.div`
 	${mobileMediaQuery} {
-		width: 70%;
+		width: 100%;
+		display: flex;
+		justify-content: center;
 	}
 	${desktopMediaQuery} {
 		width: calc(50% - 50px);
 		padding: 0 25px;
+	}
+`;
+
+const Image = styled.img`
+	${mobileMediaQuery} {
+		width: 80%;
+	}
+	${desktopMediaQuery} {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 `;
 

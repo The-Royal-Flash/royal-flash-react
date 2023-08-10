@@ -1,8 +1,9 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { useCheckInView } from '../../hooks';
-import { useMediaQuery } from '@mui/material';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+
+interface AnimationCardSetListProps {
+	inView: boolean;
+}
 
 interface CardProps {
 	index: number;
@@ -13,25 +14,22 @@ interface CardWrapperProps {
 	setIndex: number;
 }
 
-function AnimationCardSetList() {
-	const isMobile = useMediaQuery(mobileMediaQuery);
-	const { ref, isInView } = useCheckInView(isMobile ? 0.2 : 0.5);
-
+function AnimationCardSetList({ inView }: AnimationCardSetListProps) {
 	return (
-		<Container ref={ref}>
+		<Wrapper>
 			{Array.from({ length: 5 }).map((_, setIndex) => (
 				<CardWrapper key={`cardset-${setIndex}`} setIndex={setIndex}>
-					<Card active={isInView} index={1} />
-					<Card active={isInView} index={2} />
-					<Card active={isInView} index={3} />
-					<Card active={isInView} index={4} />
+					<Card active={inView} index={1} />
+					<Card active={inView} index={2} />
+					<Card active={inView} index={3} />
+					<Card active={inView} index={4} />
 				</CardWrapper>
 			))}
-		</Container>
+		</Wrapper>
 	);
 }
 
-const Container = styled.div`
+const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
