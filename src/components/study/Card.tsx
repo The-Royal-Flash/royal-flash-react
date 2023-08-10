@@ -15,7 +15,7 @@ import {
 
 interface CardProps {
 	goToNextCard: (isWrong: boolean, _id: string) => void;
-	goToPrevCard: (_id: string) => void;
+	goToPrevCard: () => void;
 	step: number;
 	isFinished: boolean;
 	quizletId: string;
@@ -162,9 +162,10 @@ function Card({
 				</Toggler>
 			</CardContainer>
 			<ControlBox
-				goToPrevCard={() => goToPrevCard(current?._id as string)}
+				goToPrevCard={() => goToPrevCard()}
 				swipe={swipeOnClick}
 				isFinished={isFinished}
+				step={step}
 			/>
 		</Container>
 	);
@@ -218,7 +219,6 @@ const MainCard = styled.div<MainCardProps>`
       `)};
 	transform-style: preserve-3d;
 	position: relative;
-	cursor: pointer;
 `;
 
 const Toggler = styled.div<TogglerProps>`

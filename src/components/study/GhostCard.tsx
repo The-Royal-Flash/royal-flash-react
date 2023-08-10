@@ -73,6 +73,9 @@ const Container = styled.div<ContainerProps>`
 		height: 400px;
 	}
 	${desktopMediaQuery} {
+		@media (max-width: 900px) {
+			width: 600px;
+		}
 		width: 800px;
 		height: 500px;
 	}

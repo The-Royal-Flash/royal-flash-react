@@ -17,6 +17,10 @@ interface ContainerProps {
 	cardMode: string;
 }
 
+interface StyledCircularProgressProps {
+	isAllWrong: boolean;
+}
+
 function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 	const navigate = useNavigate();
 
@@ -29,8 +33,6 @@ function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 	const correctScore = (correctCount / totalCount) * 100;
 
 	const submitStudyLog = async (nextPage: 'wrong' | 'complete') => {
-		localStorage.removeItem(`${quizletId}`);
-
 		const nextUrl =
 			nextPage === 'complete'
 				? `/quizlet/detail/${quizletId}`
@@ -51,6 +53,7 @@ function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 		}
 
 		navigate(nextUrl);
+		if (nextPage === 'wrong') navigate(0);
 	};
 
 	return (
@@ -60,8 +63,10 @@ function FinishedCard({ quizletId, cardMode }: FinishedCardProps) {
 				<Score>
 					<StyledCircularProgress
 						variant="determinate"
-						value={correctScore}
+						value={correctCount ? correctScore : 100}
+						color="inherit"
 						size={180}
+						isAllWrong={!correctCount}
 					/>
 					<ProgressFraction numerator={correctCount} denominator={totalCount} />
 				</Score>
@@ -142,8 +147,12 @@ const ButtonBox = styled.div`
 	}
 `;
 
-const StyledCircularProgress = styled(CircularProgress)`
+const StyledCircularProgress = styled(
+	CircularProgress,
+)<StyledCircularProgressProps>`
 	position: absolute;
+	color: ${({ isAllWrong }) =>
+		isAllWrong ? '#e9e9e9' : 'var(--primary-color)'};
 `;
 
 export default FinishedCard;
