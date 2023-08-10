@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { ToggleButton } from '@mui/material';
 
@@ -11,7 +10,7 @@ function Toggler({ order, onChange }: TogglerProps) {
 	return (
 		<Container>
 			<StyledToggleButton value="score" onChange={onChange}>
-				{order} 정렬
+				{order === 'ascending' ? '오름차순' : '내림차순'} 정렬
 			</StyledToggleButton>
 		</Container>
 	);

@@ -1,37 +1,47 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
+import { SubmitHandler } from 'react-hook-form';
+import { SearchRequest } from '../types';
+import { fetchAllMyQuizletSearchQuery } from '../queries';
 import {
+	SearchForm,
 	Toggler,
 	Quizlets,
 	NoResultMessage,
 	QuizletPagination,
-} from '../components/myQuizlet';
-import { SearchForm } from '../components';
-import { SubmitHandler } from 'react-hook-form';
-import { SearchRequest } from '../types';
+} from '../components';
 
 function MyQuizlet() {
+	const [order, setOrder] = useState<'ascending' | 'descending'>('ascending');
+	const [page, setPage] = useState(1);
 	const [formData, setFormData] = useState<SearchRequest>({
 		keyword: '',
 		tagList: [],
 	});
 
-	const [order, setOrder] = React.useState('내림차순');
-
 	const reorder = () => {
-		setOrder(order === '내림차순' ? '오름차순' : '내림차순');
-
-		// 💡 TODO: 유저 학습 세트 데이터 가져온 후, 점수 오름차순/내림차순 정렬
+		setOrder(order === 'ascending' ? 'descending' : 'ascending');
 	};
 
 	// TODO: tag 목록 가져오기
 	const tags = ['tag1', 'tag2', 'tmp'];
 
-	// TODO: fetchAllMyQuizletSearchQuery 및 pagination 처리
-
 	const onSubmitSearch: SubmitHandler<SearchRequest> = async (formData) => {
 		setFormData(formData);
 	};
+
+	const { data } = useQuery(
+		fetchAllMyQuizletSearchQuery({
+			keyword: formData.keyword,
+			tagList: formData.tagList ?? [],
+			page,
+			order,
+		}),
+	);
+
+	console.log(data?.totalPage);
+	console.log(data?.quizletList);
 
 	return (
 		<Container>
@@ -42,7 +52,7 @@ function MyQuizlet() {
 			<Toggler order={order} onChange={reorder} />
 			<Quizlets />
 			{/* <NoResultMessage /> */}
-			<QuizletPagination count={5} page={2} />
+			<QuizletPagination count={data?.totalPage!} page={page} />
 		</Container>
 	);
 }
