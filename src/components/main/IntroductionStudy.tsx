@@ -29,12 +29,12 @@ function IntroductionStudy() {
 		<Container>
 			<FlipCard>
 				<CardInner active={isShownFront}>
-					<CardFront>
+					<CardFront active={isShownFront}>
 						<QuestionIcon />
 						<CardTitle>Question</CardTitle>
 						<CardContent>가장 쉽고 빠른 암기 방법은?</CardContent>
 					</CardFront>
-					<CardBack>
+					<CardBack active={isShownFront}>
 						<AnswerIcon />
 						<CardTitle>Answer</CardTitle>
 						<CardAnswer>
@@ -145,7 +145,7 @@ const CardInner = styled.div<CardInnerProps>`
 	transform: ${({ active }) => (active ? 'rotateY(0deg)' : 'rotateY(180deg)')};
 `;
 
-const Card = styled.div`
+const Card = styled.div<CardInnerProps>`
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -156,17 +156,42 @@ const Card = styled.div`
 	backface-visibility: hidden;
 	align-items: center;
 	justify-content: center;
+	perspective: 1000px;
+	position: absolute;
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-size: contain;
+		background-image: linear-gradient(
+			100deg,
+			rgba(238, 238, 238, 0) 0%,
+			rgba(255, 255, 255, 0) 36%,
+			rgba(255, 255, 255, 0.4) 36%,
+			rgba(255, 255, 255, 0.4) 68%,
+			rgba(247, 247, 247, 0) 69%,
+			rgba(238, 238, 238, 0) 70%
+		);
+		background-repeat: no-repeat;
+		transition: all 1s;
+		background-position: ${({ active }) => (active ? '-300px 0px' : '300px 0')};
+		pointer-events: none;
+		z-index: 20;
+	}
 `;
 
 const CardFront = styled(Card)`
-	border: 3px solid #c6c6c6;
+	border: 3px solid #bdd0ec;
 	background-color: #f6f7fa;
+	background: linear-gradient(315deg, #f5f7fb, #cddaeb, #c8d5e7);
 `;
 
 const CardBack = styled(Card)`
 	border: 3px solid #bdd0ec;
-	background-color: #eef3ff;
 	transform: rotateY(180deg);
+	background: linear-gradient(315deg, #c8d5e7, #e8eefa, #cddaeb, #c8d5e7);
 `;
 
 const CardTitle = styled.p`
@@ -186,7 +211,7 @@ const CardContent = styled.div`
 		font-size: 17px;
 		padding: 20px;
 		word-break: keep-all;
-		margin-top: 10px;
+		margin-top: 0px;
 	}
 	${desktopMediaQuery} {
 		font-size: 20px;
@@ -214,13 +239,25 @@ const AnswerText = styled.span`
 `;
 
 const QuestionIcon = styled(ContactSupportIcon)`
-	font-size: 100px;
 	color: var(--font-color);
+	${mobileMediaQuery} {
+		font-size: 70px;
+	}
+	${desktopMediaQuery} {
+		font-size: 100px;
+	}
 `;
 
 const AnswerIcon = styled(TungstenIcon)`
-	color: #f0d00d;
+	color: #f1e509;
 	font-size: 60px;
+	padding: 2px;
+	background: white;
+	border-radius: 100%;
+	box-shadow:
+		0 0 7px #fff,
+		0 0 10px #f2e994,
+		0 0 21px #fff;
 `;
 
 export default IntroductionStudy;
