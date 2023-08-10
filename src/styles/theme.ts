@@ -10,7 +10,7 @@ const theme = createTheme({
 		},
 	},
 	typography: {
-		fontFamily: `'Noto Sans KR', sans-serif`,
+		fontFamily: `'Noto Sans', 'Noto Sans KR'`,
 	},
 });
 
