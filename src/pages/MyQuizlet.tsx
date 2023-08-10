@@ -3,7 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { SubmitHandler } from 'react-hook-form';
 import { SearchRequest } from '../types';
-import { fetchAllMyQuizletSearchQuery } from '../queries';
+import {
+	fetchAllMyQuizletSearchQuery,
+	fetchQuizletTagsQuery,
+} from '../queries';
 import {
 	SearchForm,
 	Toggler,
@@ -25,10 +28,14 @@ function MyQuizlet() {
 	};
 
 	// TODO: tag 목록 가져오기
-	const tags = ['tag1', 'tag2', 'tmp'];
+	const { data: tags } = useQuery(fetchQuizletTagsQuery());
 
 	const onSubmitSearch: SubmitHandler<SearchRequest> = async (formData) => {
 		setFormData(formData);
+	};
+
+	const changePage = (targetPage: number) => {
+		setPage(targetPage);
 	};
 
 	const { data } = useQuery(
@@ -40,19 +47,19 @@ function MyQuizlet() {
 		}),
 	);
 
-	console.log(data?.totalPage);
-	console.log(data?.quizletList);
-
 	return (
 		<Container>
 			<SearchBox>
 				<SearchMessage>원하는 학습세트를 검색하세요.</SearchMessage>
-				<SearchForm tagList={tags} onSubmit={onSubmitSearch} />
+				<SearchForm tagList={tags || []} onSubmit={onSubmitSearch} />
 			</SearchBox>
 			<Toggler order={order} onChange={reorder} />
-			<Quizlets />
-			{/* <NoResultMessage /> */}
-			<QuizletPagination count={data?.totalPage!} page={page} />
+			{data?.quizletList.length ? (
+				<Quizlets quizletList={data?.quizletList} />
+			) : (
+				<NoResultMessage />
+			)}
+			<QuizletPagination count={data?.totalPage!} onPageChange={changePage} />
 		</Container>
 	);
 }

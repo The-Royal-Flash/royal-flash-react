@@ -1,14 +1,17 @@
 import styled from '@emotion/styled';
 import { QuizletCard } from '.';
+import { SearchQuizletItem } from '../../types';
 
-function Quizlets() {
+interface QuizletsProps {
+	quizletList?: Array<SearchQuizletItem>;
+}
+
+function Quizlets({ quizletList }: QuizletsProps) {
 	return (
 		<Container>
-			<QuizletCard />
-			<QuizletCard />
-			<QuizletCard />
-			<QuizletCard />
-			<QuizletCard />
+			{quizletList?.map((quizlet) => (
+				<QuizletCard key={quizlet._id} quizlet={quizlet} />
+			))}
 		</Container>
 	);
 }

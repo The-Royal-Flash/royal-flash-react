@@ -15,6 +15,11 @@ export interface SearchQuizletItem {
 	description: string;
 	questionCardList: string[];
 	owner: QuizletOwnerInfo;
+	updateAt: string;
+	studyLog: {
+		createAt: string;
+		numOfQuestionListToReview: number;
+	};
 }
 
 export interface SearchApiResponse {
