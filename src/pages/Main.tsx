@@ -1,21 +1,21 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import {
 	Introduction,
 	IntroductionCreateQuizlet,
+	IntroductionMyQuizlet,
 	IntroductionSearch,
+	IntroductionStudy,
 } from '../components';
+import { desktopMediaQuery } from '../utils/mediaQueries';
 
 function Main() {
 	return (
 		<Container>
 			<Introduction />
-			{/* 검색 */}
+			<IntroductionStudy />
 			<IntroductionSearch />
-			{/* TODO: 인기 목록 */}
-			{/* TODO: 생성 */}
 			<IntroductionCreateQuizlet />
-			{/* 관리 */}
+			<IntroductionMyQuizlet />
 		</Container>
 	);
 }
@@ -25,7 +25,9 @@ const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
 	overflow: hidden;
-	margin: 50px 0;
+	${desktopMediaQuery} {
+		margin-top: 50px;
+	}
 `;
 
 export default Main;

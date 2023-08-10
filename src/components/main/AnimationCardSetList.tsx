@@ -34,7 +34,6 @@ function AnimationCardSetList() {
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin: 45px 0 40px;
 	gap: 30px;
 
 	${mobileMediaQuery} {
@@ -42,6 +41,7 @@ const Container = styled.div`
 		transform: rotate(-65deg) skew(25deg) scale(0.5) translateY(-250px);
 	}
 	${desktopMediaQuery} {
+		margin: 100px 0 80px;
 		transform: rotate(-65deg) skew(25deg) scale(0.8) translateY(-250px);
 	}
 `;
