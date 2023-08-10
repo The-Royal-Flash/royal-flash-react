@@ -7,12 +7,10 @@ import BoxTitle from './BoxTitle';
 import AnimationCardSetList from './AnimationCardSetList';
 import { FadeIn, SlideScroll } from '../common';
 import { useCheckInView } from '../../hooks';
-import { useInView } from 'react-intersection-observer';
 
 function IntroductionCreateQuizlet() {
 	const navi = useNavigate();
 	const { ref, isInView } = useCheckInView(0.4, true);
-	const [cardsetRef, cardsetInview] = useInView({ threshold: 0.2 });
 
 	return (
 		<>
@@ -34,12 +32,10 @@ function IntroductionCreateQuizlet() {
 			</Container>
 			<SlideBox>
 				<SlideScroll>
-					<BoxTitle ref={cardsetRef}>
-						{'나에게 딱! 맞는 학습세트 만들기'}
-					</BoxTitle>
+					<BoxTitle>{'나에게 딱! 맞는 학습세트 만들기'}</BoxTitle>
 				</SlideScroll>
 
-				<AnimationCardSetList inView={cardsetInview} />
+				<AnimationCardSetList />
 
 				<ResponsiveButton
 					variant="contained"
