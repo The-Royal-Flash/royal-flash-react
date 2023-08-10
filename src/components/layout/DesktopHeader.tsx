@@ -20,7 +20,7 @@ function DesktopHeader() {
 			<Flex>
 				<SpreadLogoWithText />
 				<ExpandTooltipButton
-					tooltip="Search"
+					tooltip="검색"
 					widthToExpand={70}
 					handleClick={() => {
 						navitate('/quizlet');
