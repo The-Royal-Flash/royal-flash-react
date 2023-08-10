@@ -1,4 +1,3 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Footer, Header } from './';
@@ -39,6 +38,7 @@ const Wrapper = styled.div`
 	height: 100%;
 	width: 100%;
 	min-width: var(--min-width);
+	overflow: scroll;
 `;
 
 const OutletWrapper = styled.div`
@@ -49,6 +49,7 @@ const OutletWrapper = styled.div`
 	max-width: var(--max-width);
 	width: 100%;
 	margin: 0 auto;
+	margin-top: var(--header-height);
 `;
 
 export default Layout;

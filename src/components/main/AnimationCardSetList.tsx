@@ -1,73 +1,117 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { useCheckInView } from '../../hooks';
-import { useMediaQuery } from '@mui/material';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import { useInView } from 'react-intersection-observer';
 
 interface CardProps {
 	index: number;
 	active: boolean;
 }
 
-interface CardWrapperProps {
-	setIndex: number;
-}
-
 function AnimationCardSetList() {
-	const isMobile = useMediaQuery(mobileMediaQuery);
-	const { ref, isInView } = useCheckInView(isMobile ? 0.2 : 0.5);
+	const [ref, inView] = useInView({ threshold: 0.2 });
+
+	const cardNames = ['영단어', '한국사', '면접질문', 'React', '헌법'];
 
 	return (
 		<Container ref={ref}>
-			{Array.from({ length: 5 }).map((_, setIndex) => (
-				<CardWrapper key={`cardset-${setIndex}`} setIndex={setIndex}>
-					<Card active={isInView} index={1} />
-					<Card active={isInView} index={2} />
-					<Card active={isInView} index={3} />
-					<Card active={isInView} index={4} />
-				</CardWrapper>
-			))}
+			<Wrapper>
+				{cardNames.map((name) => (
+					<CardSetWrapper key={`cardset-${name}`}>
+						<CardWrapper>
+							<Card active={inView} index={1} />
+						</CardWrapper>
+						<CardWrapper>
+							<Card active={inView} index={2} />
+						</CardWrapper>
+						<CardWrapper>
+							<Card active={inView} index={3} />
+						</CardWrapper>
+						<CardWrapper>
+							<Card active={inView} index={4}>
+								{name}
+							</Card>
+						</CardWrapper>
+					</CardSetWrapper>
+				))}
+			</Wrapper>
 		</Container>
 	);
 }
 
 const Container = styled.div`
 	display: flex;
-	flex-direction: column;
-	margin: 45px 0 40px;
-	gap: 30px;
-
+	justify-content: center;
+	align-items: center;
+	width: 100%;
 	${mobileMediaQuery} {
-		margin: 10px 0 2px;
-		transform: rotate(-65deg) skew(25deg) scale(0.5) translateY(-250px);
+		height: 170px;
 	}
 	${desktopMediaQuery} {
-		transform: rotate(-65deg) skew(25deg) scale(0.8) translateY(-250px);
+		height: 250px;
 	}
 `;
 
-const CardWrapper = styled.div<CardWrapperProps>`
+const Wrapper = styled.div`
+	display: flex;
+	flex-direction: row;
+
+	${mobileMediaQuery} {
+		width: 100%;
+	}
+	${desktopMediaQuery} {
+		margin: 0;
+		width: 80%;
+	}
+`;
+
+const CardSetWrapper = styled.div`
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
+const CardWrapper = styled.div`
 	position: relative;
-	width: 200px;
-	transform: ${(props) => `translateY(calc(100px * ${props.setIndex}))`};
+	${mobileMediaQuery} {
+		@media (max-width: 500px) {
+			transform: skew(-10deg) scale(0.6) translateY(-30px) translateX(5px);
+		}
+		transform: skew(-10deg) scale(0.7) translateY(-30px) translateX(5px);
+	}
+	${desktopMediaQuery} {
+		@media (max-width: 800px) {
+			transform: skew(-10deg) scale(0.7) translateY(-30px) translateX(10px);
+		}
+		@media (max-width: 1000px) {
+			transform: skew(-10deg) scale(0.9) translateY(-30px) translateX(10px);
+		}
+		@media (min-width: 1000px) {
+			transform: skew(-10deg) scale(1.1) translateY(-30px) translateX(10px);
+		}
+	}
 `;
 
 const Card = styled.div<CardProps>`
-	width: 130px;
-	height: 80px;
-	border: 1px solid #4e79c5;
+	width: 80px;
+	height: 130px;
+	border: 1px solid #0164ff;
 	border-radius: 5px;
-	background: #769de1;
+	background: linear-gradient(315deg, #0026e7, #617dd8, #48ace8);
 	position: absolute;
-	top: 50px;
 	transition: all 0.7s ease-in;
 	transition-delay: 0.2s;
-	transform: translate(0, 0);
 	opacity: 1;
-
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.1rem;
+	font-weight: 500;
+	color: white;
 	${(props) =>
 		props.active &&
-		`transform: translate(${12 * props.index}px, ${-12 * props.index}px);
+		`transform: translate(${-12 * props.index}px, ${-12 * props.index}px);
 	  opacity:${1 / (5 - props.index)}`};
 `;
 

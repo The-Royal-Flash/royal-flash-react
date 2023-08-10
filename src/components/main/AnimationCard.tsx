@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { useCheckInView } from '../../hooks';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
@@ -8,7 +7,7 @@ interface CardProps {
 }
 
 function AnimationCard() {
-	const { ref, isInView } = useCheckInView(0.4, true);
+	const { ref, isInView } = useCheckInView(0.5, true);
 
 	return (
 		<Container ref={ref}>
@@ -30,8 +29,7 @@ const Container = styled.div`
 	${mobileMediaQuery} {
 		transform: scale(1.2);
 		height: 320px;
-		margin-top: 30px;
-		margin-bottom: -20px;
+		margin-top: 60px;
 	}
 	${desktopMediaQuery} {
 		transform: scale(1);
