@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Chip, LinearProgress } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { SearchQuizletItem } from '../../types';
 
 /** date 객체를 받아 yyyy-mm-dd 00:00 형태로 반환 */
@@ -23,6 +24,7 @@ interface QuizletCardProps {
 
 function QuizletCard({ quizlet }: QuizletCardProps) {
 	const {
+		_id,
 		description,
 		title,
 		tagList,
@@ -31,12 +33,18 @@ function QuizletCard({ quizlet }: QuizletCardProps) {
 		updateAt,
 	} = quizlet;
 
+	const navigate = useNavigate();
 	const totalQuestions = questionCardList.length;
 	const lastNumOfCorrect = totalQuestions - numOfQuestionListToReview;
 	const { lastUpdatedDate, lastUpdatedTime } = formatDate(new Date(updateAt));
 
+	const moveToQuizletDetailPage = (_id: string) => {
+		const detailPageUrl = `/quizlet/detail/${_id}`;
+		navigate(detailPageUrl);
+	};
+
 	return (
-		<Container>
+		<Container onClick={() => moveToQuizletDetailPage(_id)}>
 			<QuizletTitle>{title}</QuizletTitle>
 			<ChipsWrapper>
 				{tagList.map((tag) => (
