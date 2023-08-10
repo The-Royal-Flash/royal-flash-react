@@ -15,6 +15,11 @@ export interface SearchQuizletItem {
 	description: string;
 	questionCardList: string[];
 	owner: QuizletOwnerInfo;
+	updateAt: string;
+	studyLog: {
+		createAt: string;
+		numOfQuestionListToReview: number;
+	};
 }
 
 export interface SearchApiResponse {
@@ -22,6 +27,10 @@ export interface SearchApiResponse {
 	page: number;
 	totalPages: number;
 	quizletList: Array<SearchQuizletItem>;
+}
+
+export interface MySearchApiResponse extends SearchApiResponse {
+	totalPage: number;
 }
 
 export interface TagApiResponse {

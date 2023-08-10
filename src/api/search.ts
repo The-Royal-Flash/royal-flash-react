@@ -3,6 +3,7 @@ import {
 	SearchApiResponse,
 	SearchRequest,
 	TagApiResponse,
+	MySearchApiResponse,
 } from '../types/search';
 import { http } from './base';
 
@@ -15,7 +16,13 @@ export const fetchAllQuizletSearch = async (
 };
 
 // 학습세트 검색 (나의 학습세트)
-// export const fetchAllMyQuizletSearch
+export const fetchAllMyQuizletSearch = async (
+	searchInfo: SearchRequest & {
+		page: number;
+		pageSize: number;
+		order: 'ascending' | 'descending';
+	},
+) => await http.get<MySearchApiResponse>('/search/myquizlet', searchInfo);
 
 // 태그 목록 가져오기 - 모든 학습세트 전체
 export const fetchAllQuizletTags = async () =>

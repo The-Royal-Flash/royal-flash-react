@@ -11,6 +11,9 @@ const theme = createTheme({
 	},
 	typography: {
 		fontFamily: `'Noto Sans', 'Noto Sans KR'`,
+		button: {
+			fontFamily: `'Noto Sans', 'Noto Sans KR'`,
+		},
 	},
 });
 

@@ -1,40 +1,83 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { Chip, LinearProgress } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { SearchQuizletItem } from '../../types';
 
-function QuizletCard() {
-	// PLACEHOLDER
+/** date 객체를 받아 yyyy-mm-dd 00:00 형태로 반환 */
+const formatDate = (date: Date) => {
+	const [yyyy, mm, dd] = [
+		date.getFullYear(),
+		`${date.getMonth()}`.padStart(2, '0'),
+		`${date.getDay()}`.padStart(2, '0'),
+	];
+	const [hr, min] = [date.getHours(), date.getMinutes()];
+
+	return {
+		lastUpdatedDate: `${yyyy}-${mm}-${dd}`,
+		lastUpdatedTime: `${hr}:${min}`,
+	};
+};
+
+interface QuizletCardProps {
+	quizlet: SearchQuizletItem;
+}
+
+function QuizletCard({ quizlet }: QuizletCardProps) {
+	const {
+		_id,
+		description,
+		title,
+		tagList,
+		questionCardList,
+		studyLog: { numOfQuestionListToReview },
+		updateAt,
+	} = quizlet;
+
+	const navigate = useNavigate();
+	const totalQuestions = questionCardList.length;
+	const lastNumOfCorrect = totalQuestions - numOfQuestionListToReview;
+	const { lastUpdatedDate, lastUpdatedTime } = formatDate(new Date(updateAt));
+
+	const moveToQuizletDetailPage = (_id: string) => {
+		const detailPageUrl = `/quizlet/detail/${_id}`;
+		navigate(detailPageUrl);
+	};
 
 	return (
-		<Container>
-			<QuizletTitle>Frontend Interview Questions - Core 100</QuizletTitle>
+		<Container onClick={() => moveToQuizletDetailPage(_id)}>
+			<QuizletTitle>{title}</QuizletTitle>
 			<ChipsWrapper>
-				<StyledChip label="frontend" variant="outlined" color="primary" />
-				<StyledChip label="javascript" variant="outlined" color="primary" />
-				<StyledChip label="web dev" variant="outlined" color="primary" />
-				<StyledChip label="interview" variant="outlined" color="primary" />
-				<StyledChip label="core" variant="outlined" color="primary" />
-				<StyledChip label="questions" variant="outlined" color="primary" />
+				{tagList.map((tag) => (
+					<StyledChip
+						key={tag}
+						label={tag}
+						variant="outlined"
+						color="primary"
+					/>
+				))}
 			</ChipsWrapper>
+			<Description>{description}</Description>
 			<Data>
 				<CountData>
-					오답노트 <span>35</span>문항
+					오답노트 <span>{numOfQuestionListToReview}</span>문항
 				</CountData>
 				<CountData>
-					퀴즈 응시 <span>10</span>회
+					퀴즈 응시 <span>{10}</span>회
 				</CountData>
 				<ScoreData>
 					<span>Score</span>
 					<div>
-						<Score>13</Score>
-						<Total>/50</Total>
+						<Score>{lastNumOfCorrect}</Score>
+						<Total>/{totalQuestions}</Total>
 					</div>
-					<LastQuizTime>2023/03/30 22:00</LastQuizTime>
+					<LastQuizTime>
+						{lastUpdatedDate} {lastUpdatedTime}
+					</LastQuizTime>
 				</ScoreData>
 			</Data>
 			<ProgressBar
 				variant="determinate"
-				value={Math.random() * (13 / 50) * 100}
+				value={(lastNumOfCorrect / totalQuestions) * 100}
 			/>
 		</Container>
 	);
@@ -51,10 +94,16 @@ const Container = styled.div`
 	:hover {
 		scale: 1.005;
 	}
+`;
 
-	:hover > p {
-		color: var(--secondary-color);
-	}
+const Description = styled.p`
+	color: #999999;
+	font-size: 14px;
+	font-weight: light;
+	padding: 5px;
+	height: 30px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const QuizletTitle = styled.p`
