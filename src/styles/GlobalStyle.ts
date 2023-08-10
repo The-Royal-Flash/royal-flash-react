@@ -55,7 +55,7 @@ const GlobalStyle = css`
 	body {
 		width: 100%;
 		height: 100%;
-		font-family: 'Noto Sans KR', sans-serif;
+		font-family: 'Noto Sans', 'Noto Sans KR';
 	}
 
 	ul,

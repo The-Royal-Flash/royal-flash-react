@@ -22,7 +22,7 @@ const Container = styled.div<SpreadLogoProps>`
 	position: relative;
 	display: flex;
 	align-items: center;
-	top: 0px;
+	top: 2px;
 	left: 43px;
 	padding-right: ${(props) => (props.active ? '125px' : '85px')};
 	transition: all 0.3s ease;
