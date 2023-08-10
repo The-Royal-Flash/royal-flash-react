@@ -41,7 +41,7 @@ function MyQuizlet() {
 	const { data } = useQuery(
 		fetchAllMyQuizletSearchQuery({
 			keyword: formData.keyword,
-			tagList: formData.tagList ?? [],
+			tagList: formData.tagList || [],
 			page,
 			order,
 		}),

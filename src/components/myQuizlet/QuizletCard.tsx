@@ -93,6 +93,9 @@ const Description = styled.p`
 	font-size: 14px;
 	font-weight: light;
 	padding: 5px;
+	height: 30px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const QuizletTitle = styled.p`
