@@ -20,6 +20,7 @@ function Study() {
 	const [questionListToCorrect, setQuestionListToCorrect] = useState<string[]>([]);
 	// prettier-ignore
 	const [questionListToReview, setQuestionListToReview] = useState<string[]>([]);
+	const [pastIds, setPastIds] = useState<string[]>([]);
 
 	if (!quizletId || !mode || !(mode in STUDY_MODE)) {
 		addToast({
@@ -41,7 +42,18 @@ function Study() {
 		);
 	}, [questionListToCorrect, questionListToReview]);
 
-	const { data } = useQuery(fetchStudyQuestionListQuery(quizletId, mode));
+	const { data, isError } = useQuery(
+		fetchStudyQuestionListQuery(quizletId, mode),
+	);
+
+	if (isError) {
+		addToast({
+			type: TOAST_TYPE.ERROR,
+			msg_type: TOAST_MSG_TYPE.SERVER_ERROR,
+		});
+
+		return <Navigate to="/" />;
+	}
 
 	/** 학습 완료 및 오답 등록시 다음 질문 카드로 이동 */
 	const goToNextCard = (isWrong: boolean, _id: string) => {
@@ -57,26 +69,32 @@ function Study() {
 			]);
 		}
 
+		setPastIds((prevPastIds) => [...prevPastIds, _id]);
+
 		if (step + 1 <= data?.questionCardList.length!) setStep((prev) => prev + 1);
 		else setIsFinished(true);
 	};
 
 	/** UndoButton 클릭시 이전 카드로 이동 */
-	const goToPrevCard = (_id: string) => {
-		if (step - 1 === 0) return;
+	const goToPrevCard = () => {
+		let questionIdToRemove: string = '';
 
 		if (step === data?.questionCardList.length! && isFinished) {
 			setIsFinished(false);
+			questionIdToRemove = pastIds.at(-1) as string;
 		} else if (step - 1 >= 0) {
 			setStep((prev) => prev - 1);
+			questionIdToRemove = pastIds[step - 2];
+		} else if (step - 1 === 0 && isFinished) {
+			questionIdToRemove = pastIds[0];
 		}
 
 		setQuestionListToReview((prevQuestionListToReview) =>
-			prevQuestionListToReview.filter((id) => id !== _id),
+			prevQuestionListToReview.filter((id) => id !== questionIdToRemove),
 		);
 
 		setQuestionListToCorrect((prevQuestionListToCorrect) =>
-			prevQuestionListToCorrect.filter((id) => id !== _id),
+			prevQuestionListToCorrect.filter((id) => id !== questionIdToRemove),
 		);
 	};
 
@@ -115,7 +133,7 @@ const Container = styled.div`
 
 const ProgressBar = styled(LinearProgress)`
 	width: 100%;
-	position: absolute;
+	position: fixed;
 	${mobileMediaQuery} {
 		top: 50px;
 	}
