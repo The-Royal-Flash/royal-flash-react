@@ -2,21 +2,7 @@ import styled from '@emotion/styled';
 import { Chip, LinearProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SearchQuizletItem } from '../../types';
-
-/** date 객체를 받아 yyyy-mm-dd 00:00 형태로 반환 */
-const formatDate = (date: Date) => {
-	const [yyyy, mm, dd] = [
-		date.getFullYear(),
-		`${date.getMonth()}`.padStart(2, '0'),
-		`${date.getDay()}`.padStart(2, '0'),
-	];
-	const [hr, min] = [date.getHours(), date.getMinutes()];
-
-	return {
-		lastUpdatedDate: `${yyyy}-${mm}-${dd}`,
-		lastUpdatedTime: `${hr}:${min}`,
-	};
-};
+import { formatDateAndTime } from '../../utils/dateFormat';
 
 interface QuizletCardProps {
 	quizlet: SearchQuizletItem;
@@ -36,7 +22,9 @@ function QuizletCard({ quizlet }: QuizletCardProps) {
 	const navigate = useNavigate();
 	const totalQuestions = questionCardList.length;
 	const lastNumOfCorrect = totalQuestions - numOfQuestionListToReview;
-	const { lastUpdatedDate, lastUpdatedTime } = formatDate(new Date(updateAt));
+	const { lastUpdatedDate, lastUpdatedTime } = formatDateAndTime(
+		new Date(updateAt),
+	);
 
 	const moveToQuizletDetailPage = (_id: string) => {
 		const detailPageUrl = `/quizlet/detail/${_id}`;
