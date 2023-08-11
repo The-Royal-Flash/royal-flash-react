@@ -1,6 +1,6 @@
 import { fetchAllMyQuizletSearch } from '../../api/search';
 
-const staleTime = 60000;
+const staleTime = 3000;
 
 interface fetchAllMyQuizletSearchQueryProps {
 	keyword: string;
@@ -20,7 +20,7 @@ const fetchAllMyQuizletSearchQuery = ({
 		const data = await fetchAllMyQuizletSearch({
 			keyword,
 			page,
-			pageSize: 5,
+			pageSize: 2,
 			order,
 			tagList,
 		});

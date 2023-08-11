@@ -5,7 +5,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { SearchRequest } from '../types';
 import {
 	fetchAllMyQuizletSearchQuery,
-	fetchQuizletTagsQuery,
+	fetchAllMyQuizletTagsQuery,
 } from '../queries';
 import {
 	SearchForm,
@@ -27,8 +27,7 @@ function MyQuizlet() {
 		setOrder(order === 'ascending' ? 'descending' : 'ascending');
 	};
 
-	// TODO: tag 목록 가져오기
-	const { data: tags } = useQuery(fetchQuizletTagsQuery());
+	const { data: tags } = useQuery(fetchAllMyQuizletTagsQuery());
 
 	const onSubmitSearch: SubmitHandler<SearchRequest> = async (formData) => {
 		setFormData(formData);

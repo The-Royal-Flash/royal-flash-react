@@ -31,6 +31,7 @@ function QuizletCard({ quizlet }: QuizletCardProps) {
 		navigate(detailPageUrl);
 	};
 
+	// 💡 TODO: 서버에서 퀴즈 응시 횟수 정보 받아서 페이지에 반영하기 (아직 BE에서 구현 안됨)
 	return (
 		<Container onClick={() => moveToQuizletDetailPage(_id)}>
 			<QuizletTitle>{title}</QuizletTitle>
