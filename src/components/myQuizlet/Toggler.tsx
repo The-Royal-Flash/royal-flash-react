@@ -10,7 +10,7 @@ function Toggler({ order, onChange }: TogglerProps) {
 	return (
 		<Container>
 			<StyledToggleButton value="score" onChange={onChange}>
-				{order === 'ascending' ? '오름차순' : '내림차순'} 정렬
+				{order === 'ascending' ? '낮은 점수부터 보기' : '높은 점수부터 보기'}
 			</StyledToggleButton>
 		</Container>
 	);
