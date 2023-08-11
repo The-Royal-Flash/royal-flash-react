@@ -59,7 +59,7 @@ function MyQuizlet() {
 			) : (
 				<NoResultMessage />
 			)}
-			<QuizletPagination count={data?.totalPage!} onPageChange={changePage} />
+			<QuizletPagination total={data?.totalPage!} onPageChange={changePage} />
 		</Container>
 	);
 }

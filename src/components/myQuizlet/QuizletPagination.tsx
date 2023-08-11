@@ -3,19 +3,17 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
 interface QuizletPaginationProps {
-	count: number;
+	total: number;
 	onPageChange: (targetPage: number) => void;
 }
 
-function QuizletPagination({ count, onPageChange }: QuizletPaginationProps) {
+function QuizletPagination({ total, onPageChange }: QuizletPaginationProps) {
 	return (
 		<Stack spacing={2}>
 			<StyledPagination
-				count={count}
+				count={total}
 				shape="rounded"
-				onClick={(event) =>
-					onPageChange(+(event.target as HTMLElement).textContent!)
-				}
+				onChange={(_, page) => onPageChange(page)}
 			/>
 		</Stack>
 	);
