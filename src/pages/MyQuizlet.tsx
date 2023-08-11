@@ -54,7 +54,7 @@ function MyQuizlet() {
 			</SearchBox>
 			<Toggler order={order} onChange={reorder} />
 			{data?.quizletList.length ? (
-				<Quizlets quizletList={data?.quizletList} order={order} />
+				<Quizlets quizletList={data?.quizletList} />
 			) : (
 				<NoResultMessage />
 			)}
