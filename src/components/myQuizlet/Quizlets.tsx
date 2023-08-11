@@ -4,9 +4,24 @@ import { SearchQuizletItem } from '../../types';
 
 interface QuizletsProps {
 	quizletList?: Array<SearchQuizletItem>;
+	order: string;
 }
 
-function Quizlets({ quizletList }: QuizletsProps) {
+function Quizlets({ quizletList, order }: QuizletsProps) {
+	if (order === 'ascending') {
+		quizletList!.sort(
+			(a, b) =>
+				a.studyLog.numOfQuestionListToReview -
+				b.studyLog.numOfQuestionListToReview,
+		);
+	} else {
+		quizletList!.sort(
+			(a, b) =>
+				b.studyLog.numOfQuestionListToReview -
+				a.studyLog.numOfQuestionListToReview,
+		);
+	}
+
 	return (
 		<Container>
 			{quizletList?.map((quizlet) => (
