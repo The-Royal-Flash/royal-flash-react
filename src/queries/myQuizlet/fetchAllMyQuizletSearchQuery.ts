@@ -20,7 +20,7 @@ const fetchAllMyQuizletSearchQuery = ({
 		const data = await fetchAllMyQuizletSearch({
 			keyword,
 			page,
-			pageSize: 2,
+			pageSize: 5,
 			order,
 			tagList,
 		});
