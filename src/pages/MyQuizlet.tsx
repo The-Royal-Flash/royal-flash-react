@@ -27,14 +27,14 @@ function MyQuizlet() {
 		setOrder(order === 'ascending' ? 'descending' : 'ascending');
 	};
 
+	const changePage = (targetPage: number) => {
+		setPage(targetPage);
+	};
+
 	const { data: tags } = useQuery(fetchAllMyQuizletTagsQuery());
 
 	const onSubmitSearch: SubmitHandler<SearchRequest> = async (formData) => {
 		setFormData(formData);
-	};
-
-	const changePage = (targetPage: number) => {
-		setPage(targetPage);
 	};
 
 	const { data } = useQuery(
