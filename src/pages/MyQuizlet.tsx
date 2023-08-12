@@ -5,7 +5,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { SearchRequest } from '../types';
 import {
 	fetchAllMyQuizletSearchQuery,
-	fetchQuizletTagsQuery,
+	fetchAllMyQuizletTagsQuery,
 } from '../queries';
 import {
 	SearchForm,
@@ -27,15 +27,14 @@ function MyQuizlet() {
 		setOrder(order === 'ascending' ? 'descending' : 'ascending');
 	};
 
-	// TODO: tag 목록 가져오기
-	const { data: tags } = useQuery(fetchQuizletTagsQuery());
+	const changePage = (targetPage: number) => {
+		setPage(targetPage);
+	};
+
+	const { data: tags } = useQuery(fetchAllMyQuizletTagsQuery());
 
 	const onSubmitSearch: SubmitHandler<SearchRequest> = async (formData) => {
 		setFormData(formData);
-	};
-
-	const changePage = (targetPage: number) => {
-		setPage(targetPage);
 	};
 
 	const { data } = useQuery(
@@ -59,7 +58,7 @@ function MyQuizlet() {
 			) : (
 				<NoResultMessage />
 			)}
-			<QuizletPagination count={data?.totalPage!} onPageChange={changePage} />
+			<QuizletPagination total={data?.totalPage!} onPageChange={changePage} />
 		</Container>
 	);
 }

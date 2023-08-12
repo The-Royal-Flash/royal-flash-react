@@ -38,3 +38,9 @@ export interface TagApiResponse {
 	message: string;
 	tagList: string[];
 }
+
+export interface MyTagsApiResponse {
+	isSuccess: boolean;
+	message: string;
+	uniqueTags: string[];
+}

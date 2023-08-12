@@ -1,6 +1,6 @@
 import { fetchAllMyQuizletSearch } from '../../api/search';
 
-const staleTime = 60000;
+const staleTime = 3000;
 
 interface fetchAllMyQuizletSearchQueryProps {
 	keyword: string;

@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import UndoIcon from '@mui/icons-material/Undo';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 
 function NoResultMessage() {
-	// placeholder
+	const navigate = useNavigate();
 
 	return (
 		<Container>
@@ -12,7 +13,11 @@ function NoResultMessage() {
 			<ErrorMessage>
 				Uh oh! 검색 내용에 맞는 결과가 없어요! 다른 내용으로 검색해보세요.
 			</ErrorMessage>
-			<BackButton variant="outlined" startIcon={<UndoIcon />}>
+			<BackButton
+				variant="outlined"
+				startIcon={<UndoIcon />}
+				onClick={() => navigate(0)}
+			>
 				돌아가기
 			</BackButton>
 		</Container>
