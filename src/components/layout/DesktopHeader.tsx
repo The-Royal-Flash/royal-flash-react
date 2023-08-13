@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonIcon from '@mui/icons-material/Person';
@@ -12,7 +12,7 @@ import { ExpandTooltipButton } from '../common';
 import { useUserContext } from '../../contexts/UserContext';
 
 function DesktopHeader() {
-	const navitate = useNavigate();
+	const navigate = useNavigate();
 	const { user, logoutUser } = useUserContext();
 
 	return (
@@ -23,7 +23,7 @@ function DesktopHeader() {
 					tooltip="Search"
 					widthToExpand={70}
 					handleClick={() => {
-						navitate('/quizlet');
+						navigate('/quizlet');
 					}}
 					icon={<SearchIcon />}
 				/>
@@ -34,7 +34,7 @@ function DesktopHeader() {
 						tooltip="로그인"
 						widthToExpand={60}
 						handleClick={() => {
-							navitate('/login');
+							navigate('/login');
 						}}
 						icon={<LoginIcon />}
 					/>
@@ -44,7 +44,7 @@ function DesktopHeader() {
 							tooltip="프로필"
 							widthToExpand={70}
 							handleClick={() => {
-								navitate('/profile');
+								navigate('/profile');
 							}}
 							icon={<PersonIcon />}
 						/>
@@ -52,7 +52,7 @@ function DesktopHeader() {
 							tooltip="나의 학습"
 							widthToExpand={70}
 							handleClick={() => {
-								navitate('/quizlet/my-quizlet');
+								navigate('/quizlet/my-quizlet');
 							}}
 							icon={<AutoStoriesIcon />}
 						/>
@@ -60,7 +60,7 @@ function DesktopHeader() {
 							tooltip="학습세트 생성"
 							widthToExpand={70}
 							handleClick={() => {
-								navitate('/quizlet/create');
+								navigate('/quizlet/create');
 							}}
 							icon={<PostAddIcon />}
 						/>
@@ -68,7 +68,7 @@ function DesktopHeader() {
 							tooltip="학습세트 관리"
 							widthToExpand={70}
 							handleClick={() => {
-								// TODO
+								navigate('/quizlet/owned-quizlet');
 							}}
 							icon={<StyleIcon />}
 						/>
@@ -77,7 +77,7 @@ function DesktopHeader() {
 							widthToExpand={70}
 							handleClick={() => {
 								logoutUser();
-								navitate('/');
+								navigate('/');
 							}}
 							icon={<LogoutIcon />}
 						/>
