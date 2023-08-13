@@ -68,7 +68,7 @@ function DesktopHeader() {
 							tooltip="학습세트 관리"
 							widthToExpand={70}
 							handleClick={() => {
-								navigate('/quizlet/owned-quizlet');
+								navigate('/quizlet/my-quizlet/owned');
 							}}
 							icon={<StyleIcon />}
 						/>

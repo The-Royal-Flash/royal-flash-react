@@ -74,6 +74,17 @@ const router = createBrowserRouter([
 						element: (
 							<AuthenticationGuard redirectTo="/login" component={MyQuizlet} />
 						),
+						children: [
+							{
+								path: 'owned',
+								element: (
+									<AuthenticationGuard
+										redirectTo="/login"
+										component={MyQuizlet}
+									/>
+								),
+							},
+						],
 					},
 				],
 			},
