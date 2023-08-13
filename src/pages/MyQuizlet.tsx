@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { SubmitHandler } from 'react-hook-form';
 import { SearchRequest } from '../types';
@@ -16,6 +17,9 @@ import {
 } from '../components';
 
 function MyQuizlet() {
+	const { pathname } = useLocation();
+	const ownedOnly = pathname.includes('owned');
+
 	const [order, setOrder] = useState<'ascending' | 'descending'>('ascending');
 	const [page, setPage] = useState(1);
 	const [formData, setFormData] = useState<SearchRequest>({
@@ -37,6 +41,7 @@ function MyQuizlet() {
 		setFormData(formData);
 	};
 
+	// 💡 TODO: ownedOnly를 기준으로 다른 API 호출
 	const { data } = useQuery(
 		fetchAllMyQuizletSearchQuery({
 			keyword: formData.keyword,
