@@ -12,8 +12,8 @@ import { editQuizletSchema } from '../../schemas/quizletSchema';
 import { deleteQuizlet, editQuizlet } from '../../api';
 import { fetchQuizletQuery } from '../../queries';
 import {
-	QuestionCardInputField,
-	QuizletInfoInputField,
+	EditQuestionCardInputField,
+	EditQuizletInfoInputField,
 	RemoveQuestionCard,
 } from '.';
 import {
@@ -111,7 +111,7 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 
 	return (
 		<StyledForm onSubmit={handleSubmit(handleOnSubmit)}>
-			<QuizletInfoInputField
+			<EditQuizletInfoInputField
 				register={register}
 				control={control}
 				errors={errors}
@@ -126,11 +126,10 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 				/>
 			))}
 			{fields.map((field, index) => (
-				<QuestionCardInputField
+				<EditQuestionCardInputField
 					key={field.id}
 					index={index}
 					questionNumber={oldQuestionList.length + index + 1}
-					listName="questionCardListToAdd"
 					register={register}
 					errors={errors}
 					remove={remove}

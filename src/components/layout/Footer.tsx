@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { useMediaQuery } from '@mui/material';
 import TeamMember from './TeamMember';

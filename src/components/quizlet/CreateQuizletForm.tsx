@@ -1,11 +1,10 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQuizletRequest } from '../../types';
 import { createQuizletSchema } from '../../schemas/quizletSchema';
 import { createQuizlet } from '../../api';
-import { QuestionCardInputField, QuizletInfoInputField } from '.';
+import { CreateQuestionCardInputField, CreateQuizletInfoInputField } from '.';
 import {
 	AddQuestionButton,
 	ErrorMessage,
@@ -51,18 +50,17 @@ function CreateQuizletForm() {
 	const goBack = () => navi(-1);
 	return (
 		<StyledForm onSubmit={handleSubmit(handleOnSubmit)}>
-			<QuizletInfoInputField
+			<CreateQuizletInfoInputField
 				register={register}
 				control={control}
 				errors={errors}
 			/>
 
 			{fields.map((field, index) => (
-				<QuestionCardInputField
+				<CreateQuestionCardInputField
 					key={field.id}
 					index={index}
 					questionNumber={index + 1}
-					listName="questionCardList"
 					register={register}
 					errors={errors}
 					remove={remove}

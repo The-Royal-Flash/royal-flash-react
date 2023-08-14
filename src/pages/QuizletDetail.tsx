@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { StyledContainer, StyledTitle } from '../components/quizlet/styles';
+import { StyledContainer } from '../components/quizlet/styles';
 import { QuizletDetailInfo } from '../components';
 
 function QuizletDetail() {
