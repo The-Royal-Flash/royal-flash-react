@@ -10,8 +10,8 @@ interface fetchAllQuizletQueryProps {
 }
 
 const fetchAllQuizletSearchQuery = ({
-	keyword,
-	tagList,
+	keyword = '',
+	tagList = [],
 }: fetchAllQuizletQueryProps) => ({
 	queryKey: ['search', keyword, ...tagList],
 	queryFn: async ({ pageParam = 1 }) => {

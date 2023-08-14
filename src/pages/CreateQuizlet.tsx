@@ -1,4 +1,3 @@
-import React from 'react';
 import { CreateQuizletForm } from '../components';
 import { StyledContainer, StyledTitle } from '../components/quizlet/styles';
 

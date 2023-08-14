@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';

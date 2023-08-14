@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import {

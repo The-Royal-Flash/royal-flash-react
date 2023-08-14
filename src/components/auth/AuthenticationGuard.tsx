@@ -1,4 +1,4 @@
-import { ComponentType, useContext, useEffect } from 'react';
+import { ComponentType, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useUserContext } from '../../contexts/UserContext';
 import { useQuery } from '@tanstack/react-query';
