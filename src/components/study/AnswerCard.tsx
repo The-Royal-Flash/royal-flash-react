@@ -72,6 +72,8 @@ const Question = styled.p`
 
 const Answer = styled.p`
 	font-size: 18px;
+	max-height: 80%;
+	overflow-y: auto;
 	${mobileMediaQuery} {
 		font-size: 16px;
 	}

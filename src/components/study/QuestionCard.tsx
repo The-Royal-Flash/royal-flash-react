@@ -53,6 +53,8 @@ const Container = styled.div<ContainerProps>`
 		font-weight: 500;
 		font-size: 18px;
 		color: var(--font-color);
+		max-height: 80%;
+		overflow-y: auto;
 		${mobileMediaQuery} {
 			font-size: 16px;
 		}
