@@ -72,7 +72,7 @@ function MyQuizlet() {
 			{data?.quizletList.length ? (
 				<Quizlets quizletList={data?.quizletList} ownedOnly={ownedOnly} />
 			) : (
-				<NoResultMessage />
+				<NoResultMessage ownedOnly={ownedOnly} />
 			)}
 			<QuizletPagination total={data?.totalPage!} onPageChange={changePage} />
 		</Container>
