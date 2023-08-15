@@ -68,7 +68,9 @@ function MyQuizlet() {
 				<SearchMessage>원하는 학습세트를 검색하세요.</SearchMessage>
 				<SearchForm tagList={tags || []} onSubmit={onSubmitSearch} />
 			</SearchBox>
-			{!ownedOnly && <Toggler order={order} onChange={reorder} />}
+			{!ownedOnly && !!data?.quizletList.length && (
+				<Toggler order={order} onChange={reorder} />
+			)}
 			{data?.quizletList.length ? (
 				<Quizlets quizletList={data?.quizletList} ownedOnly={ownedOnly} />
 			) : (
