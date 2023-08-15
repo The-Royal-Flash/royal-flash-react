@@ -7,6 +7,7 @@ import { SearchRequest } from '../types';
 import {
 	fetchAllMyQuizletSearchQuery,
 	fetchAllMyQuizletTagsQuery,
+	fetchMyOwnQuizletSearchQuery,
 } from '../queries';
 import {
 	SearchForm,
@@ -41,15 +42,23 @@ function MyQuizlet() {
 		setFormData(formData);
 	};
 
-	// 💡 TODO: ownedOnly를 기준으로 다른 API 호출
-	const { data } = useQuery(
-		fetchAllMyQuizletSearchQuery({
-			keyword: formData.keyword,
-			tagList: formData.tagList || [],
-			page,
-			order,
-		}),
-	);
+	const { data } = ownedOnly
+		? useQuery(
+				fetchMyOwnQuizletSearchQuery({
+					keyword: formData.keyword,
+					tagList: formData.tagList || [],
+					page,
+					order,
+				}),
+		  )
+		: useQuery(
+				fetchAllMyQuizletSearchQuery({
+					keyword: formData.keyword,
+					tagList: formData.tagList || [],
+					page,
+					order,
+				}),
+		  );
 
 	return (
 		<Container>

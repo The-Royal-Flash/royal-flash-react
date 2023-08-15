@@ -24,14 +24,14 @@ export const fetchAllMyQuizletSearch = async (
 	},
 ) => await http.get<MySearchApiResponse>('/search/myquizlet', searchInfo);
 
-// 💡TODO: 학습세트 검색 (직접 생성한 학습세트)
-// export const fetchMyOwnQuizletSearch = async (
-// 	searchInfo: SearchRequest & {
-// 		page: number;
-// 		pageSize: number;
-// 		order: 'asencding' | 'descending';
-// 	},
-// ) => await http.get<MySearchApiResponse>('/search/ownedquizlet', searchInfo);
+// 학습세트 검색 (직접 생성한 학습세트)
+export const fetchMyOwnQuizletSearch = async (
+	searchInfo: SearchRequest & {
+		page: number;
+		pageSize: number;
+		order: 'asencding' | 'descending';
+	},
+) => await http.get<MySearchApiResponse>('/search/ownedquizlet', searchInfo);
 
 // 태그 목록 가져오기 - 모든 학습세트 전체
 export const fetchAllQuizletTags = async () =>
