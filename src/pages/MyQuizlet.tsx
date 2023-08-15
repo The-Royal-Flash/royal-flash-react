@@ -19,7 +19,7 @@ import {
 
 function MyQuizlet() {
 	const { pathname } = useLocation();
-	const ownedOnly = pathname.includes('owned');
+	const ownedOnly = pathname === '/quizlet/owned-quizlet';
 
 	const [order, setOrder] = useState<'ascending' | 'descending'>('ascending');
 	const [page, setPage] = useState(1);
@@ -49,6 +49,7 @@ function MyQuizlet() {
 					tagList: formData.tagList || [],
 					page,
 					order,
+					pathname,
 				}),
 		  )
 		: useQuery(
@@ -57,6 +58,7 @@ function MyQuizlet() {
 					tagList: formData.tagList || [],
 					page,
 					order,
+					pathname,
 				}),
 		  );
 
@@ -68,7 +70,7 @@ function MyQuizlet() {
 			</SearchBox>
 			<Toggler order={order} onChange={reorder} />
 			{data?.quizletList.length ? (
-				<Quizlets quizletList={data?.quizletList} />
+				<Quizlets quizletList={data?.quizletList} ownedOnly={ownedOnly} />
 			) : (
 				<NoResultMessage />
 			)}
