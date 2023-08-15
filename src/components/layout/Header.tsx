@@ -19,7 +19,7 @@ function Header() {
 }
 
 const Container = styled.div`
-	position: sticky;
+	position: fixed;
 	display: flex;
 	top: 0;
 	width: 100%;

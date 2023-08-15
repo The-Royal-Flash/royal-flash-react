@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';

@@ -1,8 +1,10 @@
 export { default as EditQuizletForm } from './EditQuizletForm';
 export { default as CreateQuizletForm } from './CreateQuizletForm';
 export { default as RemoveQuestionCard } from './RemoveQuestionCard';
-export { default as QuestionCardInputField } from './QuestionCardInputField';
-export { default as QuizletInfoInputField } from './QuizletInfoInputField';
+export { default as CreateQuestionCardInputField } from './CreateQuestionCardInputField';
+export { default as EditQuestionCardInputField } from './EditQuestionCardInputField';
+export { default as CreateQuizletInfoInputField } from './CreateQuizletInfoInputField';
+export { default as EditQuizletInfoInputField } from './EditQuizletInfoInputField';
 export { default as QuizletDetailInfo } from './QuizletDetailInfo';
 export { default as LearningCountStatus } from './LearningCountStatus';
 export { default as LearningStatus } from './LearningStatus';

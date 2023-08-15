@@ -182,6 +182,13 @@ const EditButton = styled(BaseButton)`
 	right: 0;
 	font-size: 1rem;
 	gap: 10px;
+	${mobileMediaQuery} {
+		position: fixed;
+		right: 30px;
+		bottom: 50px;
+		font-size: 0.8rem;
+		z-index: 1000;
+	}
 `;
 
 export default QuizletDetailInfo;

@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
 const BoxTitle = styled(Typography)`
-	font-weight: 600;
+	font-weight: 700;
 	word-break: keep-all;
 	color: var(--font-color);
 	${mobileMediaQuery} {

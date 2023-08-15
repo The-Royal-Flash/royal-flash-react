@@ -35,9 +35,6 @@ export interface QuizletInfo extends BaseQuizletInfo {
 	questionCardList: Array<QuestionCardInfo>;
 }
 
-/** 학슴세트 생성, 수정 BaseQuizlet */
-export type BaseQuizlet = z.infer<typeof baseQuizletSchema>;
-
 /** 학습 세트 생성 */
 export type CreateQuizletRequest = z.infer<typeof createQuizletSchema>;
 
@@ -89,41 +86,3 @@ export interface QuizletDetailInfo extends BaseQuizletInfo {
 export interface QuizletDetailResponse extends QuizletDetailInfo {
 	isSuccess: boolean;
 }
-
-// /** 페이지네이션 필수 정보 */
-// export interface BasePagenation {
-// 	/** 현재 페이지 번호 */
-// 	page: number;
-// 	/** 전체 페이지 수 */
-// 	totalPages: number;
-// }
-
-// /** 학습세트 검색 페이지에서 보여질 학습세트 정보 */
-// export interface SearchQuizlet extends QuizletInfo {
-// 	/** 암기 카드 수 */
-// 	numOfCards: number;
-// 	/** 학습세트 작성자 */
-// 	owner: string; // userId
-// 	/** 학습세트 작성자 사진 url */
-// 	ownerAvatarUrl?: string;
-// }
-
-// /** 나의 학습세트 검색 페이지에서 보여질 학습세트 정보 */
-// export interface MyQuizlet extends BaseMyQuizlet {
-// 	/** 학습세트 제목 */
-// 	title: string;
-// 	/** 태그 목록 */
-// 	tagList: string[];
-// }
-
-// /** 학습세트 검색 결과 - 학습세트 목록 */
-// export interface SearchResponse extends BasePagenation {
-// 	/** 학습세트 목록 검색 결과 */
-// 	quizletList: Array<SearchQuizlet>;
-// }
-
-// /** 나의 학습세트 검색 결과 - 학습세트 목록 */
-// export interface MyQuizletSearchResponse extends BasePagenation {
-// 	/** 나의 학습세트 목록 검색 결과  */
-// 	quizletList: Array<MyQuizlet>;
-// }

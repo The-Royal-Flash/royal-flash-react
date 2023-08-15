@@ -21,7 +21,7 @@
 
 		"allowSyntheticDefaultImports": true
 	},
-	"include": ["src"],
+	"include": ["src", "vite.config.ts"],
 	"references": [{ "path": "./tsconfig.node.json" }],
 	"typeRoots": ["./src/types", "./node_modules/@types"]
 }

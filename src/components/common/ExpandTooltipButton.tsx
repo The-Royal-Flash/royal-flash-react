@@ -54,8 +54,8 @@ const Container = styled.button<ContainerProps>`
 		opacity: 0;
 		color: white;
 		font-weight: 500;
-		font-size: 15px;
 		transition: all 0.3s ease;
+		font-size: 13px;
 	}
 
 	:hover {
@@ -69,11 +69,15 @@ const Container = styled.button<ContainerProps>`
 		:after {
 			content: '${(props) => props.tooltip}';
 			text-align: center;
+			width: 65px;
 			padding-left: 30px;
 			margin-left: 3px;
 			color: white;
 			opacity: 1;
 			transition: all 0.2s ease 0.1s;
+			font-family: 'Noto Sans KR';
+			font-size: 13px;
+			word-break: keep-all;
 		}
 	}
 `;
