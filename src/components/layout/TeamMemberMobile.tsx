@@ -1,61 +1,54 @@
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import InfoIcon from '@mui/icons-material/Info';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import EmailIcon from '@mui/icons-material/Email';
+import BlogLink from './BlogLink';
+import { Tooltip } from '@mui/material';
 
-function TeamMemberMobile() {
+interface TeamMemberMobileProps {
+	info: {
+		name: string;
+		role: string;
+		mail: string;
+		blogUrl: string;
+		githubUrl: string;
+	}[];
+}
+
+function TeamMemberMobile({ info }: TeamMemberMobileProps) {
 	return (
 		<Container>
-			<Card>
-				<Title>
-					<SubTitle>FE</SubTitle>
-					Sunhwa
-				</Title>
-				<ProfileInfo>
-					<ProfileLink to="#">
-						<InfoIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<GitHubIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<LinkedInIcon fontSize="inherit" />
-					</ProfileLink>
-				</ProfileInfo>
-			</Card>
-			<Card>
-				<Title>
-					<SubTitle>FE</SubTitle>Kyusung
-				</Title>
-				<ProfileInfo>
-					<ProfileLink to="#">
-						<InfoIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<GitHubIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<LinkedInIcon fontSize="inherit" />
-					</ProfileLink>
-				</ProfileInfo>
-			</Card>
-			<Card>
-				<Title>
-					<SubTitle>BE</SubTitle>Hyeonseok
-				</Title>
-				<ProfileInfo>
-					<ProfileLink to="#">
-						<InfoIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<GitHubIcon fontSize="inherit" />
-					</ProfileLink>
-					<ProfileLink to="#">
-						<LinkedInIcon fontSize="inherit" />
-					</ProfileLink>
-				</ProfileInfo>
-			</Card>
+			{info.map(({ name, role, mail, blogUrl, githubUrl }) => (
+				<Card key={mail}>
+					<Title>
+						<SubTitle>{role === 'Frontend' ? 'FE' : 'BE'}</SubTitle>
+						{name}
+					</Title>
+					<ProfileInfo>
+						<BlogLink blogUrl={blogUrl} />
+						<Tooltip title="github">
+							<ProfileLink
+								target="_blank"
+								rel="noopener noreferrer"
+								to={githubUrl}
+							>
+								<GitHubIcon fontSize="inherit" />
+							</ProfileLink>
+						</Tooltip>
+						<Tooltip title="mail">
+							<ProfileLink
+								to="#"
+								onClick={(e) => {
+									window.location.href = `mailto:${mail}`;
+									e.preventDefault();
+								}}
+							>
+								<EmailIcon fontSize="inherit" />
+							</ProfileLink>
+						</Tooltip>
+					</ProfileInfo>
+				</Card>
+			))}
 		</Container>
 	);
 }
