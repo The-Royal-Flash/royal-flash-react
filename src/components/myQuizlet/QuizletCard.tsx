@@ -6,9 +6,14 @@ import { formatDateAndTime } from '../../utils/dateFormat';
 
 interface QuizletCardProps {
 	quizlet: SearchQuizletItem;
+	ownedOnly: boolean;
 }
 
-function QuizletCard({ quizlet }: QuizletCardProps) {
+interface ContainerProps {
+	ownedOnly: boolean;
+}
+
+function QuizletCard({ quizlet, ownedOnly }: QuizletCardProps) {
 	const {
 		_id,
 		description,
@@ -33,7 +38,10 @@ function QuizletCard({ quizlet }: QuizletCardProps) {
 
 	// 💡 TODO: 서버에서 퀴즈 응시 횟수 정보 받아서 페이지에 반영하기 (아직 BE에서 구현 안됨)
 	return (
-		<Container onClick={() => moveToQuizletDetailPage(_id)}>
+		<Container
+			onClick={() => moveToQuizletDetailPage(_id)}
+			ownedOnly={ownedOnly}
+		>
 			<QuizletTitle>{title}</QuizletTitle>
 			<ChipsWrapper>
 				{tagList.map((tag) => (
@@ -46,36 +54,40 @@ function QuizletCard({ quizlet }: QuizletCardProps) {
 				))}
 			</ChipsWrapper>
 			<Description>{description}</Description>
-			<Data>
-				<CountData>
-					오답노트 <span>{numOfQuestionListToReview}</span>문항
-				</CountData>
-				<CountData>
-					퀴즈 응시 <span>{10}</span>회
-				</CountData>
-				<ScoreData>
-					<span>Score</span>
-					<div>
-						<Score>{lastNumOfCorrect}</Score>
-						<Total>/{totalQuestions}</Total>
-					</div>
-					<LastQuizTime>
-						{lastUpdatedDate} {lastUpdatedTime}
-					</LastQuizTime>
-				</ScoreData>
-			</Data>
-			<ProgressBar
-				variant="determinate"
-				value={(lastNumOfCorrect / totalQuestions) * 100}
-			/>
+			{!ownedOnly && (
+				<>
+					<Data>
+						<CountData>
+							오답노트 <span>{numOfQuestionListToReview}</span>문항
+						</CountData>
+						<CountData>
+							퀴즈 응시 <span>{10}</span>회
+						</CountData>
+						<ScoreData>
+							<span>Score</span>
+							<div>
+								<Score>{lastNumOfCorrect}</Score>
+								<Total>/{totalQuestions}</Total>
+							</div>
+							<LastQuizTime>
+								{lastUpdatedDate} {lastUpdatedTime}
+							</LastQuizTime>
+						</ScoreData>
+					</Data>
+					<ProgressBar
+						variant="determinate"
+						value={(lastNumOfCorrect / totalQuestions) * 100}
+					/>
+				</>
+			)}
 		</Container>
 	);
 }
 
-const Container = styled.div`
+const Container = styled.div<ContainerProps>`
 	border: 1px solid var(--box-border-color);
 	width: 100%;
-	padding: 15px;
+	padding: ${({ ownedOnly }) => (ownedOnly ? '15px 15px 30px' : '15px')};
 	position: relative;
 	cursor: pointer;
 	transition: 0.1s ease-in;

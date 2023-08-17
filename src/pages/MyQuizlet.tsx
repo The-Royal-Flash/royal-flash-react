@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { SubmitHandler } from 'react-hook-form';
 import { SearchRequest } from '../types';
 import {
 	fetchAllMyQuizletSearchQuery,
 	fetchAllMyQuizletTagsQuery,
+	fetchMyOwnQuizletSearchQuery,
 } from '../queries';
 import {
 	SearchForm,
@@ -16,6 +18,9 @@ import {
 } from '../components';
 
 function MyQuizlet() {
+	const { pathname } = useLocation();
+	const ownedOnly = pathname === '/quizlet/owned-quizlet';
+
 	const [order, setOrder] = useState<'ascending' | 'descending'>('ascending');
 	const [page, setPage] = useState(1);
 	const [formData, setFormData] = useState<SearchRequest>({
@@ -37,14 +42,25 @@ function MyQuizlet() {
 		setFormData(formData);
 	};
 
-	const { data } = useQuery(
-		fetchAllMyQuizletSearchQuery({
-			keyword: formData.keyword,
-			tagList: formData.tagList || [],
-			page,
-			order,
-		}),
-	);
+	const { data } = ownedOnly
+		? useQuery(
+				fetchMyOwnQuizletSearchQuery({
+					keyword: formData.keyword,
+					tagList: formData.tagList || [],
+					page,
+					order,
+					pathname,
+				}),
+		  )
+		: useQuery(
+				fetchAllMyQuizletSearchQuery({
+					keyword: formData.keyword,
+					tagList: formData.tagList || [],
+					page,
+					order,
+					pathname,
+				}),
+		  );
 
 	return (
 		<Container>
@@ -52,11 +68,13 @@ function MyQuizlet() {
 				<SearchMessage>원하는 학습세트를 검색하세요.</SearchMessage>
 				<SearchForm tagList={tags || []} onSubmit={onSubmitSearch} />
 			</SearchBox>
-			<Toggler order={order} onChange={reorder} />
+			{!ownedOnly && !!data?.quizletList.length && (
+				<Toggler order={order} onChange={reorder} />
+			)}
 			{data?.quizletList.length ? (
-				<Quizlets quizletList={data?.quizletList} />
+				<Quizlets quizletList={data?.quizletList} ownedOnly={ownedOnly} />
 			) : (
-				<NoResultMessage />
+				<NoResultMessage ownedOnly={ownedOnly} />
 			)}
 			<QuizletPagination total={data?.totalPage!} onPageChange={changePage} />
 		</Container>

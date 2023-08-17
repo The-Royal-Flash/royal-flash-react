@@ -7,6 +7,7 @@ interface fetchAllMyQuizletSearchQueryProps {
 	page: number;
 	order: 'ascending' | 'descending';
 	tagList: string[];
+	pathname: string;
 }
 
 const fetchAllMyQuizletSearchQuery = ({
@@ -14,8 +15,9 @@ const fetchAllMyQuizletSearchQuery = ({
 	page,
 	order,
 	tagList,
+	pathname,
 }: fetchAllMyQuizletSearchQueryProps) => ({
-	queryKey: [keyword, page, order, ...tagList],
+	queryKey: [keyword, pathname, page, order, ...tagList],
 	queryFn: async () => {
 		const data = await fetchAllMyQuizletSearch({
 			keyword,

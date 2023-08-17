@@ -3,8 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import UndoIcon from '@mui/icons-material/Undo';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 
-function NoResultMessage() {
+interface NoResultMessageProps {
+	ownedOnly: boolean;
+}
+
+function NoResultMessage({ ownedOnly }: NoResultMessageProps) {
 	const navigate = useNavigate();
 
 	return (
@@ -13,13 +18,24 @@ function NoResultMessage() {
 			<ErrorMessage>
 				Uh oh! 검색 내용에 맞는 결과가 없어요! 다른 내용으로 검색해보세요.
 			</ErrorMessage>
-			<BackButton
-				variant="outlined"
-				startIcon={<UndoIcon />}
-				onClick={() => navigate(0)}
-			>
-				돌아가기
-			</BackButton>
+			<ButtonBox>
+				<BackButton
+					variant="outlined"
+					startIcon={<UndoIcon />}
+					onClick={() => navigate(0)}
+				>
+					돌아가기
+				</BackButton>
+				{ownedOnly && (
+					<BackButton
+						variant="outlined"
+						startIcon={<CreateNewFolderIcon />}
+						onClick={() => navigate('/quizlet/create')}
+					>
+						학습세트 만들기
+					</BackButton>
+				)}
+			</ButtonBox>
 		</Container>
 	);
 }
@@ -40,6 +56,11 @@ const ErrorIcon = styled(SearchOffIcon)`
 
 const ErrorMessage = styled.p`
 	color: gray;
+`;
+
+const ButtonBox = styled.div`
+	display: flex;
+	gap: 10px;
 `;
 
 const BackButton = styled(Button)`

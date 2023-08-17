@@ -4,13 +4,18 @@ import { SearchQuizletItem } from '../../types';
 
 interface QuizletsProps {
 	quizletList?: Array<SearchQuizletItem>;
+	ownedOnly: boolean;
 }
 
-function Quizlets({ quizletList }: QuizletsProps) {
+function Quizlets({ quizletList, ownedOnly }: QuizletsProps) {
 	return (
 		<Container>
 			{quizletList?.map((quizlet) => (
-				<QuizletCard key={quizlet._id} quizlet={quizlet} />
+				<QuizletCard
+					key={quizlet._id}
+					quizlet={quizlet}
+					ownedOnly={ownedOnly}
+				/>
 			))}
 		</Container>
 	);
