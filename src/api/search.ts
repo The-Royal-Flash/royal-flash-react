@@ -15,7 +15,7 @@ export const fetchAllQuizletSearch = async (
 	return response;
 };
 
-// 학습세트 검색 (나의 학습세트)
+// 학습세트 검색 (학습해본 학습세트)
 export const fetchAllMyQuizletSearch = async (
 	searchInfo: SearchRequest & {
 		page: number;
@@ -23,6 +23,15 @@ export const fetchAllMyQuizletSearch = async (
 		order: 'ascending' | 'descending';
 	},
 ) => await http.get<MySearchApiResponse>('/search/myquizlet', searchInfo);
+
+// 학습세트 검색 (직접 생성한 학습세트)
+export const fetchMyOwnQuizletSearch = async (
+	searchInfo: SearchRequest & {
+		page: number;
+		pageSize: number;
+		order: 'asencding' | 'descending';
+	},
+) => await http.get<MySearchApiResponse>('/search/ownedquizlet', searchInfo);
 
 // 태그 목록 가져오기 - 모든 학습세트 전체
 export const fetchAllQuizletTags = async () =>
