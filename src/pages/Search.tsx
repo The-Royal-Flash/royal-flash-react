@@ -5,7 +5,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import CircularProgress from '@mui/material/CircularProgress';
 import { StyledContainer } from '../components/quizlet/styles';
-import { QuizletItem, SearchForm } from '../components';
+import { NoResultMessage, QuizletItem, SearchForm } from '../components';
 import { SearchRequest } from '../types';
 import { fetchAllQuizletSearchQuery, fetchQuizletTagsQuery } from '../queries';
 
@@ -42,14 +42,20 @@ function Search() {
 					<SearchForm tagList={tags || []} onSubmit={handleOnSubmit} />
 				</QuizletFormWrapper>
 				<QuizletListWrapper>
-					{data?.pages.map(({ _id: quizletId, ...quizletInfo }) => (
-						<QuizletItem
-							key={quizletId}
-							quizletId={quizletId}
-							link={`/quizlet/detail/${quizletId}`}
-							{...quizletInfo}
-						/>
-					))}
+					{data?.pages.length ? (
+						data?.pages.map(({ _id: quizletId, ...quizletInfo }) => (
+							<QuizletItem
+								key={quizletId}
+								quizletId={quizletId}
+								link={`/quizlet/detail/${quizletId}`}
+								{...quizletInfo}
+							/>
+						))
+					) : (
+						// TODO:
+						// <NoResultMessage />
+						<>검색 결과가 없습니다.</>
+					)}
 				</QuizletListWrapper>
 				{hasNextPage && <Observer ref={observerRef} />}
 				<LoadingBox>{isFetching && <CircularProgress />}</LoadingBox>
