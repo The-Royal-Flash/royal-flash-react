@@ -34,6 +34,7 @@ function CreateQuizletInfoInputField({ control }: QuizletInfoInputFieldProps) {
 							placeholder="관련 태그를 입력 후 엔터를 눌러주세요."
 							variant="outlined"
 							{...field}
+							validate={(chipValue: string) => !field.value.includes(chipValue)}
 							error={fieldState.invalid}
 						/>
 					)}
