@@ -111,11 +111,7 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 
 	return (
 		<StyledForm onSubmit={handleSubmit(handleOnSubmit)}>
-			<EditQuizletInfoInputField
-				register={register}
-				control={control}
-				errors={errors}
-			/>
+			<EditQuizletInfoInputField control={control} />
 			{oldQuestionList.map(({ _id, ...questionInfo }, index) => (
 				<RemoveQuestionCard
 					key={_id}

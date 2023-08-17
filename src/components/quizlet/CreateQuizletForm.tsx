@@ -50,11 +50,7 @@ function CreateQuizletForm() {
 	const goBack = () => navi(-1);
 	return (
 		<StyledForm onSubmit={handleSubmit(handleOnSubmit)}>
-			<CreateQuizletInfoInputField
-				register={register}
-				control={control}
-				errors={errors}
-			/>
+			<CreateQuizletInfoInputField control={control} />
 
 			{fields.map((field, index) => (
 				<CreateQuestionCardInputField

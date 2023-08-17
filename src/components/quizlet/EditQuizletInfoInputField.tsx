@@ -1,33 +1,30 @@
-import {
-	Control,
-	Controller,
-	FieldErrors,
-	UseFormRegister,
-} from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import { EditQuizletRequest } from '../../types';
 import StyledBox from './styles/StyledBox';
 import { QuizletInfoContainer, StyledChipsInput, TextInput } from './styles';
 
 interface EditQuizletInfoInputFieldProps {
-	register: UseFormRegister<EditQuizletRequest>;
 	control: Control<EditQuizletRequest>;
-	errors: FieldErrors<EditQuizletRequest>;
 }
 
 function EditQuizletInfoInputField({
-	register,
 	control,
-	errors,
 }: EditQuizletInfoInputFieldProps) {
 	return (
 		<StyledBox>
 			<QuizletInfoContainer>
-				<TextInput
-					label="제목"
-					variant="outlined"
-					error={!!errors.title}
-					helperText={errors.title?.message}
-					{...register('title')}
+				<Controller
+					control={control}
+					name="title"
+					render={({ field, fieldState }) => (
+						<TextInput
+							{...field}
+							label="제목"
+							variant="outlined"
+							error={!!fieldState.error}
+							helperText={fieldState.error?.message}
+						/>
+					)}
 				/>
 				<Controller
 					control={control}
@@ -42,13 +39,19 @@ function EditQuizletInfoInputField({
 						/>
 					)}
 				/>
-				<TextInput
-					label="설명"
-					variant="outlined"
-					multiline
-					error={!!errors.description}
-					helperText={errors.description?.message}
-					{...register('description')}
+				<Controller
+					control={control}
+					name="description"
+					render={({ field, fieldState }) => (
+						<TextInput
+							label="설명"
+							variant="outlined"
+							multiline
+							error={!!fieldState.error}
+							helperText={fieldState.error?.message}
+							{...field}
+						/>
+					)}
 				/>
 			</QuizletInfoContainer>
 		</StyledBox>
