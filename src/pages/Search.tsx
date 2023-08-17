@@ -5,7 +5,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import CircularProgress from '@mui/material/CircularProgress';
 import { StyledContainer } from '../components/quizlet/styles';
-import { NoResultMessage, QuizletItem, SearchForm } from '../components';
+import { QuizletItem, SearchForm } from '../components';
 import { SearchRequest } from '../types';
 import { fetchAllQuizletSearchQuery, fetchQuizletTagsQuery } from '../queries';
 
