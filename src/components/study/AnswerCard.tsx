@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 import LanguageIcon from '@mui/icons-material/Language';
 import { mobileMediaQuery } from '../../utils/mediaQueries';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { useToastContext } from '../../contexts/ToastContext';
+import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
 
 interface AnswerCardProps {
 	isToggling: boolean;
@@ -24,6 +27,21 @@ function AnswerCard({
 	link,
 	cancelSwipe,
 }: AnswerCardProps) {
+	const { addToast } = useToastContext();
+
+	const copyToClipboard = () => {
+		const currentQuestion = `[질문 #${step}]: ${question}`;
+		const currentAnswer = `[정답]: ${answer}`;
+		const clipboardText = currentQuestion + '\n' + currentAnswer;
+
+		navigator.clipboard.writeText(clipboardText);
+
+		addToast({
+			type: TOAST_TYPE.SUCCESS,
+			msg_type: TOAST_MSG_TYPE.COPY_SUCCESS,
+		});
+	};
+
 	return (
 		<Container
 			isToggling={isToggling}
@@ -44,6 +62,7 @@ function AnswerCard({
 					<URL>{link}</URL>
 				</Link>
 			)}
+			<CopyIcon onClick={copyToClipboard} />
 		</Container>
 	);
 }
@@ -110,6 +129,23 @@ const Link = styled.a`
 const URL = styled.span`
 	font-style: italic;
 	color: gray;
+`;
+
+const CopyIcon = styled(ContentCopyIcon)`
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	font-size: 22px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	color: #999999;
+	cursor: pointer;
+	transition: 0.1s ease-in;
+
+	:hover {
+		color: black;
+	}
 `;
 
 export default AnswerCard;
