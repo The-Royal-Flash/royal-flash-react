@@ -46,54 +46,48 @@ const Wrapper = styled.div`
 `;
 
 const Card = styled.div`
-	width: 200px;
-	height: 110px;
-	line-height: 110px;
-	font-size: 20px;
+	width: 180px;
+	height: 100px;
+	line-height: 100px;
+	font-size: 18px;
 	text-align: center;
 	border: 1px solid #9cb3c6;
 	border-radius: 8px;
 	position: absolute;
-	transition: all 1.2s ease-out;
-	transition-delay: 0.2s;
 	opacity: 1;
 	color: white;
 	box-shadow: -15px 25px 15px rgba(0, 0, 0, 0.28);
 	background: linear-gradient(315deg, #5a2ebf, #617dd8, #48ace8);
+	transition: all 1000ms linear 200ms;
+	transform: translate(0px, 30px) rotate(-15deg) skew(25deg);
 `;
 
 const Card4 = styled(Card)<CardProps>`
-	transform: rotate(-15deg) skew(25deg) scale(0.8);
+	transform: translate(0px, 30px) rotate(-15deg) skew(25deg);
 	${(props) =>
 		props.active &&
-		`transform: rotate(-15deg) skew(25deg) scale(0.7);
-  `};
+		`transform: translate(0px, 30px) rotate(-18deg) skew(28deg)`};
 `;
 
 const Card3 = styled(Card)<CardProps>`
-	transform: rotate(-10deg) skew(25deg) scale(0.8);
+	transform: translate(4px, 30px) rotate(-15deg) skew(20deg);
 	${(props) =>
 		props.active &&
-		`transform: rotate3d(-100, 100, 1, 50deg)  skew(30deg) scale(0.9) translate(20px, -50px);
-  `};
+		`transform: translate(0px, -20px) rotate(-5deg) skew(15deg) scale(1.03)`};
 `;
 
 const Card2 = styled(Card)<CardProps>`
-	transform: rotate(-12deg) skew(25deg) scale(0.8);
-
+	transform: translate(5px, 25px) rotate(-15deg) skew(30deg);
 	${(props) =>
 		props.active &&
-		`transform: rotate3d(-8, 3, 5, -50deg) skew(10deg) scale(0.85) translate(60px, -120px);
-  `};
+		`transform: translate(0px, -80px) rotate(-24deg) skew(0deg) scale(1.07)`};
 `;
 
 const Card1 = styled(Card)<CardProps>`
-	transform: rotate(-8deg) skew(25deg) scale(0.8);
-
+	transform: translate(0px, 20px) rotate(-15deg) skew(20deg);
 	${(props) =>
 		props.active &&
-		`transform: rotate(-15deg) skew(-3deg) scale(0.87) translate(30px, -150px);
-  `};
+		`transform: translate(0px, -130px) rotate(-5deg) skew(5deg) scale(1.1)`};
 `;
 
 export default AnimationCard;

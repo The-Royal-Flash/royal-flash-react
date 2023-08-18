@@ -119,8 +119,9 @@ const Title = styled(Typography)`
 const TagWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	margin-top: 10px;
-	gap: 5px;
+	column-gap: 2px;
 `;
 
 const Tag = styled(Chip)`

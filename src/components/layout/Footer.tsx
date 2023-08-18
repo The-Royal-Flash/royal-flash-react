@@ -4,6 +4,30 @@ import TeamMember from './TeamMember';
 import TeamMemberMobile from './TeamMemberMobile';
 import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 
+const memberInfo = [
+	{
+		name: 'Sunhwa',
+		role: 'Frontend',
+		mail: 'barksum@gmail.com',
+		blogUrl: 'https://www.sumz.blog/',
+		githubUrl: 'https://github.com/sumzdev',
+	},
+	{
+		name: 'Kyusung',
+		role: 'Frontend',
+		mail: 'rok.ksohn@gmail.com',
+		blogUrl: 'https://sqsung.tistory.com/',
+		githubUrl: 'https://github.com/sqsung',
+	},
+	{
+		name: 'Hyounsuk',
+		role: 'Backend',
+		mail: 'kkoor586@naver.com',
+		blogUrl: '#',
+		githubUrl: 'https://github.com/Kim-HyounSuk',
+	},
+];
+
 function Footer() {
 	const isMobile = useMediaQuery(mobileMediaQuery);
 	return (
@@ -14,7 +38,11 @@ function Footer() {
 					<Info>반드시 취직하구 행복합시동</Info>
 					<Info>All Copyrights Reserved Royal Flash 2023</Info>
 				</InfoWrapper>
-				{isMobile ? <TeamMemberMobile /> : <TeamMember />}
+				{isMobile ? (
+					<TeamMemberMobile info={memberInfo} />
+				) : (
+					<TeamMember info={memberInfo} />
+				)}
 			</Wrapper>
 		</Container>
 	);

@@ -29,6 +29,14 @@ export interface SearchApiResponse {
 	quizletList: Array<SearchQuizletItem>;
 }
 
+export interface SearchInfiniteResponse {
+	quizletList: SearchQuizletItem[];
+	page: number;
+	totalPages: number;
+	// pages: SearchApiResponse[];
+	// pageParams: unknown[];
+}
+
 export interface MySearchApiResponse extends SearchApiResponse {
 	totalPage: number;
 }
