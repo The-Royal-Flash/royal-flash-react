@@ -7,6 +7,7 @@ interface QuestionCardProps {
 	mode: string;
 	step: number;
 	question?: string;
+	cancelSwipe: (event: React.MouseEvent | React.TouchEvent) => void;
 }
 
 interface ContainerProps {
@@ -14,9 +15,20 @@ interface ContainerProps {
 	cardMode: string;
 }
 
-function QuestionCard({ isToggling, mode, step, question }: QuestionCardProps) {
+function QuestionCard({
+	isToggling,
+	mode,
+	step,
+	question,
+	cancelSwipe,
+}: QuestionCardProps) {
 	return (
-		<Container cardMode={mode} isToggling={isToggling} id="card-contents">
+		<Container
+			cardMode={mode}
+			isToggling={isToggling}
+			onMouseUp={cancelSwipe}
+			onTouchEnd={cancelSwipe}
+		>
 			<p>Question {step}.</p>
 			<p>{question}</p>
 		</Container>

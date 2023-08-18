@@ -9,6 +9,7 @@ interface AnswerCardProps {
 	question?: string;
 	answer?: string;
 	link?: string;
+	cancelSwipe: (event: React.MouseEvent | React.TouchEvent) => void;
 }
 
 interface ContainerProps {
@@ -21,9 +22,14 @@ function AnswerCard({
 	question,
 	answer,
 	link,
+	cancelSwipe,
 }: AnswerCardProps) {
 	return (
-		<Container isToggling={isToggling} id="card-contents">
+		<Container
+			isToggling={isToggling}
+			onMouseUp={cancelSwipe}
+			onTouchEnd={cancelSwipe}
+		>
 			<Question>
 				<span>Question {step}. </span>
 				{question}
