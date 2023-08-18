@@ -80,7 +80,7 @@ function Card({
 		setSwipeStartX(clientX);
 	};
 
-	/** card 위에서 MouseUp이 발생한 경우 card를 swipe할 마음이 없다고 판단해서 swipe 로직 중단 */
+	/** mousedown 이벤트 후 Toggler 클릭시 카드 swipe 중단 */
 	const cancelSwipe = () => {
 		setSwipeStartX(null);
 	};
@@ -99,10 +99,10 @@ function Card({
 
 		isLeftSwipe.current = swipeStartX > clientX ? true : false;
 
-		setTimeout(() => setIsSwiping(false), 800);
 		setIsSwiping(true);
 		setSwipeStartX(null);
 		goToNextCard(isLeftSwipe.current, current?._id as string);
+		setTimeout(() => setIsSwiping(false), 800);
 		// cardMode 바꾸는데, transition 영향 안받는 방법?
 	};
 
@@ -112,10 +112,10 @@ function Card({
 
 		isLeftSwipe.current = direction === 'incorrect' ? true : false;
 
-		setTimeout(() => setIsSwiping(false), 800);
 		setIsSwiping(true);
 		setSwipeStartX(null);
 		goToNextCard(isLeftSwipe.current, current?._id as string);
+		setTimeout(() => setIsSwiping(false), 800);
 		// cardMode 바꾸는데, transition 영향 안받는 방법?
 	};
 
