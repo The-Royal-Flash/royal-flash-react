@@ -1,8 +1,8 @@
 import { http } from './base';
-import { AuthResponse, ProflieResponse } from '../types/auth';
+import { AuthResponse, ProfileResponse } from '../types/auth';
 import { PwChangeData } from '../types/profile';
 
-export const fetchProfile = async (): Promise<ProflieResponse> =>
+export const fetchProfile = async (): Promise<ProfileResponse> =>
 	await http.get('profile');
 
 export const changeNickname = async (nickname: string): Promise<AuthResponse> =>
