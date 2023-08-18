@@ -1,6 +1,6 @@
 import { BaseApiResponse } from './response';
 
-export interface ProflieResponse {
+export interface ProfileResponse {
 	isSuccess: boolean;
 	user: {
 		id: string;
