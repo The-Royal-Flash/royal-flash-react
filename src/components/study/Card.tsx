@@ -87,7 +87,8 @@ function Card({
 
 	/** mousedown/touch 이벤트로 인한 swipe 애니메이션 종료된 후의 로직  */
 	const endSwipe = (event: React.MouseEvent | React.TouchEvent) => {
-		if (!swipeStartX) return;
+		if (!swipeStartX || (event.target as HTMLElement).closest('#card-contents'))
+			return;
 
 		const clientX =
 			event.type === 'touchend'
@@ -102,6 +103,7 @@ function Card({
 		setIsSwiping(true);
 		setSwipeStartX(null);
 		goToNextCard(isLeftSwipe.current, current?._id as string);
+		// cardMode 바꾸는데, transition 영향 안받는 방법?
 	};
 
 	/** click 이벤트에 따라 카드 swipe */
@@ -114,6 +116,7 @@ function Card({
 		setIsSwiping(true);
 		setSwipeStartX(null);
 		goToNextCard(isLeftSwipe.current, current?._id as string);
+		// cardMode 바꾸는데, transition 영향 안받는 방법?
 	};
 
 	return (

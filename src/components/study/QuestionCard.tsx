@@ -16,7 +16,7 @@ interface ContainerProps {
 
 function QuestionCard({ isToggling, mode, step, question }: QuestionCardProps) {
 	return (
-		<Container cardMode={mode} isToggling={isToggling}>
+		<Container cardMode={mode} isToggling={isToggling} id="card-contents">
 			<p>Question {step}.</p>
 			<p>{question}</p>
 		</Container>

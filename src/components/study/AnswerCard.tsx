@@ -23,7 +23,7 @@ function AnswerCard({
 	link,
 }: AnswerCardProps) {
 	return (
-		<Container isToggling={isToggling}>
+		<Container isToggling={isToggling} id="card-contents">
 			<Question>
 				<span>Question {step}. </span>
 				{question}
