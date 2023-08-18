@@ -57,6 +57,9 @@ const Container = styled.div<ContainerProps>`
 	gap: 20px;
 	position: relative;
 	transform: rotateY(180deg);
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10 and IE 11 */
+	user-select: none; /* Standard syntax */
 `;
 
 const Question = styled.p`
@@ -80,6 +83,7 @@ const Answer = styled.p`
 	font-size: 18px;
 	max-height: 80%;
 	overflow-y: auto;
+
 	${mobileMediaQuery} {
 		font-size: 16px;
 	}

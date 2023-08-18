@@ -92,6 +92,9 @@ function Card({
 	const endSwipe = (event: React.MouseEvent | React.TouchEvent) => {
 		if (!swipeStartX) return;
 
+		const selectedText = window.getSelection()?.toString();
+		if (selectedText) return;
+
 		const clientX =
 			event.type === 'touchend'
 				? lastTouch.current

@@ -42,6 +42,10 @@ const Container = styled.div<ContainerProps>`
 	flex-direction: column;
 	gap: 20px;
 	transition: 0.3s;
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10 and IE 11 */
+	user-select: none; /* Standard syntax */
+
 	${({ cardMode }) =>
 		cardMode === 'question'
 			? css(`
