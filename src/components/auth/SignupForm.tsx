@@ -15,9 +15,15 @@ function SignupForm() {
 	const [emailCheckFailed, setEmailCheckFailed] = React.useState(false);
 	const [nicknameCheckFailed, setNicknameCheckFailed] = React.useState(false);
 
-	const navi = useNavigate();
+	const navigate = useNavigate();
 	const { addToast } = useToastContext();
-	const { control, register, trigger, handleSubmit } = useForm<signupSchema>({
+	const {
+		control,
+		register,
+		trigger,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<signupSchema>({
 		resolver: zodResolver(signupSchema),
 	});
 
@@ -30,16 +36,33 @@ function SignupForm() {
 			return;
 		}
 
-		const result = await signUp(data);
-		console.log(result);
-		navi('/');
+		await signUp(data);
+		navigate('/');
 	};
 
 	const handleDuplicateCheck = async (
 		event: React.MouseEvent<HTMLSpanElement>,
 		dataType: string,
 	) => {
-		const data = await checkForDuplicate(event, dataType);
+		const target = event.target as HTMLInputElement;
+		const userInput = target.parentNode?.querySelector('input')?.value;
+
+		if (!userInput) {
+			addToast({
+				type: TOAST_TYPE.ERROR,
+				msg_type:
+					dataType === 'email'
+						? TOAST_MSG_TYPE.INPUT_EMAIL
+						: TOAST_MSG_TYPE.INPUT_NICKNAME,
+			});
+
+			return;
+		}
+
+		if (dataType === 'email' && errors.email?.message) return;
+		if (dataType === 'nickname' && errors.nickname?.message) return;
+
+		const data = await checkForDuplicate(userInput, dataType);
 
 		if (dataType === 'email') {
 			if (data.isSuccess) setIsEmailUnique(true);

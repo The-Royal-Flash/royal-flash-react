@@ -14,12 +14,16 @@ export const TOAST_MSG_TYPE = {
 	SERVER_ERROR: 'SERVER_ERROR',
 	SUCCESS_DELETE: 'SUCCESS_DELETE',
 	FAIL_DELETE: 'FAIL_DELETE',
+	INPUT_EMAIL: 'INPUT_EMAIL',
+	INPUT_NICKNAME: 'INPUT_NICKNAME',
 } as const;
 
 export const TOAST_MESSAGE = {
 	[TOAST_MSG_TYPE.CHANGE_NICKNAME]: '기존과 동일한 닉네임입니다.',
 	[TOAST_MSG_TYPE.NICKNAME_LENGTH]: '닉네임은 3글자 이상이어야 합니다.',
 	[TOAST_MSG_TYPE.NEED_CHECK_DUPLICATE]: '중복 확인을 해주세요.',
+	[TOAST_MSG_TYPE.INPUT_EMAIL]: '이메일을 입력해 주세요.',
+	[TOAST_MSG_TYPE.INPUT_NICKNAME]: '닉네임을 입력해 주세요.',
 	[TOAST_MSG_TYPE.NEED_AUTH]: '로그인 후 이용 가능합니다.',
 	[TOAST_MSG_TYPE.NOT_FOUND]: '해당 페이지가 존재하지 않습니다.',
 	[TOAST_MSG_TYPE.SERVER_ERROR]: '나중에 다시 시도해주세요.',
