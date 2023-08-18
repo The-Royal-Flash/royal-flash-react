@@ -16,6 +16,7 @@ export const TOAST_MSG_TYPE = {
 	FAIL_DELETE: 'FAIL_DELETE',
 	INPUT_EMAIL: 'INPUT_EMAIL',
 	INPUT_NICKNAME: 'INPUT_NICKNAME',
+	INVALID_LOGIN: 'INVALID_LOGIN',
 } as const;
 
 export const TOAST_MESSAGE = {
@@ -29,4 +30,5 @@ export const TOAST_MESSAGE = {
 	[TOAST_MSG_TYPE.SERVER_ERROR]: '나중에 다시 시도해주세요.',
 	[TOAST_MSG_TYPE.SUCCESS_DELETE]: '학습 세트가 삭제되었습니다.',
 	[TOAST_MSG_TYPE.FAIL_DELETE]: '학습 세트 삭제에 실패하였습니다.',
+	[TOAST_MSG_TYPE.INVALID_LOGIN]: '로그인 정보를 확인해 주세요.',
 } as const;
