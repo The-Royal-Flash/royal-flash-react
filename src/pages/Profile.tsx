@@ -23,7 +23,7 @@ function Profile() {
 		navigate('/');
 		addToast({
 			type: TOAST_TYPE.ERROR,
-			msg_type: TOAST_MSG_TYPE.FAIL_DELETE,
+			msg_type: TOAST_MSG_TYPE.NEED_AUTH,
 		});
 	}
 
