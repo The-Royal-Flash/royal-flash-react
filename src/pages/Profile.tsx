@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
-import { checkForDuplicate, changeNickname } from '../api';
+import { checkForDuplicate, changeNickname, uploadImage } from '../api';
 import { fetchProfileQuery } from '../queries';
 import { ChangePwModal } from '../components';
 import { useToastContext } from '../contexts/ToastContext';
@@ -31,6 +31,9 @@ function Profile() {
 	const [editingNickname, setEditingNickname] = useState(false);
 	const nicknameFieldRef = useRef<HTMLDivElement>(null);
 	const [changingPw, setChangingPw] = useState(false);
+	const [imagePath, setImagePath] = useState(
+		res?.user.avatarUrl || '/logo/royal-flash-logo.png',
+	);
 
 	/*----- nicknameField에 focus -----*/
 	useEffect(() => {
@@ -98,6 +101,21 @@ function Profile() {
 		}
 	};
 
+	const changeImage = async (event: React.FormEvent) => {
+		const target = event.target as HTMLInputElement;
+
+		if (target.files) {
+			const file = target.files[0];
+
+			try {
+				const res = await uploadImage(file);
+				console.log(res);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	};
+
 	return (
 		<Container>
 			{changingPw && (
@@ -108,13 +126,16 @@ function Profile() {
 				/>
 			)}
 			<Section>
-				<UserImage
-					src={res?.user?.avatarUrl || '/logo/royal-flash-logo.png'}
-					alt="User Image"
-				/>
-				<StyledButton variant="contained" size="small">
+				<UserImage src={imagePath} alt="User Image" />
+				<Button
+					variant="contained"
+					size="small"
+					component="label"
+					onChange={changeImage}
+				>
 					사진 변경
-				</StyledButton>
+					<input type="file" hidden />
+				</Button>
 				<Message>환영합니다 {res?.user?.nickname}님!</Message>
 			</Section>
 			<Section>
@@ -200,11 +221,6 @@ const UserImage = styled.img`
 	border-radius: 60px;
 `;
 
-const StyledButton = styled(Button)`
-	width: 100px;
-	font-size: 10px;
-`;
-
 const Message = styled.p`
 	font-size: 14px;
 	margin-top: 10px;
@@ -231,7 +247,6 @@ const ModalLinkWrapper = styled.div`
 `;
 
 const NicknameForm = styled.form`
-	/* border: 1px dashed red; */
 	display: flex;
 	position: relative;
 	align-items: center;
