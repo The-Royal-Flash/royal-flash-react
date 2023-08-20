@@ -49,6 +49,7 @@ function Card({
 	const [cardMode, setCardMode] = useState<'question' | 'answer'>('question');
 	const lastTouch = useRef(0);
 	const isLeftSwipe = useRef(false);
+	const contentRef = useRef<null | HTMLDivElement>(null);
 
 	/** 질문 or 답안 보기 누르면 카드 내용 변경 */
 	const toggleCard = () => {
@@ -80,14 +81,19 @@ function Card({
 		setSwipeStartX(clientX);
 	};
 
-	/** card 위에서 MouseUp이 발생한 경우 card를 swipe할 마음이 없다고 판단해서 swipe 로직 중단 */
-	const cancelSwipe = () => {
+	/** 드래그 중 카드 내부에서 mouseup/touchend 이벤트 발생시 카드 swipe 중단 */
+	const cancelSwipe = (event: React.MouseEvent | React.TouchEvent) => {
+		event.stopPropagation();
+
 		setSwipeStartX(null);
 	};
 
 	/** mousedown/touch 이벤트로 인한 swipe 애니메이션 종료된 후의 로직  */
 	const endSwipe = (event: React.MouseEvent | React.TouchEvent) => {
 		if (!swipeStartX) return;
+
+		const selectedText = window.getSelection()?.toString();
+		if (selectedText) return;
 
 		const clientX =
 			event.type === 'touchend'
@@ -98,10 +104,10 @@ function Card({
 
 		isLeftSwipe.current = swipeStartX > clientX ? true : false;
 
-		setTimeout(() => setIsSwiping(false), 800);
 		setIsSwiping(true);
 		setSwipeStartX(null);
 		goToNextCard(isLeftSwipe.current, current?._id as string);
+		setTimeout(() => setIsSwiping(false), 800);
 	};
 
 	/** click 이벤트에 따라 카드 swipe */
@@ -110,15 +116,15 @@ function Card({
 
 		isLeftSwipe.current = direction === 'incorrect' ? true : false;
 
-		setTimeout(() => setIsSwiping(false), 800);
 		setIsSwiping(true);
 		setSwipeStartX(null);
 		goToNextCard(isLeftSwipe.current, current?._id as string);
+		setTimeout(() => setIsSwiping(false), 800);
 	};
 
 	return (
 		<Container onMouseUp={endSwipe}>
-			<CardContainer>
+			<CardContainer ref={contentRef}>
 				<MainCard
 					onTransitionEnd={displayCardText}
 					cardMode={cardMode}
@@ -142,6 +148,7 @@ function Card({
 							question={current?.question}
 							answer={current?.answer}
 							link={current?.link}
+							cancelSwipe={cancelSwipe}
 						/>
 					) : (
 						<QuestionCard
@@ -149,6 +156,7 @@ function Card({
 							mode={cardMode}
 							step={step}
 							question={current?.question}
+							cancelSwipe={cancelSwipe}
 						/>
 					)}
 				</MainCard>

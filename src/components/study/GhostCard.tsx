@@ -68,6 +68,10 @@ const Container = styled.div<ContainerProps>`
 	border: 1px solid #999999;
 	border-radius: 10px 10px 0 0;
 	padding: 5%;
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10 and IE 11 */
+	user-select: none; /* Standard syntax */
+
 	${mobileMediaQuery} {
 		width: 100%;
 		height: 400px;
