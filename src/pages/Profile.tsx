@@ -1,28 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
-import { checkForDuplicate, changeNickname } from '../api';
+import { checkForDuplicate, changeNickname, uploadImage } from '../api';
+import { fetchProfileQuery } from '../queries';
 import { ChangePwModal } from '../components';
-import { useUserContext } from '../contexts/UserContext';
 import { useToastContext } from '../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
+import { ProfileResponse } from '../types';
+import { useUserContext } from '../contexts/UserContext';
 
 function Profile() {
 	const { user, setUser } = useUserContext();
 	const { addToast } = useToastContext();
+	const { data: res } = useQuery<ProfileResponse>(fetchProfileQuery());
+	const navigate = useNavigate();
 
-	// TODO: profile api
-	// const { data } = useQuery<ProflieResponse>(fetchProfileQuery());
+	if (!res?.isSuccess) {
+		navigate('/');
+		addToast({
+			type: TOAST_TYPE.ERROR,
+			msg_type: TOAST_MSG_TYPE.NEED_AUTH,
+		});
+	}
 
-	const [nickname, setNickname] = React.useState(user!.nickname);
-	const [editingNickname, setEditingNickname] = React.useState(false);
-	const nicknameFieldRef = React.useRef<HTMLDivElement>(null);
-	const [changingPw, setChangingPw] = React.useState(false);
+	const [nicknameInput, setNicknameInput] = useState(res?.user.nickname);
+	const [editingNickname, setEditingNickname] = useState(false);
+	const nicknameFieldRef = useRef<HTMLDivElement>(null);
+	const [changingPw, setChangingPw] = useState(false);
+	const [imagePath, setImagePath] = useState(
+		res?.user.avatarUrl || '/logo/royal-flash-logo.png',
+	);
 
 	/*----- nicknameField에 focus -----*/
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!editingNickname) return;
 
 		nicknameFieldRef.current?.querySelector('input')?.focus();
@@ -35,7 +49,7 @@ function Profile() {
 		const target = event?.target as HTMLInputElement;
 		const newValue = target.value.trim();
 
-		setNickname(newValue);
+		setNicknameInput(newValue);
 	};
 
 	/*----- 중복 확인 -----*/
@@ -46,7 +60,7 @@ function Profile() {
 		event.preventDefault();
 
 		// 1. 현재 유저의 닉네임과 새로운 값이 같은 경우
-		if (nickname === user!.nickname) {
+		if (nicknameInput === res?.user.nickname) {
 			addToast({
 				type: TOAST_TYPE.ERROR,
 				msg_type: TOAST_MSG_TYPE.CHANGE_NICKNAME,
@@ -57,7 +71,7 @@ function Profile() {
 		}
 
 		// 2. 새로 입력된 닉네임의 길이가 3글자 이상이 아닌 경우
-		if (nickname.length < 3) {
+		if ((nicknameInput?.length as number) < 3) {
 			addToast({
 				type: TOAST_TYPE.ERROR,
 				msg_type: TOAST_MSG_TYPE.NICKNAME_LENGTH,
@@ -72,16 +86,32 @@ function Profile() {
 
 		if (data.isSuccess) {
 			const confirm = window.confirm(
-				`닉네임을 '${nickname}'으로 변경하시겠습니까?`,
+				`닉네임을 '${nicknameInput}'으로 변경하시겠습니까?`,
 			);
 
 			if (confirm) {
 				setEditingNickname(false);
 
-				const { data } = await changeNickname(nickname);
-				if (data.isSuccess) setUser({ ...user!, nickname });
+				const { data } = await changeNickname(nicknameInput as string);
+				if (data.isSuccess)
+					setUser({ ...user!, nickname: nicknameInput as string });
 			} else {
 				nicknameFieldRef.current?.querySelector('input')?.focus();
+			}
+		}
+	};
+
+	const changeImage = async (event: React.FormEvent) => {
+		const target = event.target as HTMLInputElement;
+
+		if (target.files) {
+			const file = target.files[0];
+
+			try {
+				const res = await uploadImage(file);
+				console.log(res);
+			} catch (error) {
+				console.log(error);
 			}
 		}
 	};
@@ -96,14 +126,17 @@ function Profile() {
 				/>
 			)}
 			<Section>
-				<UserImage
-					src={user?.avatarUrl || '/logo/royal-flash-logo.png'}
-					alt="User Image"
-				/>
-				<StyledButton variant="contained" size="small">
+				<UserImage src={imagePath} alt="User Image" />
+				<Button
+					variant="contained"
+					size="small"
+					component="label"
+					onChange={changeImage}
+				>
 					사진 변경
-				</StyledButton>
-				<Message>환영합니다 {user?.nickname}님!</Message>
+					<input type="file" hidden />
+				</Button>
+				<Message>환영합니다 {res?.user?.nickname}님!</Message>
 			</Section>
 			<Section>
 				<Box>
@@ -112,14 +145,14 @@ function Profile() {
 						id="profile-name-input"
 						label="Name"
 						variant="standard"
-						value={user?.name}
+						value={res?.user?.name}
 						disabled
 					/>
 					<StyledInput
 						id="profile-email-input"
 						label="Email"
 						variant="standard"
-						value={user?.email}
+						value={res?.user?.email}
 						disabled
 					/>
 					<NicknameForm>
@@ -128,7 +161,7 @@ function Profile() {
 							label="Nickname"
 							variant="standard"
 							onChange={updateNickname}
-							value={nickname}
+							value={nicknameInput}
 							ref={nicknameFieldRef}
 							disabled={!editingNickname}
 						/>
@@ -188,11 +221,6 @@ const UserImage = styled.img`
 	border-radius: 60px;
 `;
 
-const StyledButton = styled(Button)`
-	width: 100px;
-	font-size: 10px;
-`;
-
 const Message = styled.p`
 	font-size: 14px;
 	margin-top: 10px;
@@ -219,7 +247,6 @@ const ModalLinkWrapper = styled.div`
 `;
 
 const NicknameForm = styled.form`
-	/* border: 1px dashed red; */
 	display: flex;
 	position: relative;
 	align-items: center;
