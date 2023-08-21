@@ -19,6 +19,7 @@ export const TOAST_MSG_TYPE = {
 	INVALID_LOGIN: 'INVALID_LOGIN',
 	COPY_SUCCESS: 'COPY_SUCCESS',
 	SUCCESS_CHANGE_PW: 'SUCCESS_CHANGE_PW',
+	SUCCESS_CHANGE_NICKNAME: 'SUCCESS_CHANGE_NICKNAME',
 } as const;
 
 export const TOAST_MESSAGE = {
@@ -34,4 +35,6 @@ export const TOAST_MESSAGE = {
 	[TOAST_MSG_TYPE.FAIL_DELETE]: '학습 세트 삭제에 실패하였습니다.',
 	[TOAST_MSG_TYPE.SUCCESS_CHANGE_PW]:
 		'비밀번호가 변경되었습니다. 다시 로그인하세요.',
+	[TOAST_MSG_TYPE.SUCCESS_CHANGE_NICKNAME]:
+		'닉네임이 성공적으로 변경되었습니다.',
 } as const;

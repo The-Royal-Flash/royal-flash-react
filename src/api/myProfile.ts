@@ -5,7 +5,7 @@ import { PwChangeData } from '../types/profile';
 export const fetchProfile = async (): Promise<ProfileResponse> =>
 	await http.get('profile');
 
-export const changeNickname = async (nickname: string): Promise<AuthResponse> =>
+export const updateNickname = async (nickname: string): Promise<AuthResponse> =>
 	await http.post('profile/edit/nickname', { nickname });
 
 export const uploadImage = async (file: File) =>

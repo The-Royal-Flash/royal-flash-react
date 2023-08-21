@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from '@emotion/styled';
 import { Modal } from '../common';
 import { Button, TextField } from '@mui/material';
@@ -7,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { nicknameSchema } from '../../schemas/authSchema';
 import { useToastContext } from '../../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
-import { checkForDuplicate } from '../../api';
+import { checkForDuplicate, updateNickname } from '../../api';
 
 interface ChangeNicknameModal {
 	open: boolean;
@@ -22,19 +21,40 @@ function ChangeNicknameModal({
 	onClose,
 	currentNickname,
 }: ChangeNicknameModal) {
+	const { addToast } = useToastContext();
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
+		setError,
 	} = useForm<nicknameSchema>({
 		resolver: zodResolver(nicknameSchema),
 	});
 
 	const changeNickname = async ({ nickname: newNickname }: nicknameSchema) => {
-		console.log(currentNickname);
-		console.log(newNickname);
+		if (newNickname === currentNickname) {
+			return setError('nickname', {
+				type: 'custom',
+				message: '현재 닉네임과 같습니다. 다른 닉네임을 입력하세요.',
+			});
+		}
 
-		checkForDuplicate;
+		const data = await checkForDuplicate(newNickname, 'nickname');
+
+		if (data.isSuccess) {
+			await updateNickname(newNickname);
+			addToast({
+				type: TOAST_TYPE.SUCCESS,
+				msg_type: TOAST_MSG_TYPE.SUCCESS_CHANGE_NICKNAME,
+			});
+			onClose();
+		} else {
+			addToast({
+				type: TOAST_TYPE.ERROR,
+				msg_type: TOAST_MSG_TYPE.SERVER_ERROR,
+			});
+			onClose();
+		}
 	};
 
 	return (
@@ -52,6 +72,7 @@ function ChangeNicknameModal({
 							variant="outlined"
 							error={errors.nickname ? true : false}
 							helperText={errors?.nickname?.message}
+							defaultValue={currentNickname}
 						/>
 					</NicknameInputBox>
 					<StyledButton

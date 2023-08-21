@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
-import { checkForDuplicate, changeNickname, uploadImage } from '../api';
+import { checkForDuplicate, uploadImage } from '../api';
 import { fetchProfileQuery } from '../queries';
 import { ChangePwModal, ChangeNicknameModal } from '../components';
 import { useToastContext } from '../contexts/ToastContext';
@@ -28,68 +28,10 @@ function Profile() {
 	}
 
 	const [editingNickname, setEditingNickname] = useState(false);
-	const nicknameFieldRef = useRef<HTMLDivElement>(null);
 	const [changingPw, setChangingPw] = useState(false);
 	const [imagePath, setImagePath] = useState(
 		res?.user.avatarUrl || '/logo/royal-flash-logo.png',
 	);
-
-	/*----- nicknameField에 focus -----*/
-	useEffect(() => {
-		if (!editingNickname) return;
-
-		nicknameFieldRef.current?.querySelector('input')?.focus();
-	}, [editingNickname]);
-
-	/*----- 중복 확인 -----*/
-	const handleDuplicateCheck = async (
-		event: React.MouseEvent<HTMLSpanElement>,
-		dataType = 'nickname',
-	) => {
-		event.preventDefault();
-
-		const nicknameField = nicknameFieldRef.current?.querySelector('input');
-		const input = nicknameField?.value;
-
-		// 1. 현재 유저의 닉네임과 새로운 값이 같은 경우
-		if (input === res?.user.nickname) {
-			addToast({
-				type: TOAST_TYPE.ERROR,
-				msg_type: TOAST_MSG_TYPE.CHANGE_NICKNAME,
-			});
-
-			nicknameFieldRef.current?.querySelector('input')?.focus();
-			return;
-		}
-
-		// 2. 새로 입력된 닉네임의 길이가 3글자 이상이 아닌 경우
-		if ((input?.length as number) < 3) {
-			addToast({
-				type: TOAST_TYPE.ERROR,
-				msg_type: TOAST_MSG_TYPE.NICKNAME_LENGTH,
-			});
-
-			nicknameFieldRef.current?.querySelector('input')?.focus();
-			return;
-		}
-
-		// 3. 닉네임 중복확인 후 변경
-		// const data = await checkForDuplicate(target?.value as string, dataType);
-
-		// if (data.isSuccess) {
-		// 	const confirm = window.confirm(
-		// 		`닉네임을 '${input}'으로 변경하시겠습니까?`,
-		// 	);
-
-		// 	if (confirm) {
-		// 		setEditingNickname(false);
-		// 		const { data } = await changeNickname(input as string);
-		// 		if (data.isSuccess) setUser({ ...user!, nickname: input as string });
-		// 	} else {
-		// 		// nicknameField?.focus();
-		// 	}
-		// }
-	};
 
 	/* ----- 이미지 변경 -----*/
 	const changeImage = async (event: React.FormEvent) => {
@@ -159,18 +101,10 @@ function Profile() {
 							id="profile-nickname-input"
 							label="Nickname"
 							variant="standard"
-							// onChange={updateNickname}
 							defaultValue={res?.user.nickname}
-							ref={nicknameFieldRef}
-							disabled={!editingNickname}
+							disabled
 						/>
-						{editingNickname ? (
-							<DuplicateChecker onClick={handleDuplicateCheck}>
-								중복 확인
-							</DuplicateChecker>
-						) : (
-							<StyledEditIcon onClick={() => setEditingNickname(true)} />
-						)}
+						<StyledEditIcon onClick={() => setEditingNickname(true)} />
 					</NicknameForm>
 				</Box>
 			</Section>
