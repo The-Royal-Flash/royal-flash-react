@@ -76,7 +76,9 @@ function MyQuizlet() {
 			) : (
 				<NoResultMessage ownedOnly={ownedOnly} />
 			)}
-			<QuizletPagination total={data?.totalPage!} onPageChange={changePage} />
+			{data?.quizletList.length && (
+				<QuizletPagination total={data?.totalPage!} onPageChange={changePage} />
+			)}
 		</Container>
 	);
 }

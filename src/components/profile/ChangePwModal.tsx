@@ -63,7 +63,7 @@ function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
 							type="password"
 							error={errors.password ? true : false}
 							helperText={errors?.password?.message}
-						></TextField>
+						/>
 					</PwInputBox>
 					<PwInputBox>
 						<p>새로운 비밀번호</p>
@@ -75,7 +75,7 @@ function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
 							type="password"
 							error={errors.newPassword ? true : false}
 							helperText={errors?.newPassword?.message}
-						></TextField>
+						/>
 						<TextField
 							required
 							{...register('newConfirmPassword')}
@@ -84,7 +84,7 @@ function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
 							type="password"
 							error={errors.newConfirmPassword ? true : false}
 							helperText={errors?.newConfirmPassword?.message}
-						></TextField>
+						/>
 					</PwInputBox>
 					<StyledButton
 						variant="contained"

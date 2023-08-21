@@ -14,7 +14,7 @@ import { ProfileResponse } from '../types';
 import { useUserContext } from '../contexts/UserContext';
 
 function Profile() {
-	const { user, setUser } = useUserContext();
+	// const { user, setUser } = useUserContext();
 	const { addToast } = useToastContext();
 	const { data: res } = useQuery<ProfileResponse>(fetchProfileQuery());
 	const navigate = useNavigate();
@@ -58,7 +58,7 @@ function Profile() {
 				msg_type: TOAST_MSG_TYPE.CHANGE_NICKNAME,
 			});
 
-			// nicknameField?.focus();
+			nicknameFieldRef.current?.querySelector('input')?.focus();
 			return;
 		}
 
@@ -69,26 +69,26 @@ function Profile() {
 				msg_type: TOAST_MSG_TYPE.NICKNAME_LENGTH,
 			});
 
-			// nicknameField?.focus();
+			nicknameFieldRef.current?.querySelector('input')?.focus();
 			return;
 		}
 
 		// 3. 닉네임 중복확인 후 변경
-		const data = await checkForDuplicate(event, dataType);
+		// const data = await checkForDuplicate(target?.value as string, dataType);
 
-		if (data.isSuccess) {
-			const confirm = window.confirm(
-				`닉네임을 '${input}'으로 변경하시겠습니까?`,
-			);
+		// if (data.isSuccess) {
+		// 	const confirm = window.confirm(
+		// 		`닉네임을 '${input}'으로 변경하시겠습니까?`,
+		// 	);
 
-			if (confirm) {
-				setEditingNickname(false);
-				const { data } = await changeNickname(input as string);
-				if (data.isSuccess) setUser({ ...user!, nickname: input as string });
-			} else {
-				// nicknameField?.focus();
-			}
-		}
+		// 	if (confirm) {
+		// 		setEditingNickname(false);
+		// 		const { data } = await changeNickname(input as string);
+		// 		if (data.isSuccess) setUser({ ...user!, nickname: input as string });
+		// 	} else {
+		// 		// nicknameField?.focus();
+		// 	}
+		// }
 	};
 
 	/* ----- 이미지 변경 -----*/

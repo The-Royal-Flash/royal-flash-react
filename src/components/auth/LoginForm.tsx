@@ -1,31 +1,33 @@
-import React from 'react';
-import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../schemas/authSchema';
 import { logIn } from '../../api';
 import { FormInput } from '.';
+import { useToastContext } from '../../contexts/ToastContext';
+import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
 import { useUserContext } from '../../contexts/UserContext';
 import { ButtonBox, Form, SubmitButton } from './styles';
 
 function LoginForm() {
 	const navi = useNavigate();
-	const [loginError, setLoginError] = React.useState<null | boolean>(null);
 	const { setUser } = useUserContext();
+	const { addToast } = useToastContext();
 
 	const { control, register, trigger, handleSubmit } = useForm<loginSchema>({
 		resolver: zodResolver(loginSchema),
 	});
 
 	const logUserIn = async (data: loginSchema) => {
-		const res = await logIn(data);
-
-		if (!res.data.isSuccess) {
-			setLoginError(true);
-		} else {
+		try {
+			const res = await logIn(data);
 			setUser(res.data.user);
 			navi('/');
+		} catch (error) {
+			addToast({
+				type: TOAST_TYPE.ERROR,
+				msg_type: TOAST_MSG_TYPE.INVALID_LOGIN,
+			});
 		}
 	};
 
@@ -49,16 +51,8 @@ function LoginForm() {
 					로그인
 				</SubmitButton>
 			</ButtonBox>
-			{loginError && (
-				<ErrorMessage>올바른 아이디와 비밀번호를 입력해주세요</ErrorMessage>
-			)}
 		</Form>
 	);
 }
-
-const ErrorMessage = styled.p`
-	color: red;
-	text-align: center;
-`;
 
 export default LoginForm;
