@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
 import { checkForDuplicate, changeNickname, uploadImage } from '../api';
 import { fetchProfileQuery } from '../queries';
-import { ChangePwModal } from '../components';
+import { ChangePwModal, ChangeNicknameModal } from '../components';
 import { useToastContext } from '../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
 import { ProfileResponse } from '../types';
@@ -27,7 +27,6 @@ function Profile() {
 		});
 	}
 
-	const [nicknameInput, setNicknameInput] = useState(res?.user.nickname);
 	const [editingNickname, setEditingNickname] = useState(false);
 	const nicknameFieldRef = useRef<HTMLDivElement>(null);
 	const [changingPw, setChangingPw] = useState(false);
@@ -42,16 +41,6 @@ function Profile() {
 		nicknameFieldRef.current?.querySelector('input')?.focus();
 	}, [editingNickname]);
 
-	/*----- nicknameField 값 업데이트 -----*/
-	const updateNickname = (
-		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-	) => {
-		const target = event?.target as HTMLInputElement;
-		const newValue = target.value.trim();
-
-		setNicknameInput(newValue);
-	};
-
 	/*----- 중복 확인 -----*/
 	const handleDuplicateCheck = async (
 		event: React.MouseEvent<HTMLSpanElement>,
@@ -59,25 +48,28 @@ function Profile() {
 	) => {
 		event.preventDefault();
 
+		const nicknameField = nicknameFieldRef.current?.querySelector('input');
+		const input = nicknameField?.value;
+
 		// 1. 현재 유저의 닉네임과 새로운 값이 같은 경우
-		if (nicknameInput === res?.user.nickname) {
+		if (input === res?.user.nickname) {
 			addToast({
 				type: TOAST_TYPE.ERROR,
 				msg_type: TOAST_MSG_TYPE.CHANGE_NICKNAME,
 			});
 
-			nicknameFieldRef.current?.querySelector('input')?.focus();
+			// nicknameField?.focus();
 			return;
 		}
 
 		// 2. 새로 입력된 닉네임의 길이가 3글자 이상이 아닌 경우
-		if ((nicknameInput?.length as number) < 3) {
+		if ((input?.length as number) < 3) {
 			addToast({
 				type: TOAST_TYPE.ERROR,
 				msg_type: TOAST_MSG_TYPE.NICKNAME_LENGTH,
 			});
 
-			nicknameFieldRef.current?.querySelector('input')?.focus();
+			// nicknameField?.focus();
 			return;
 		}
 
@@ -86,21 +78,20 @@ function Profile() {
 
 		if (data.isSuccess) {
 			const confirm = window.confirm(
-				`닉네임을 '${nicknameInput}'으로 변경하시겠습니까?`,
+				`닉네임을 '${input}'으로 변경하시겠습니까?`,
 			);
 
 			if (confirm) {
 				setEditingNickname(false);
-
-				const { data } = await changeNickname(nicknameInput as string);
-				if (data.isSuccess)
-					setUser({ ...user!, nickname: nicknameInput as string });
+				const { data } = await changeNickname(input as string);
+				if (data.isSuccess) setUser({ ...user!, nickname: input as string });
 			} else {
-				nicknameFieldRef.current?.querySelector('input')?.focus();
+				// nicknameField?.focus();
 			}
 		}
 	};
 
+	/* ----- 이미지 변경 -----*/
 	const changeImage = async (event: React.FormEvent) => {
 		const target = event.target as HTMLInputElement;
 
@@ -123,6 +114,14 @@ function Profile() {
 					open={changingPw}
 					title="비밀번호 변경"
 					onClose={() => setChangingPw(false)}
+				/>
+			)}
+			{editingNickname && (
+				<ChangeNicknameModal
+					open={editingNickname}
+					currentNickname={res?.user.nickname as string}
+					title="닉네임 변경"
+					onClose={() => setEditingNickname(false)}
 				/>
 			)}
 			<Section>
@@ -160,8 +159,8 @@ function Profile() {
 							id="profile-nickname-input"
 							label="Nickname"
 							variant="standard"
-							onChange={updateNickname}
-							value={nicknameInput}
+							// onChange={updateNickname}
+							defaultValue={res?.user.nickname}
 							ref={nicknameFieldRef}
 							disabled={!editingNickname}
 						/>
