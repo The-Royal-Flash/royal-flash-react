@@ -5,16 +5,14 @@ import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
-import { checkForDuplicate, uploadImage } from '../api';
+import { uploadImage } from '../api';
 import { fetchProfileQuery } from '../queries';
 import { ChangePwModal, ChangeNicknameModal } from '../components';
 import { useToastContext } from '../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
 import { ProfileResponse } from '../types';
-import { useUserContext } from '../contexts/UserContext';
 
 function Profile() {
-	// const { user, setUser } = useUserContext();
 	const { addToast } = useToastContext();
 	const { data: res } = useQuery<ProfileResponse>(fetchProfileQuery());
 	const navigate = useNavigate();
@@ -39,9 +37,12 @@ function Profile() {
 
 		if (target.files) {
 			const file = target.files[0];
+			const imageFile = { image: file };
+
+			console.log(imageFile);
 
 			try {
-				const res = await uploadImage(file);
+				const res = await uploadImage(imageFile);
 				console.log(res);
 			} catch (error) {
 				console.log(error);
