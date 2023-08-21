@@ -17,12 +17,9 @@ export const signUp = async (newUserData: NewUserData): Promise<AuthResponse> =>
 	await http.post('auth/register/local', newUserData);
 
 export const checkForDuplicate = async (
-	event: React.MouseEvent<HTMLSpanElement>,
+	userInput: string,
 	dataType: string,
 ) => {
-	const target = event.target as HTMLInputElement;
-	const userInput = target.parentNode?.querySelector('input')?.value;
-
 	const { data } =
 		dataType === 'email'
 			? await checkEmail(userInput as string)

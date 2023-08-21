@@ -45,6 +45,8 @@ function Profile() {
 	) => {
 		event.preventDefault();
 
+		const target = nicknameFieldRef.current?.querySelector('input');
+
 		// 1. 현재 유저의 닉네임과 새로운 값이 같은 경우
 		if (nickname === user!.nickname) {
 			addToast({
@@ -52,7 +54,7 @@ function Profile() {
 				msg_type: TOAST_MSG_TYPE.CHANGE_NICKNAME,
 			});
 
-			nicknameFieldRef.current?.querySelector('input')?.focus();
+			target?.focus();
 			return;
 		}
 
@@ -63,12 +65,12 @@ function Profile() {
 				msg_type: TOAST_MSG_TYPE.NICKNAME_LENGTH,
 			});
 
-			nicknameFieldRef.current?.querySelector('input')?.focus();
+			target?.focus();
 			return;
 		}
 
 		// 3. 닉네임 중복확인 후 변경
-		const data = await checkForDuplicate(event, dataType);
+		const data = await checkForDuplicate(target?.value as string, dataType);
 
 		if (data.isSuccess) {
 			const confirm = window.confirm(
