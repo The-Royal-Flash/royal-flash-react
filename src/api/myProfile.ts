@@ -8,8 +8,8 @@ export const fetchProfile = async (): Promise<ProfileResponse> =>
 export const updateNickname = async (nickname: string): Promise<AuthResponse> =>
 	await http.post('profile/edit/nickname', { nickname });
 
-export const uploadImage = async (file: File) =>
-	await http.post('profile/edit/avatar', file);
+export const uploadImage = async (formData: { image: File }) =>
+	await http.post('profile/edit/avatar', formData);
 
 export const changePassword = async (
 	pwChangeData: PwChangeData,
