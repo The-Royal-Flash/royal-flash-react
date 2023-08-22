@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -67,7 +67,7 @@ function Profile() {
 			{editingNickname && (
 				<ChangeNicknameModal
 					open={editingNickname}
-					currentNickname={res?.user.nickname as string}
+					currentNickname={displayNickname as string}
 					title="닉네임 변경"
 					updateDisplayNickname={updateDisplayNickname}
 					onClose={() => setEditingNickname(false)}
