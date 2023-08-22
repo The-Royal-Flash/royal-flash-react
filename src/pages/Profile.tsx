@@ -32,23 +32,16 @@ function Profile() {
 		res?.user.avatarUrl || '/logo/royal-flash-logo.png',
 	);
 
-	/* ----- 이미지 변경 -----*/
 	const changeImage = async (event: React.FormEvent) => {
 		const target = event.target as HTMLInputElement;
+		const file = target.files![0];
 
-		if (target.files) {
-			const file = target.files[0];
-			const imageFile = { image: file };
+		const formData = new FormData();
+		formData.append('image', file);
 
-			console.log(imageFile);
+		const res = await uploadImage(formData);
 
-			try {
-				const res = await uploadImage(imageFile);
-				console.log(res);
-			} catch (error) {
-				console.log(error);
-			}
-		}
+		console.log(res);
 	};
 
 	const updateDisplayNickname = (newNickname: string) => {
@@ -75,14 +68,9 @@ function Profile() {
 			)}
 			<Section>
 				<UserImage src={imagePath} alt="User Image" />
-				<Button
-					variant="contained"
-					size="small"
-					component="label"
-					onChange={changeImage}
-				>
+				<Button variant="contained" component="label" onChange={changeImage}>
 					사진 변경
-					<input type="file" hidden />
+					<input hidden accept="image/*" multiple type="file" />
 				</Button>
 				<Message>환영합니다 {displayNickname}님!</Message>
 			</Section>
