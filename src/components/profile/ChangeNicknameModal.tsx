@@ -4,14 +4,14 @@ import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { nicknameSchema } from '../../schemas/authSchema';
-import { useToastContext } from '../../contexts/ToastContext';
-import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
-import { checkForDuplicate, updateNickname } from '../../api';
+import { checkForDuplicate } from '../../api';
+import useNicknameMutation from '../../hooks/mutation/useNicknameMutation';
 
 interface ChangeNicknameModal {
 	open: boolean;
 	title: string;
 	currentNickname: string;
+	updateDisplayNickname: (newNickname: string) => void;
 	onClose: () => void;
 }
 
@@ -19,9 +19,14 @@ function ChangeNicknameModal({
 	open,
 	title,
 	onClose,
+	updateDisplayNickname,
 	currentNickname,
 }: ChangeNicknameModal) {
-	const { addToast } = useToastContext();
+	const { mutate: mutateNickname } = useNicknameMutation({
+		updateDisplayNickname,
+		currentNickname,
+	});
+
 	const {
 		register,
 		formState: { errors },
@@ -41,20 +46,8 @@ function ChangeNicknameModal({
 
 		const data = await checkForDuplicate(newNickname, 'nickname');
 
-		if (data.isSuccess) {
-			await updateNickname(newNickname);
-			addToast({
-				type: TOAST_TYPE.SUCCESS,
-				msg_type: TOAST_MSG_TYPE.SUCCESS_CHANGE_NICKNAME,
-			});
-			onClose();
-		} else {
-			addToast({
-				type: TOAST_TYPE.ERROR,
-				msg_type: TOAST_MSG_TYPE.SERVER_ERROR,
-			});
-			onClose();
-		}
+		if (data.isSuccess) mutateNickname(newNickname);
+		onClose();
 	};
 
 	return (

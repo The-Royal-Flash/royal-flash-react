@@ -25,6 +25,7 @@ function Profile() {
 		});
 	}
 
+	const [displayNickname, setDisplayNickname] = useState(res?.user.nickname);
 	const [editingNickname, setEditingNickname] = useState(false);
 	const [changingPw, setChangingPw] = useState(false);
 	const [imagePath, setImagePath] = useState(
@@ -50,6 +51,10 @@ function Profile() {
 		}
 	};
 
+	const updateDisplayNickname = (newNickname: string) => {
+		setDisplayNickname(newNickname);
+	};
+
 	return (
 		<Container>
 			{changingPw && (
@@ -64,6 +69,7 @@ function Profile() {
 					open={editingNickname}
 					currentNickname={res?.user.nickname as string}
 					title="닉네임 변경"
+					updateDisplayNickname={updateDisplayNickname}
 					onClose={() => setEditingNickname(false)}
 				/>
 			)}
@@ -78,7 +84,7 @@ function Profile() {
 					사진 변경
 					<input type="file" hidden />
 				</Button>
-				<Message>환영합니다 {res?.user?.nickname}님!</Message>
+				<Message>환영합니다 {displayNickname}님!</Message>
 			</Section>
 			<Section>
 				<Box>
@@ -102,7 +108,7 @@ function Profile() {
 							id="profile-nickname-input"
 							label="Nickname"
 							variant="standard"
-							defaultValue={res?.user.nickname}
+							value={displayNickname}
 							disabled
 						/>
 						<StyledEditIcon onClick={() => setEditingNickname(true)} />
@@ -198,22 +204,22 @@ const StyledEditIcon = styled(EditIcon)`
 	}
 `;
 
-const DuplicateChecker = styled.button`
-	cursor: pointer;
-	background-color: #fff;
-	border: none;
-	transition: 0.1s ease-in;
-	color: gray;
-	font-size: 12px;
-	min-width: 70px;
+// const DuplicateChecker = styled.button`
+// 	cursor: pointer;
+// 	background-color: #fff;
+// 	border: none;
+// 	transition: 0.1s ease-in;
+// 	color: gray;
+// 	font-size: 12px;
+// 	min-width: 70px;
 
-	:hover {
-		color: var(--font-color);
-	}
+// 	:hover {
+// 		color: var(--font-color);
+// 	}
 
-	:disabled {
-		color: lightgray;
-	}
-`;
+// 	:disabled {
+// 		color: lightgray;
+// 	}
+// `;
 
 export default Profile;

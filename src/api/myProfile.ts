@@ -6,6 +6,7 @@ export const fetchProfile = async (): Promise<ProfileResponse> =>
 	await http.get('profile');
 
 export const updateNickname = async (nickname: string): Promise<AuthResponse> =>
+	// await http.post('profile/edit/nickname', { nickname });
 	await http.post('profile/edit/nickname', { nickname });
 
 export const uploadImage = async (formData: { image: File }) =>
