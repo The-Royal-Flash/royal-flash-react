@@ -57,16 +57,6 @@ function ChangeNicknameModal({
 				message: '이미 사용 중인 닉네임입니다.',
 			});
 		}
-
-		// if (data.isSuccess) {
-		// 	mutateNickname(newNickname);
-		// 	onClose();
-		// } else {
-		// 	setError('nickname', {
-		// 		type: 'custom',
-		// 		message: '이미 사용 중인 닉네임입니다.',
-		// 	});
-		// }
 	};
 
 	return (
