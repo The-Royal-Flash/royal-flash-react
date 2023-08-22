@@ -44,10 +44,29 @@ function ChangeNicknameModal({
 			});
 		}
 
-		const data = await checkForDuplicate(newNickname, 'nickname');
+		try {
+			const data = await checkForDuplicate(newNickname, 'nickname');
 
-		if (data.isSuccess) mutateNickname(newNickname);
-		onClose();
+			if (data.isSuccess) {
+				mutateNickname(newNickname);
+				onClose();
+			}
+		} catch (error) {
+			setError('nickname', {
+				type: 'custom',
+				message: '이미 사용 중인 닉네임입니다.',
+			});
+		}
+
+		// if (data.isSuccess) {
+		// 	mutateNickname(newNickname);
+		// 	onClose();
+		// } else {
+		// 	setError('nickname', {
+		// 		type: 'custom',
+		// 		message: '이미 사용 중인 닉네임입니다.',
+		// 	});
+		// }
 	};
 
 	return (
