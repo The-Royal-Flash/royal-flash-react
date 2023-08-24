@@ -8,7 +8,10 @@ export const fetchProfile = async (): Promise<ProfileResponse> =>
 export const updateNickname = async (nickname: string): Promise<AuthResponse> =>
 	await http.post('profile/edit/nickname', { nickname });
 
-export const uploadImage = async (formData: FormData) => {
+export const uploadImage = async (file: File) => {
+	const formData = new FormData();
+	formData.append('image', file);
+
 	return await http.postImage('profile/edit/avatar', formData);
 };
 

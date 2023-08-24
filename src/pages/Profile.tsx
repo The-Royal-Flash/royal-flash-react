@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
-import { uploadImage } from '../api';
 import { fetchProfileQuery } from '../queries';
 import { useToastContext } from '../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
@@ -33,39 +32,16 @@ function Profile() {
 	const [editingNickname, setEditingNickname] = useState(false);
 	const [changingPw, setChangingPw] = useState(false);
 	const [changingImage, setChangingImage] = useState(false);
-	const [uploadedImage, setUploadedImage] = useState<null | File>(null);
-	const [preview, setPreview] = useState('');
 	const [imagePath, setImagePath] = useState(
 		res?.user.avatarUrl || '/logo/royal-flash-logo.png',
 	);
 
-	// const recordImage = (event: React.ChangeEvent) => {
-	// 	const target = event.target as HTMLInputElement;
-	// 	const file = target.files![0];
-
-	// 	const url = URL.createObjectURL(file as Blob);
-	// 	setImagePath(url);
-
-	// 	setUploadedImage(file);
-	// };
-
-	// const changeImage = async (event: React.FormEvent) => {
-	// 	event.preventDefault();
-
-	// 	// const formData;
-
-	// 	// const formData = new FormData();
-	// 	// formData.append('image', file);
-
-	// 	// console.log(formData.get('image'));
-
-	// 	// const res = await uploadImage(formData);
-
-	// 	// console.log(res);
-	// };
-
 	const updateDisplayNickname = (newNickname: string) => {
 		setDisplayNickname(newNickname);
+	};
+
+	const updateDisplayImage = (newImagePath: string) => {
+		setImagePath(newImagePath);
 	};
 
 	return (
@@ -86,6 +62,8 @@ function Profile() {
 				open={changingImage}
 				title="이미지 변경"
 				onClose={() => setChangingImage(false)}
+				updateDisplayImage={updateDisplayImage}
+				currentImage={imagePath}
 			/>
 			<Section>
 				<UserImage src={imagePath} alt="User Image" />
@@ -166,6 +144,8 @@ const BoxTitle = styled.p`
 const UserImage = styled.img`
 	border: 1px solid var(--box-border-color);
 	width: 120px;
+	height: 120px;
+	object-fit: cover;
 	border-radius: 60px;
 `;
 
