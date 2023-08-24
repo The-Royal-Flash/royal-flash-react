@@ -18,4 +18,11 @@ export const http = {
 	delete: function remove<T>(url: string): Promise<T> {
 		return service.delete(url);
 	},
+	postImage: function post<T>(url: string, formData: FormData): Promise<T> {
+		return service.post(url, formData, {
+			headers: {
+				'content-type': 'multipart/form-data',
+			},
+		});
+	},
 };
