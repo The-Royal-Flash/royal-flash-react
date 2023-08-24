@@ -34,7 +34,7 @@ const useImageMutation = ({
 		onSuccess() {
 			addToast({
 				type: TOAST_TYPE.SUCCESS,
-				msg_type: TOAST_MSG_TYPE.SUCCESS_CHANGE_NICKNAME,
+				msg_type: TOAST_MSG_TYPE.SUCCESS_CHANGE_IMAGE,
 			});
 		},
 	});

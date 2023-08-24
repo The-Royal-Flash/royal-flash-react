@@ -20,6 +20,7 @@ export const TOAST_MSG_TYPE = {
 	COPY_SUCCESS: 'COPY_SUCCESS',
 	SUCCESS_CHANGE_PW: 'SUCCESS_CHANGE_PW',
 	SUCCESS_CHANGE_NICKNAME: 'SUCCESS_CHANGE_NICKNAME',
+	SUCCESS_CHANGE_IMAGE: 'SUCCESS_CHANGE_IMAGE',
 } as const;
 
 export const TOAST_MESSAGE = {
@@ -37,4 +38,5 @@ export const TOAST_MESSAGE = {
 		'비밀번호가 변경되었습니다. 다시 로그인하세요.',
 	[TOAST_MSG_TYPE.SUCCESS_CHANGE_NICKNAME]:
 		'닉네임이 성공적으로 변경되었습니다.',
+	[TOAST_MSG_TYPE.SUCCESS_CHANGE_IMAGE]: '이미지가 성공적으로 변경되었습니다.',
 } as const;
