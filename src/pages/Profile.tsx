@@ -1,111 +1,80 @@
-import React from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
-import { checkForDuplicate, changeNickname } from '../api';
-import { ChangePwModal } from '../components';
-import { useUserContext } from '../contexts/UserContext';
+import { fetchProfileQuery } from '../queries';
 import { useToastContext } from '../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
+import { ProfileResponse } from '../types';
+import {
+	ChangePwModal,
+	ChangeNicknameModal,
+	ChangeImageModal,
+} from '../components';
 
 function Profile() {
-	const { user, setUser } = useUserContext();
 	const { addToast } = useToastContext();
+	const { data: res } = useQuery<ProfileResponse>(fetchProfileQuery());
+	const navigate = useNavigate();
 
-	// TODO: profile api
-	// const { data } = useQuery<ProflieResponse>(fetchProfileQuery());
+	if (!res?.isSuccess) {
+		navigate('/');
+		addToast({
+			type: TOAST_TYPE.ERROR,
+			msg_type: TOAST_MSG_TYPE.NEED_AUTH,
+		});
+	}
 
-	const [nickname, setNickname] = React.useState(user!.nickname);
-	const [editingNickname, setEditingNickname] = React.useState(false);
-	const nicknameFieldRef = React.useRef<HTMLDivElement>(null);
-	const [changingPw, setChangingPw] = React.useState(false);
+	const [displayNickname, setDisplayNickname] = useState(res?.user.nickname);
+	const [editingNickname, setEditingNickname] = useState(false);
+	const [changingPw, setChangingPw] = useState(false);
+	const [changingImage, setChangingImage] = useState(false);
+	const [imagePath, setImagePath] = useState(res?.user.avatarUrl);
 
-	/*----- nicknameField에 focus -----*/
-	React.useEffect(() => {
-		if (!editingNickname) return;
-
-		nicknameFieldRef.current?.querySelector('input')?.focus();
-	}, [editingNickname]);
-
-	/*----- nicknameField 값 업데이트 -----*/
-	const updateNickname = (
-		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-	) => {
-		const target = event?.target as HTMLInputElement;
-		const newValue = target.value.trim();
-
-		setNickname(newValue);
+	const updateDisplayNickname = (newNickname: string) => {
+		setDisplayNickname(newNickname);
 	};
 
-	/*----- 중복 확인 -----*/
-	const handleDuplicateCheck = async (
-		event: React.MouseEvent<HTMLSpanElement>,
-		dataType = 'nickname',
-	) => {
-		event.preventDefault();
-
-		const target = nicknameFieldRef.current?.querySelector('input');
-
-		// 1. 현재 유저의 닉네임과 새로운 값이 같은 경우
-		if (nickname === user!.nickname) {
-			addToast({
-				type: TOAST_TYPE.ERROR,
-				msg_type: TOAST_MSG_TYPE.CHANGE_NICKNAME,
-			});
-
-			target?.focus();
-			return;
-		}
-
-		// 2. 새로 입력된 닉네임의 길이가 3글자 이상이 아닌 경우
-		if (nickname.length < 3) {
-			addToast({
-				type: TOAST_TYPE.ERROR,
-				msg_type: TOAST_MSG_TYPE.NICKNAME_LENGTH,
-			});
-
-			target?.focus();
-			return;
-		}
-
-		// 3. 닉네임 중복확인 후 변경
-		const data = await checkForDuplicate(target?.value as string, dataType);
-
-		if (data.isSuccess) {
-			const confirm = window.confirm(
-				`닉네임을 '${nickname}'으로 변경하시겠습니까?`,
-			);
-
-			if (confirm) {
-				setEditingNickname(false);
-
-				const { data } = await changeNickname(nickname);
-				if (data.isSuccess) setUser({ ...user!, nickname });
-			} else {
-				nicknameFieldRef.current?.querySelector('input')?.focus();
-			}
-		}
+	const updateDisplayImage = (newImagePath: string) => {
+		setImagePath(newImagePath);
 	};
 
 	return (
 		<Container>
-			{changingPw && (
-				<ChangePwModal
-					open={changingPw}
-					title="비밀번호 변경"
-					onClose={() => setChangingPw(false)}
-				/>
-			)}
+			<ChangePwModal
+				open={changingPw}
+				title="비밀번호 변경"
+				onClose={() => setChangingPw(false)}
+			/>
+			<ChangeNicknameModal
+				open={editingNickname}
+				currentNickname={displayNickname as string}
+				title="닉네임 변경"
+				updateDisplayNickname={updateDisplayNickname}
+				onClose={() => setEditingNickname(false)}
+			/>
+			<ChangeImageModal
+				open={changingImage}
+				title="이미지 변경"
+				onClose={() => setChangingImage(false)}
+				updateDisplayImage={updateDisplayImage}
+				currentImage={imagePath ? imagePath : '/logo/royal-flash-logo.png'}
+			/>
 			<Section>
 				<UserImage
-					src={user?.avatarUrl || '/logo/royal-flash-logo.png'}
+					src={imagePath}
+					onError={(event) => {
+						event.currentTarget.src = '/logo/royal-flash-logo.png';
+					}}
 					alt="User Image"
 				/>
-				<StyledButton variant="contained" size="small">
-					사진 변경
-				</StyledButton>
-				<Message>환영합니다 {user?.nickname}님!</Message>
+				<Button variant="contained" onClick={() => setChangingImage(true)}>
+					이미지 변경
+				</Button>
+				<Message>환영합니다 {displayNickname}님!</Message>
 			</Section>
 			<Section>
 				<Box>
@@ -114,14 +83,14 @@ function Profile() {
 						id="profile-name-input"
 						label="Name"
 						variant="standard"
-						value={user?.name}
+						value={res?.user?.name}
 						disabled
 					/>
 					<StyledInput
 						id="profile-email-input"
 						label="Email"
 						variant="standard"
-						value={user?.email}
+						value={res?.user?.email}
 						disabled
 					/>
 					<NicknameForm>
@@ -129,18 +98,10 @@ function Profile() {
 							id="profile-nickname-input"
 							label="Nickname"
 							variant="standard"
-							onChange={updateNickname}
-							value={nickname}
-							ref={nicknameFieldRef}
-							disabled={!editingNickname}
+							value={displayNickname}
+							disabled
 						/>
-						{editingNickname ? (
-							<DuplicateChecker onClick={handleDuplicateCheck}>
-								중복 확인
-							</DuplicateChecker>
-						) : (
-							<StyledEditIcon onClick={() => setEditingNickname(true)} />
-						)}
+						<StyledEditIcon onClick={() => setEditingNickname(true)} />
 					</NicknameForm>
 				</Box>
 			</Section>
@@ -187,12 +148,9 @@ const BoxTitle = styled.p`
 const UserImage = styled.img`
 	border: 1px solid var(--box-border-color);
 	width: 120px;
+	height: 120px;
+	object-fit: cover;
 	border-radius: 60px;
-`;
-
-const StyledButton = styled(Button)`
-	width: 100px;
-	font-size: 10px;
 `;
 
 const Message = styled.p`
@@ -221,7 +179,6 @@ const ModalLinkWrapper = styled.div`
 `;
 
 const NicknameForm = styled.form`
-	/* border: 1px dashed red; */
 	display: flex;
 	position: relative;
 	align-items: center;
@@ -236,24 +193,6 @@ const StyledEditIcon = styled(EditIcon)`
 
 	:hover {
 		color: var(--primary-color);
-	}
-`;
-
-const DuplicateChecker = styled.button`
-	cursor: pointer;
-	background-color: #fff;
-	border: none;
-	transition: 0.1s ease-in;
-	color: gray;
-	font-size: 12px;
-	min-width: 70px;
-
-	:hover {
-		color: var(--font-color);
-	}
-
-	:disabled {
-		color: lightgray;
 	}
 `;
 

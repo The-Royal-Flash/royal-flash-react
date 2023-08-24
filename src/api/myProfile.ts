@@ -1,17 +1,23 @@
 import { http } from './base';
-import { AuthResponse, ProflieResponse } from '../types/auth';
+import { AuthResponse, ProfileResponse } from '../types/auth';
 import { PwChangeData } from '../types/profile';
 
-export const fetchProfile = async (): Promise<ProflieResponse> =>
+export const fetchProfile = async (): Promise<ProfileResponse> =>
 	await http.get('profile');
 
-export const changeNickname = async (nickname: string): Promise<AuthResponse> =>
+export const updateNickname = async (nickname: string): Promise<AuthResponse> =>
 	await http.post('profile/edit/nickname', { nickname });
+
+export const uploadImage = async (file: File) => {
+	const formData = new FormData();
+	formData.append('image', file);
+
+	return await http.postImage('profile/edit/avatar', formData);
+};
 
 export const changePassword = async (
 	pwChangeData: PwChangeData,
 ): Promise<AuthResponse> =>
 	await http.post('profile/edit/password', pwChangeData);
 
-// 프로필 이미지 등록/변경
 // 계정 삭제

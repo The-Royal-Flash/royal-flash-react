@@ -92,6 +92,7 @@ function MobileHeader() {
 							</ListItemIcon>
 							<ListItemText>프로필</ListItemText>
 						</ListItemButton>
+
 						<ListItemButton
 							onClick={() => {
 								toggleMenu();
@@ -103,6 +104,7 @@ function MobileHeader() {
 							</ListItemIcon>
 							<ListItemText>나의 학습</ListItemText>
 						</ListItemButton>
+
 						<ListItemButton
 							onClick={() => {
 								toggleMenu();
@@ -114,10 +116,11 @@ function MobileHeader() {
 							</ListItemIcon>
 							<ListItemText>학습세트 생성</ListItemText>
 						</ListItemButton>
+
 						<ListItemButton
 							onClick={() => {
 								toggleMenu();
-								// TODO
+								navigate('/quizlet/owned-quizlet');
 							}}
 						>
 							<ListItemIcon>
@@ -125,6 +128,7 @@ function MobileHeader() {
 							</ListItemIcon>
 							<ListItemText>학습세트 관리</ListItemText>
 						</ListItemButton>
+
 						<ListItemButton
 							onClick={() => {
 								toggleMenu();

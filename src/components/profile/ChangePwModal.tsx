@@ -1,9 +1,13 @@
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '../common';
 import { Button, TextField } from '@mui/material';
-import { changePassword } from '../../api';
+import { changePassword, logOut } from '../../api';
+import { useToastContext } from '../../contexts/ToastContext';
+import { useUserContext } from '../../contexts/UserContext';
+import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
 import { passwordChangeSchema } from '../../schemas/profileSchema';
 
 interface ChangePwModalProps {
@@ -13,6 +17,9 @@ interface ChangePwModalProps {
 }
 
 function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
+	const { setUser } = useUserContext();
+	const naviagte = useNavigate();
+	const { addToast } = useToastContext();
 	const {
 		register,
 		setError,
@@ -22,15 +29,21 @@ function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
 		resolver: zodResolver(passwordChangeSchema),
 	});
 
-	const onSubmit = async (data: passwordChangeSchema) => {
-		const res = await changePassword({ ...data });
+	const onSubmit = async (formData: passwordChangeSchema) => {
+		try {
+			await changePassword({ ...formData });
 
-		if (res.data.isSuccess) {
+			logOut();
+			setUser(null);
 			onClose();
-		} else {
-			// 💡 TODO: API 호출 실패하면의 로직이 제대로 수행되지 않음 (확인 필요)
+			naviagte('/');
+			addToast({
+				type: TOAST_TYPE.SUCCESS,
+				msg_type: TOAST_MSG_TYPE.SUCCESS_CHANGE_PW,
+			});
+		} catch (error) {
 			setError('password', {
-				type: '400',
+				type: 'custom',
 				message: '비밀번호가 틀렸습니다.',
 			});
 		}
@@ -39,11 +52,7 @@ function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
 	return (
 		<Modal open={open} title={title} onClose={() => onClose()}>
 			<ModalContents>
-				<ChangePwForm
-					id="ChangePwForm"
-					// noValidate
-					onSubmit={handleSubmit(onSubmit)}
-				>
+				<ChangePwForm id="ChangePwForm" onSubmit={handleSubmit(onSubmit)}>
 					<PwInputBox>
 						<p>현재 비밀번호</p>
 						<TextField
@@ -54,7 +63,7 @@ function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
 							type="password"
 							error={errors.password ? true : false}
 							helperText={errors?.password?.message}
-						></TextField>
+						/>
 					</PwInputBox>
 					<PwInputBox>
 						<p>새로운 비밀번호</p>
@@ -66,7 +75,7 @@ function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
 							type="password"
 							error={errors.newPassword ? true : false}
 							helperText={errors?.newPassword?.message}
-						></TextField>
+						/>
 						<TextField
 							required
 							{...register('newConfirmPassword')}
@@ -75,7 +84,7 @@ function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
 							type="password"
 							error={errors.newConfirmPassword ? true : false}
 							helperText={errors?.newConfirmPassword?.message}
-						></TextField>
+						/>
 					</PwInputBox>
 					<StyledButton
 						variant="contained"
