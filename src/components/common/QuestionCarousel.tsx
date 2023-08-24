@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { IconButton, MobileStepper } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ClassIcon from '@mui/icons-material/Class';
+import { MIN_SWIPE_DISTANCE } from '../../constants';
 
 interface QuestionCarouselProps {
 	questionList: Array<{ _id: string; question: string }>;
@@ -19,20 +20,48 @@ const DURATION = 500;
 function QuestionCarousel({ questionList }: QuestionCarouselProps) {
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const [isMoving, setIsMoving] = useState(false);
+	const cardWrapperRef = useRef<HTMLDivElement>(null);
+	const touchStartX = useRef<number | null>(null);
 	const numOfQuestions = questionList.length;
 
 	const movePrev = () => {
-		if (!isMoving) {
+		if (!isMoving && currentSlide > 0) {
 			setIsMoving(true);
-			setCurrentSlide((prevSlide) => prevSlide - 1);
+			setCurrentSlide((prevSlide) => Math.max(prevSlide - 1, 0));
 		}
 	};
 
 	const moveNext = () => {
-		if (!isMoving) {
+		if (!isMoving && currentSlide < numOfQuestions - 1) {
 			setIsMoving(true);
-			setCurrentSlide((prevSlide) => prevSlide + 1);
+			setCurrentSlide((prevSlide) =>
+				Math.min(prevSlide + 1, numOfQuestions - 1),
+			);
 		}
+	};
+
+	const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+		touchStartX.current = e.touches[0].clientX;
+		console.log('handleTouchStart', isMoving, currentSlide, touchStartX);
+	};
+
+	const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+		if (!touchStartX.current) return;
+
+		const touchX = e.touches[0].clientX;
+		const touchDiff = touchX - touchStartX.current;
+
+		if (touchDiff > MIN_SWIPE_DISTANCE) {
+			movePrev();
+			touchStartX.current = touchX;
+		} else if (touchDiff > -1 * MIN_SWIPE_DISTANCE) {
+			moveNext();
+			touchStartX.current = touchX;
+		}
+	};
+
+	const handleTouchEnd = () => {
+		touchStartX.current = null;
 	};
 
 	const handleTransitionEnd = () => {
@@ -47,8 +76,12 @@ function QuestionCarousel({ questionList }: QuestionCarouselProps) {
 					문제 {currentSlide + 1}
 				</CardLabel>
 				<CardWrapper
+					ref={cardWrapperRef}
 					currentSlide={currentSlide}
 					duration={isMoving ? DURATION : 0}
+					onTouchStart={handleTouchStart}
+					onTouchMove={handleTouchMove}
+					onTouchEnd={handleTouchEnd}
 					onTransitionEnd={handleTransitionEnd}
 				>
 					{questionList.map(({ question }, index) => (
@@ -103,7 +136,6 @@ const CardContainer = styled.div`
 	overflow: hidden;
 `;
 
-// TODO: slide
 const CardWrapper = styled.div<CardProps>`
 	display: flex;
 	height: 140px;
