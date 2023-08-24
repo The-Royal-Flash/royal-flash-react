@@ -32,9 +32,7 @@ function Profile() {
 	const [editingNickname, setEditingNickname] = useState(false);
 	const [changingPw, setChangingPw] = useState(false);
 	const [changingImage, setChangingImage] = useState(false);
-	const [imagePath, setImagePath] = useState(
-		res?.user.avatarUrl || '/logo/royal-flash-logo.png',
-	);
+	const [imagePath, setImagePath] = useState(res?.user.avatarUrl);
 
 	const updateDisplayNickname = (newNickname: string) => {
 		setDisplayNickname(newNickname);
@@ -63,10 +61,16 @@ function Profile() {
 				title="이미지 변경"
 				onClose={() => setChangingImage(false)}
 				updateDisplayImage={updateDisplayImage}
-				currentImage={imagePath}
+				currentImage={imagePath ? imagePath : '/logo/royal-flash-logo.png'}
 			/>
 			<Section>
-				<UserImage src={imagePath} alt="User Image" />
+				<UserImage
+					src={imagePath}
+					onError={(event) => {
+						event.currentTarget.src = '/logo/royal-flash-logo.png';
+					}}
+					alt="User Image"
+				/>
 				<Button variant="contained" onClick={() => setChangingImage(true)}>
 					이미지 변경
 				</Button>

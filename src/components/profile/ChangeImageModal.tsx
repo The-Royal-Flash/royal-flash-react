@@ -52,7 +52,12 @@ function ChangeImageModal({
 		<Modal open={open} title={title} onClose={() => onClose()}>
 			<ModalContents>
 				<ChangeImageForm id="ChangeImageForm" onSubmit={uploadImage}>
-					<ImagePreview src={preview ? preview : currentImage} />
+					<ImagePreview
+						src={preview ? preview : currentImage}
+						onError={(event) => {
+							event.currentTarget.src = '/logo/royal-flash-logo.png';
+						}}
+					/>
 					<Uploader onClick={openUploader}>
 						<DriveFolderUploadIcon />
 						이미지 업로드
