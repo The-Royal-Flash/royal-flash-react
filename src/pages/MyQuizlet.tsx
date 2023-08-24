@@ -8,6 +8,7 @@ import {
 	fetchAllMyQuizletSearchQuery,
 	fetchAllMyQuizletTagsQuery,
 	fetchMyOwnQuizletSearchQuery,
+	fetchAllMyOwnQuizletTagsQuery,
 } from '../queries';
 import {
 	SearchForm,
@@ -36,7 +37,9 @@ function MyQuizlet() {
 		setPage(targetPage);
 	};
 
-	const { data: tags } = useQuery(fetchAllMyQuizletTagsQuery());
+	const { data: tags } = ownedOnly
+		? useQuery(fetchAllMyOwnQuizletTagsQuery())
+		: useQuery(fetchAllMyQuizletTagsQuery());
 
 	const onSubmitSearch: SubmitHandler<SearchRequest> = async (formData) => {
 		setFormData(formData);

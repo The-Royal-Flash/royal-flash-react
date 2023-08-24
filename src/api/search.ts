@@ -37,6 +37,9 @@ export const fetchMyOwnQuizletSearch = async (
 export const fetchAllQuizletTags = async () =>
 	await http.get<TagApiResponse>('/quizlet/tag');
 
+export const fetchAllMyOwnQuizletTags = async () =>
+	await http.get<TagApiResponse>('/quizlet/tag/owned');
+
 // 태그 목록 가져오기 - 로그인한 사용자의 학습기록이 있는 학습 세트
 export const fetchAllMyQuizletTags = async () =>
 	await http.get<MyTagsApiResponse>('/quizlet/tag/mine');
