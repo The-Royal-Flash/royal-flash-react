@@ -21,7 +21,6 @@ function ChangeImageModal({
 	updateDisplayImage,
 }: ChangeImageModalProps) {
 	const [preview, setPreview] = useState('');
-	const [upload, setUpload] = useState<null | File>(null);
 	const fileInputRef = useRef<null | HTMLInputElement>(null);
 
 	const { mutate: mutateImage } = useImageMutation({
@@ -37,7 +36,6 @@ function ChangeImageModal({
 		const file = ((event.target as HTMLInputElement).files as FileList)[0];
 		const url = URL.createObjectURL(file);
 
-		setUpload(file);
 		setPreview(url);
 	};
 
