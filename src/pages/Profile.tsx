@@ -7,10 +7,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
 import { uploadImage } from '../api';
 import { fetchProfileQuery } from '../queries';
-import { ChangePwModal, ChangeNicknameModal } from '../components';
 import { useToastContext } from '../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
 import { ProfileResponse } from '../types';
+import {
+	ChangePwModal,
+	ChangeNicknameModal,
+	ChangeImageModal,
+} from '../components';
 
 function Profile() {
 	const { addToast } = useToastContext();
@@ -28,21 +32,37 @@ function Profile() {
 	const [displayNickname, setDisplayNickname] = useState(res?.user.nickname);
 	const [editingNickname, setEditingNickname] = useState(false);
 	const [changingPw, setChangingPw] = useState(false);
+	const [changingImage, setChangingImage] = useState(false);
+	const [uploadedImage, setUploadedImage] = useState<null | File>(null);
+	const [preview, setPreview] = useState('');
 	const [imagePath, setImagePath] = useState(
 		res?.user.avatarUrl || '/logo/royal-flash-logo.png',
 	);
 
-	const changeImage = async (event: React.FormEvent) => {
-		const target = event.target as HTMLInputElement;
-		const file = target.files![0];
+	// const recordImage = (event: React.ChangeEvent) => {
+	// 	const target = event.target as HTMLInputElement;
+	// 	const file = target.files![0];
 
-		const formData = new FormData();
-		formData.append('image', file);
+	// 	const url = URL.createObjectURL(file as Blob);
+	// 	setImagePath(url);
 
-		const res = await uploadImage(formData);
+	// 	setUploadedImage(file);
+	// };
 
-		console.log(res);
-	};
+	// const changeImage = async (event: React.FormEvent) => {
+	// 	event.preventDefault();
+
+	// 	// const formData;
+
+	// 	// const formData = new FormData();
+	// 	// formData.append('image', file);
+
+	// 	// console.log(formData.get('image'));
+
+	// 	// const res = await uploadImage(formData);
+
+	// 	// console.log(res);
+	// };
 
 	const updateDisplayNickname = (newNickname: string) => {
 		setDisplayNickname(newNickname);
@@ -50,27 +70,27 @@ function Profile() {
 
 	return (
 		<Container>
-			{changingPw && (
-				<ChangePwModal
-					open={changingPw}
-					title="비밀번호 변경"
-					onClose={() => setChangingPw(false)}
-				/>
-			)}
-			{editingNickname && (
-				<ChangeNicknameModal
-					open={editingNickname}
-					currentNickname={displayNickname as string}
-					title="닉네임 변경"
-					updateDisplayNickname={updateDisplayNickname}
-					onClose={() => setEditingNickname(false)}
-				/>
-			)}
+			<ChangePwModal
+				open={changingPw}
+				title="비밀번호 변경"
+				onClose={() => setChangingPw(false)}
+			/>
+			<ChangeNicknameModal
+				open={editingNickname}
+				currentNickname={displayNickname as string}
+				title="닉네임 변경"
+				updateDisplayNickname={updateDisplayNickname}
+				onClose={() => setEditingNickname(false)}
+			/>
+			<ChangeImageModal
+				open={changingImage}
+				title="이미지 변경"
+				onClose={() => setChangingImage(false)}
+			/>
 			<Section>
 				<UserImage src={imagePath} alt="User Image" />
-				<Button variant="contained" component="label" onChange={changeImage}>
-					사진 변경
-					<input hidden accept="image/*" multiple type="file" />
+				<Button variant="contained" onClick={() => setChangingImage(true)}>
+					이미지 변경
 				</Button>
 				<Message>환영합니다 {displayNickname}님!</Message>
 			</Section>
@@ -191,23 +211,5 @@ const StyledEditIcon = styled(EditIcon)`
 		color: var(--primary-color);
 	}
 `;
-
-// const DuplicateChecker = styled.button`
-// 	cursor: pointer;
-// 	background-color: #fff;
-// 	border: none;
-// 	transition: 0.1s ease-in;
-// 	color: gray;
-// 	font-size: 12px;
-// 	min-width: 70px;
-
-// 	:hover {
-// 		color: var(--font-color);
-// 	}
-
-// 	:disabled {
-// 		color: lightgray;
-// 	}
-// `;
 
 export default Profile;
