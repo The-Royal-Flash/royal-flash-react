@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { nicknameSchema } from '../../schemas/authSchema';
 import { checkForDuplicate } from '../../api';
-import useNicknameMutation from '../../hooks/mutation/useNicknameMutation';
+import { useNicknameMutation } from '../../hooks/mutation';
 
 interface ChangeNicknameModal {
 	open: boolean;

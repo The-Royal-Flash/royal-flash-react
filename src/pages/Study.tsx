@@ -124,6 +124,12 @@ function Study() {
 
 const Container = styled.div`
 	padding: 50px 20px;
+	${mobileMediaQuery} {
+		padding: 0px 20px;
+		margin-bottom: 70px;
+		position: relative;
+	}
+
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
@@ -133,9 +139,11 @@ const Container = styled.div`
 
 const ProgressBar = styled(LinearProgress)`
 	width: 100%;
-	position: fixed;
+	position: absolute;
+
 	${mobileMediaQuery} {
-		top: 50px;
+		top: 70px;
+		width: 85%;
 	}
 	${desktopMediaQuery} {
 		top: 90px;

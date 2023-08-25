@@ -31,25 +31,29 @@ function StudyHeader({ mode, step, title, total }: StudyHeaderProps) {
 }
 
 const Container = styled.header`
+	display: flex;
+	justify-content: space-between;
+	text-overflow: ellipsis;
+
 	${mobileMediaQuery} {
 		width: 90%;
-		font-size: 14px;
+		@media (max-width: 580px) {
+			font-size: 12px;
+		}
 	}
 	${desktopMediaQuery} {
+		width: 800px;
 		@media (max-width: 900px) {
 			width: 600px;
 		}
-
-		width: 800px;
 	}
-	display: flex;
-	justify-content: space-between;
 `;
 
 const ModeInfo = styled.div`
 	color: var(--primary-color);
 	font-weight: bold;
 	display: flex;
+	align-items: center;
 	gap: 5px;
 `;
 

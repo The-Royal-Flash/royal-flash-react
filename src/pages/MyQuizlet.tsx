@@ -8,6 +8,7 @@ import {
 	fetchAllMyQuizletSearchQuery,
 	fetchAllMyQuizletTagsQuery,
 	fetchMyOwnQuizletSearchQuery,
+	fetchAllMyOwnQuizletTagsQuery,
 } from '../queries';
 import {
 	SearchForm,
@@ -16,6 +17,7 @@ import {
 	NoResultMessage,
 	QuizletPagination,
 } from '../components';
+import { mobileMediaQuery } from '../utils/mediaQueries';
 
 function MyQuizlet() {
 	const { pathname } = useLocation();
@@ -36,7 +38,9 @@ function MyQuizlet() {
 		setPage(targetPage);
 	};
 
-	const { data: tags } = useQuery(fetchAllMyQuizletTagsQuery());
+	const { data: tags } = ownedOnly
+		? useQuery(fetchAllMyOwnQuizletTagsQuery())
+		: useQuery(fetchAllMyQuizletTagsQuery());
 
 	const onSubmitSearch: SubmitHandler<SearchRequest> = async (formData) => {
 		setFormData(formData);
@@ -76,7 +80,7 @@ function MyQuizlet() {
 			) : (
 				<NoResultMessage ownedOnly={ownedOnly} />
 			)}
-			{data?.quizletList.length && (
+			{!!data?.quizletList.length && (
 				<QuizletPagination total={data?.totalPage!} onPageChange={changePage} />
 			)}
 		</Container>
@@ -91,6 +95,9 @@ const Container = styled.div`
 
 const SearchBox = styled.div`
 	width: 80%;
+	${mobileMediaQuery} {
+		width: 100%;
+	}
 	padding: 20px;
 	margin-top: 20px;
 `;

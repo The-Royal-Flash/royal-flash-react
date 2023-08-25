@@ -116,6 +116,9 @@ const Contents = styled.div<ContentsProps>`
 	background-color: #fff;
 	border-radius: 10px 10px 0 0;
 	font-size: 30px;
+	${mobileMediaQuery} {
+		font-size: 18px;
+	}
 	font-weight: bold;
 	color: ${({ isWrong }) => (isWrong ? '#f05757cf' : '#55b855d5')};
 	border: ${(props) =>

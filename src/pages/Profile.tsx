@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField } from '@mui/material';
-import { uploadImage } from '../api';
 import { fetchProfileQuery } from '../queries';
-import { ChangePwModal, ChangeNicknameModal } from '../components';
 import { useToastContext } from '../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../constants/toast';
 import { ProfileResponse } from '../types';
+import {
+	ChangePwModal,
+	ChangeNicknameModal,
+	ChangeImageModal,
+} from '../components';
 
 function Profile() {
 	const { addToast } = useToastContext();
@@ -28,49 +31,48 @@ function Profile() {
 	const [displayNickname, setDisplayNickname] = useState(res?.user.nickname);
 	const [editingNickname, setEditingNickname] = useState(false);
 	const [changingPw, setChangingPw] = useState(false);
-	const [imagePath, setImagePath] = useState(
-		res?.user.avatarUrl || '/logo/royal-flash-logo.png',
-	);
-
-	const changeImage = async (event: React.FormEvent) => {
-		const target = event.target as HTMLInputElement;
-		const file = target.files![0];
-
-		const formData = new FormData();
-		formData.append('image', file);
-
-		const res = await uploadImage(formData);
-
-		console.log(res);
-	};
+	const [changingImage, setChangingImage] = useState(false);
+	const [imagePath, setImagePath] = useState(res?.user.avatarUrl);
 
 	const updateDisplayNickname = (newNickname: string) => {
 		setDisplayNickname(newNickname);
 	};
 
+	const updateDisplayImage = (newImagePath: string) => {
+		setImagePath(newImagePath);
+	};
+
 	return (
 		<Container>
-			{changingPw && (
-				<ChangePwModal
-					open={changingPw}
-					title="비밀번호 변경"
-					onClose={() => setChangingPw(false)}
-				/>
-			)}
-			{editingNickname && (
-				<ChangeNicknameModal
-					open={editingNickname}
-					currentNickname={displayNickname as string}
-					title="닉네임 변경"
-					updateDisplayNickname={updateDisplayNickname}
-					onClose={() => setEditingNickname(false)}
-				/>
-			)}
+			<ChangePwModal
+				open={changingPw}
+				title="비밀번호 변경"
+				onClose={() => setChangingPw(false)}
+			/>
+			<ChangeNicknameModal
+				open={editingNickname}
+				currentNickname={displayNickname as string}
+				title="닉네임 변경"
+				updateDisplayNickname={updateDisplayNickname}
+				onClose={() => setEditingNickname(false)}
+			/>
+			<ChangeImageModal
+				open={changingImage}
+				title="이미지 변경"
+				onClose={() => setChangingImage(false)}
+				updateDisplayImage={updateDisplayImage}
+				currentImage={imagePath ? imagePath : '/logo/royal-flash-logo.png'}
+			/>
 			<Section>
-				<UserImage src={imagePath} alt="User Image" />
-				<Button variant="contained" component="label" onChange={changeImage}>
-					사진 변경
-					<input hidden accept="image/*" multiple type="file" />
+				<UserImage
+					src={imagePath}
+					onError={(event) => {
+						event.currentTarget.src = '/logo/royal-flash-logo.png';
+					}}
+					alt="User Image"
+				/>
+				<Button variant="contained" onClick={() => setChangingImage(true)}>
+					이미지 변경
 				</Button>
 				<Message>환영합니다 {displayNickname}님!</Message>
 			</Section>
@@ -146,6 +148,8 @@ const BoxTitle = styled.p`
 const UserImage = styled.img`
 	border: 1px solid var(--box-border-color);
 	width: 120px;
+	height: 120px;
+	object-fit: cover;
 	border-radius: 60px;
 `;
 
@@ -191,23 +195,5 @@ const StyledEditIcon = styled(EditIcon)`
 		color: var(--primary-color);
 	}
 `;
-
-// const DuplicateChecker = styled.button`
-// 	cursor: pointer;
-// 	background-color: #fff;
-// 	border: none;
-// 	transition: 0.1s ease-in;
-// 	color: gray;
-// 	font-size: 12px;
-// 	min-width: 70px;
-
-// 	:hover {
-// 		color: var(--font-color);
-// 	}
-
-// 	:disabled {
-// 		color: lightgray;
-// 	}
-// `;
 
 export default Profile;
