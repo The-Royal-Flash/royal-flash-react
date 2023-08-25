@@ -194,7 +194,7 @@ const CardContainer = styled.main`
 	align-items: center;
 
 	${mobileMediaQuery} {
-		width: 90%;
+		width: 95%;
 	}
 `;
 

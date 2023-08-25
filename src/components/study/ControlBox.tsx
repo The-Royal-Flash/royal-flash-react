@@ -58,13 +58,12 @@ const Container = styled.div<ContainerProps>`
 		isFinished ? 'center' : 'space-between'};
 
 	${mobileMediaQuery} {
-		width: 90%;
+		width: 95%;
 	}
 	${desktopMediaQuery} {
 		@media (max-width: 900px) {
 			width: 600px;
 		}
-
 		width: 800px;
 	}
 `;
@@ -80,6 +79,11 @@ const IncorrectSide = styled.div`
 	${mobileMediaQuery} {
 		border-radius: 100px;
 		width: 200px;
+
+		@media (max-width: 580px) {
+			width: 120px;
+			border-radius: 25px;
+		}
 	}
 
 	:hover {
@@ -99,6 +103,11 @@ const CorrectSide = styled.div`
 	${mobileMediaQuery} {
 		border-radius: 100px;
 		width: 200px;
+
+		@media (max-width: 580px) {
+			width: 120px;
+			border-radius: 25px;
+		}
 	}
 
 	:hover {
@@ -122,6 +131,17 @@ const DragGuideContents = styled.div`
 	color: #fff;
 	font-weight: bold;
 	font-size: 18px;
+
+	${mobileMediaQuery} {
+		font-size: 16px;
+
+		@media (max-width: 580px) {
+			font-size: 22px;
+			& > p {
+				display: none;
+			}
+		}
+	}
 `;
 
 export default ControlBox;
