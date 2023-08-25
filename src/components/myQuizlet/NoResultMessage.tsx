@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import UndoIcon from '@mui/icons-material/Undo';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import { mobileMediaQuery } from '../../utils/mediaQueries';
 
 interface NoResultMessageProps {
 	ownedOnly: boolean;
@@ -47,6 +48,10 @@ const Container = styled.div`
 	gap: 20px;
 	align-items: center;
 	justify-content: center;
+
+	${mobileMediaQuery} {
+		width: 80%;
+	}
 `;
 
 const ErrorIcon = styled(SearchOffIcon)`

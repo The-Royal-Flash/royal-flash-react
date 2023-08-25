@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { mobileMediaQuery } from '../../utils/mediaQueries';
 import { ToggleButton } from '@mui/material';
 
 interface TogglerProps {
@@ -18,6 +19,9 @@ function Toggler({ order, onChange }: TogglerProps) {
 
 const Container = styled.div`
 	width: 80%;
+	${mobileMediaQuery} {
+		width: 100%;
+	}
 	padding: 0 20px;
 	display: flex;
 	justify-content: right;
