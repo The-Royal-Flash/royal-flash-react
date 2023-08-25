@@ -71,8 +71,6 @@ function Card({
 
 	/** mousedown/touch 이벤트에 따라 카드 swipe 로직 실행 */
 	const beginSwipe = (event: React.MouseEvent | React.TouchEvent) => {
-		console.log('🔥 Begin Swipe Invoked');
-
 		if (isFinished || isSwiping) return;
 
 		const clientX =
