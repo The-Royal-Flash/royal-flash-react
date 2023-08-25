@@ -69,6 +69,13 @@ function Card({
 		lastTouch.current = event.touches[0].clientX;
 	};
 
+	/** beginSwipe된 상태에서 Toggler 클릭시 swipe 로직 중단 */
+	const cancelSwipe = (event: React.MouseEvent | React.TouchEvent) => {
+		event.stopPropagation();
+
+		setSwipeStartX(null);
+	};
+
 	/** mousedown/touch 이벤트에 따라 카드 swipe 로직 실행 */
 	const beginSwipe = (event: React.MouseEvent | React.TouchEvent) => {
 		if (isFinished || isSwiping) return;
@@ -149,7 +156,12 @@ function Card({
 						/>
 					)}
 				</MainCard>
-				<Toggler onClick={() => toggleCard()} isFinished={isFinished}>
+				<Toggler
+					onClick={() => toggleCard()}
+					onMouseUp={cancelSwipe}
+					onTouchEnd={cancelSwipe}
+					isFinished={isFinished}
+				>
 					{!isFinished && (
 						<>
 							<p>{cardMode === 'question' ? '답안 보기' : '질문 보기'}</p>
