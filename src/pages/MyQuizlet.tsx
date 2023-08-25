@@ -17,6 +17,7 @@ import {
 	NoResultMessage,
 	QuizletPagination,
 } from '../components';
+import { mobileMediaQuery } from '../utils/mediaQueries';
 
 function MyQuizlet() {
 	const { pathname } = useLocation();
@@ -79,7 +80,7 @@ function MyQuizlet() {
 			) : (
 				<NoResultMessage ownedOnly={ownedOnly} />
 			)}
-			{data?.quizletList.length && (
+			{!!data?.quizletList.length && (
 				<QuizletPagination total={data?.totalPage!} onPageChange={changePage} />
 			)}
 		</Container>
@@ -94,6 +95,9 @@ const Container = styled.div`
 
 const SearchBox = styled.div`
 	width: 80%;
+	${mobileMediaQuery} {
+		width: 100%;
+	}
 	padding: 20px;
 	margin-top: 20px;
 `;
