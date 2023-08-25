@@ -107,6 +107,7 @@ const Container = styled.div`
 const ChipWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	margin-top: 4px;
 	gap: 10px;
 `;
