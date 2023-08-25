@@ -71,6 +71,8 @@ function Card({
 
 	/** mousedown/touch 이벤트에 따라 카드 swipe 로직 실행 */
 	const beginSwipe = (event: React.MouseEvent | React.TouchEvent) => {
+		console.log('🔥 Begin Swipe Invoked');
+
 		if (isFinished || isSwiping) return;
 
 		const clientX =
@@ -79,13 +81,6 @@ function Card({
 				: (event as React.MouseEvent).clientX;
 
 		setSwipeStartX(clientX);
-	};
-
-	/** 드래그 중 카드 내부에서 mouseup/touchend 이벤트 발생시 카드 swipe 중단 */
-	const cancelSwipe = (event: React.MouseEvent | React.TouchEvent) => {
-		event.stopPropagation();
-
-		setSwipeStartX(null);
 	};
 
 	/** mousedown/touch 이벤트로 인한 swipe 애니메이션 종료된 후의 로직  */
@@ -123,16 +118,14 @@ function Card({
 	};
 
 	return (
-		<Container onMouseUp={endSwipe}>
+		<Container onMouseUp={endSwipe} onTouchEnd={endSwipe}>
 			<CardContainer ref={contentRef}>
 				<MainCard
 					onTransitionEnd={displayCardText}
 					cardMode={cardMode}
 					onMouseDown={beginSwipe}
-					onMouseUp={cancelSwipe}
 					onTouchStart={beginSwipe}
 					onTouchMove={recordTouch}
-					onTouchEnd={endSwipe}
 				>
 					{isSwiping && <EmptyCard />}
 					{isSwiping && (
@@ -148,7 +141,6 @@ function Card({
 							question={current?.question}
 							answer={current?.answer}
 							link={current?.link}
-							cancelSwipe={cancelSwipe}
 						/>
 					) : (
 						<QuestionCard
@@ -156,7 +148,6 @@ function Card({
 							mode={cardMode}
 							step={step}
 							question={current?.question}
-							cancelSwipe={cancelSwipe}
 						/>
 					)}
 				</MainCard>
