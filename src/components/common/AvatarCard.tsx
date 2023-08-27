@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { AvatarImage } from '.';
 
 interface AvatarCardProps {
 	email: string;
@@ -11,7 +11,10 @@ function AvatarCard({ email, nickname, avatarUrl }: AvatarCardProps) {
 	return (
 		<Container>
 			<AvatarWrapper>
-				{!!avatarUrl ? <AvatarImg src={avatarUrl} /> : <AvatarIcon />}
+				<AvatarImage
+					src={avatarUrl}
+					style={{ width: '40px', height: '40px', borderRadius: '100%' }}
+				/>
 			</AvatarWrapper>
 			<Nickname>{nickname}</Nickname>
 			<Email>{email}</Email>
@@ -27,17 +30,6 @@ const Container = styled.div`
 	border-radius: 10px;
 	margin-top: 35px;
 	padding: 12px;
-`;
-
-const AvatarIcon = styled(AccountCircleIcon)`
-	font-size: 40px;
-	color: gray;
-`;
-
-const AvatarImg = styled.img`
-	width: 40px;
-	height: 40px;
-	border-radius: 100%;
 `;
 
 const AvatarWrapper = styled.div`

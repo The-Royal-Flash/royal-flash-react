@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Chip, Typography } from '@mui/material';
 import StyleIcon from '@mui/icons-material/Style';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { QuizletOwnerInfo } from '../../types';
+import { AvatarImage } from '../common';
 
 interface QuizletItem {
 	quizletId: string;
@@ -48,7 +48,10 @@ function QuizletItem({
 				)}
 			</Wrapper>
 			<OwnerWrapper>
-				{!!avatarUrl ? <AvatarImg src={avatarUrl} /> : <AvatarIcon />}
+				<AvatarImage
+					src={avatarUrl}
+					style={{ width: '1.5rem', height: '1.5rem', borderRadius: '100%' }}
+				/>
 				<Nickname>{nickname}</Nickname>
 			</OwnerWrapper>
 		</Container>
@@ -148,17 +151,6 @@ const OwnerWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	padding: 0px 20px 10px;
-`;
-
-const AvatarIcon = styled(AccountCircleIcon)`
-	font-size: 1.5rem;
-	color: gray;
-`;
-
-const AvatarImg = styled.img`
-	width: 1.5rem;
-	height: 1.5rem;
-	border-radius: 100%;
 `;
 
 const Nickname = styled.div`

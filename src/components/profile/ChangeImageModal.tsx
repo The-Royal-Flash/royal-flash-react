@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styled from '@emotion/styled';
-import { Modal } from '../common';
+import { AvatarImage, Modal } from '../common';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import { Button } from '@mui/material';
 import { useImageMutation } from '../../hooks/mutation';
@@ -10,7 +10,7 @@ interface ChangeImageModalProps {
 	title: string;
 	onClose: () => void;
 	updateDisplayImage: (newImagePath: string) => void;
-	currentImage: string;
+	currentImage?: string;
 }
 
 function ChangeImageModal({
@@ -25,7 +25,7 @@ function ChangeImageModal({
 
 	const { mutate: mutateImage } = useImageMutation({
 		updateDisplayImage,
-		currentImage,
+		currentImage: currentImage || '/images/default-profile.png',
 	});
 
 	const openUploader = () => {
@@ -52,10 +52,13 @@ function ChangeImageModal({
 		<Modal open={open} title={title} onClose={() => onClose()}>
 			<ModalContents>
 				<ChangeImageForm id="ChangeImageForm" onSubmit={uploadImage}>
-					<ImagePreview
-						src={preview ? preview : currentImage}
-						onError={(event) => {
-							event.currentTarget.src = '/logo/royal-flash-logo.png';
+					<AvatarImage
+						src={preview || currentImage}
+						style={{
+							width: '120px',
+							height: '120px',
+							borderRadius: '50%',
+							objectFit: 'cover',
 						}}
 					/>
 					<Uploader onClick={openUploader}>
@@ -98,13 +101,6 @@ const ChangeImageForm = styled.form`
 	flex-direction: column;
 	gap: 30px;
 	align-items: center;
-`;
-
-const ImagePreview = styled.img`
-	width: 120px;
-	height: 120px;
-	border-radius: 50%;
-	object-fit: cover;
 `;
 
 const Uploader = styled.div`

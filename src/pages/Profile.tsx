@@ -13,6 +13,7 @@ import {
 	ChangePwModal,
 	ChangeNicknameModal,
 	ChangeImageModal,
+	AvatarImage,
 } from '../components';
 
 function Profile() {
@@ -61,15 +62,18 @@ function Profile() {
 				title="이미지 변경"
 				onClose={() => setChangingImage(false)}
 				updateDisplayImage={updateDisplayImage}
-				currentImage={imagePath ? imagePath : '/logo/royal-flash-logo.png'}
+				currentImage={imagePath}
 			/>
 			<Section>
-				<UserImage
+				<AvatarImage
 					src={imagePath}
-					onError={(event) => {
-						event.currentTarget.src = '/logo/royal-flash-logo.png';
+					style={{
+						border: '1px solid var(--box-border-color)',
+						width: '120px',
+						height: '120px',
+						objectFit: 'cover',
+						borderRadius: '60px',
 					}}
-					alt="User Image"
 				/>
 				<Button variant="contained" onClick={() => setChangingImage(true)}>
 					이미지 변경
@@ -143,14 +147,6 @@ const Box = styled.section`
 const BoxTitle = styled.p`
 	font-weight: bold;
 	font-size: 18px;
-`;
-
-const UserImage = styled.img`
-	border: 1px solid var(--box-border-color);
-	width: 120px;
-	height: 120px;
-	object-fit: cover;
-	border-radius: 60px;
 `;
 
 const Message = styled.p`
