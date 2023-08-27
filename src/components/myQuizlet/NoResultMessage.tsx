@@ -66,6 +66,11 @@ const ErrorMessage = styled.p`
 const ButtonBox = styled.div`
 	display: flex;
 	gap: 10px;
+
+	${mobileMediaQuery} {
+		flex-direction: column;
+		gap: 5px;
+	}
 `;
 
 const BackButton = styled(Button)`
