@@ -9,3 +9,4 @@ export { default as RootErrorBoundary } from './RootErrorBoundary';
 export { default as Loader } from './Loader';
 export { default as ToastStack } from './ToastStack';
 export { default as Toast } from './Toast';
+export { default as AvatarImage } from './AvatarImage';
