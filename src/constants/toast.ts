@@ -31,7 +31,8 @@ export const TOAST_MESSAGE = {
 	[TOAST_MSG_TYPE.NOT_FOUND]: '해당 페이지가 존재하지 않습니다.',
 	[TOAST_MSG_TYPE.SERVER_ERROR]: '나중에 다시 시도해 주세요.',
 	[TOAST_MSG_TYPE.SUCCESS_DELETE]: '학습 세트가 삭제되었습니다.',
-	[TOAST_MSG_TYPE.FAIL_DELETE]: '학습 세트 삭제에 실패하였습니다.',
+	[TOAST_MSG_TYPE.FAIL_DELETE]:
+		'학습 세트 삭제에 실패하였습니다. 나중에 다시 시도해 주세요',
 	[TOAST_MSG_TYPE.INPUT_EMAIL]: '이메일을 입력해 주세요.',
 	[TOAST_MSG_TYPE.INPUT_NICKNAME]: '닉네임을 입력해 주세요.',
 	[TOAST_MSG_TYPE.INVALID_LOGIN]: '로그인 정보를 확인해 주세요.',
