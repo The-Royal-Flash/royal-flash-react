@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import LanguageIcon from '@mui/icons-material/Language';
-import { mobileMediaQuery } from '../../utils/mediaQueries';
+import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useToastContext } from '../../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
@@ -81,8 +81,9 @@ const Question = styled.p`
 	color: var(--primary-color);
 	border-bottom: 1px solid #999999;
 	padding-bottom: 10px;
+
 	${mobileMediaQuery} {
-		font-size: 16px;
+		font-size: 14px;
 	}
 
 	> span {
@@ -94,11 +95,12 @@ const Question = styled.p`
 
 const Answer = styled.p`
 	font-size: 18px;
-	max-height: 80%;
+	max-height: 300px;
 	overflow-y: auto;
 
 	${mobileMediaQuery} {
-		font-size: 16px;
+		font-size: 14px;
+		max-height: 160px;
 	}
 
 	> span {
@@ -131,11 +133,12 @@ const CopyIcon = styled(ContentCopyIcon)`
 	align-items: center;
 	font-size: 22px;
 	position: absolute;
-	top: 0;
-	right: 0;
 	color: #999999;
 	cursor: pointer;
 	transition: 0.1s ease-in;
+	position: absolute;
+	bottom: 0;
+	right: 0;
 
 	:hover {
 		color: black;
