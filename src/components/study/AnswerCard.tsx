@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import LanguageIcon from '@mui/icons-material/Language';
-import { desktopMediaQuery, mobileMediaQuery } from '../../utils/mediaQueries';
+import { mobileMediaQuery } from '../../utils/mediaQueries';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useToastContext } from '../../contexts/ToastContext';
 import { TOAST_MSG_TYPE, TOAST_TYPE } from '../../constants/toast';
