@@ -42,7 +42,6 @@ function QuestionCarousel({ questionList }: QuestionCarouselProps) {
 
 	const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
 		touchStartX.current = e.touches[0].clientX;
-		console.log('handleTouchStart', isMoving, currentSlide, touchStartX);
 	};
 
 	const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
