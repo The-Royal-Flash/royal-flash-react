@@ -88,22 +88,25 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 	};
 
 	const handleRemoveQuizlet = async () => {
-		const {
-			data: { isSuccess },
-		} = await deleteQuizlet(quizletId);
+		try {
+			const {
+				data: { isSuccess },
+			} = await deleteQuizlet(quizletId);
 
-		if (isSuccess) {
-			addToast({
-				type: TOAST_TYPE.SUCCESS,
-				msg_type: TOAST_MSG_TYPE.SUCCESS_DELETE,
-			});
-			navigate(`/`);
-		} else {
+			if (isSuccess) {
+				addToast({
+					type: TOAST_TYPE.SUCCESS,
+					msg_type: TOAST_MSG_TYPE.SUCCESS_DELETE,
+				});
+				navigate(`/`);
+			} else {
+				throw Error();
+			}
+		} catch (error) {
 			addToast({
 				type: TOAST_TYPE.ERROR,
 				msg_type: TOAST_MSG_TYPE.FAIL_DELETE,
 			});
-			navigate(`/`);
 		}
 	};
 

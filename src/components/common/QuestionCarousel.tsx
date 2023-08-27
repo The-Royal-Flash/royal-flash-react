@@ -42,7 +42,6 @@ function QuestionCarousel({ questionList }: QuestionCarouselProps) {
 
 	const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
 		touchStartX.current = e.touches[0].clientX;
-		console.log('handleTouchStart', isMoving, currentSlide, touchStartX);
 	};
 
 	const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -54,7 +53,7 @@ function QuestionCarousel({ questionList }: QuestionCarouselProps) {
 		if (touchDiff > MIN_SWIPE_DISTANCE) {
 			movePrev();
 			touchStartX.current = touchX;
-		} else if (touchDiff > -1 * MIN_SWIPE_DISTANCE) {
+		} else if (touchDiff < -1 * MIN_SWIPE_DISTANCE) {
 			moveNext();
 			touchStartX.current = touchX;
 		}
