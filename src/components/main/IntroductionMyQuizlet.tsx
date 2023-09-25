@@ -52,7 +52,7 @@ function IntroductionMyQuizlet() {
 				<Grow in={isInView} timeout={2000}>
 					<ImageWrapper>
 						{/* TODO: MyQuizlet 완료 후 이미지 변경 */}
-						<Image src="/images/myquizlet.png" />
+						<Image src="/images/myquizlet.png" alt="나의 학습세트" />
 					</ImageWrapper>
 				</Grow>
 			</IntroWrapper>
