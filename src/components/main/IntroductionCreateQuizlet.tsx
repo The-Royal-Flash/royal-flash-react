@@ -38,6 +38,7 @@ function IntroductionCreateQuizlet() {
 				<AnimationCardSetList />
 
 				<ResponsiveButton
+					name="학습세트 생성"
 					variant="contained"
 					onClick={() => {
 						navi('/quizlet/create');

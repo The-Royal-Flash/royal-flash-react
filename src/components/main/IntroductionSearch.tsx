@@ -33,6 +33,7 @@ function IntroductionSearch() {
 				<Description>제목과 태그로 원하는 학습세트를 찾아보세요.</Description>
 				<GradientImage />
 				<ResponsiveButton
+					name="학습세트 검색"
 					variant="contained"
 					onClick={() => {
 						navi('/quizlet');

@@ -101,6 +101,7 @@ function FormInput<TSchema extends {}>({
 				onChange={handleInputChange}
 			/>
 			<DuplicateChecker
+				name="중복확인"
 				onClick={
 					checkForDuplicate
 						? async (event) => await checkForDuplicate(event, name)

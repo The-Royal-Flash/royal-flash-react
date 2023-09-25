@@ -63,6 +63,7 @@ function CreateQuizletForm() {
 				/>
 			))}
 			<AddQuestionButton
+				name="문제 추가"
 				type="button"
 				variant="contained"
 				onClick={() => append({ question: '', link: '', answer: '' })}
@@ -76,10 +77,19 @@ function CreateQuizletForm() {
 				)}
 				{!isSubmitting ? (
 					<>
-						<StyledButton type="submit" variant="contained">
+						<StyledButton
+							name="학습세트 생성"
+							type="submit"
+							variant="contained"
+						>
 							학습세트 생성
 						</StyledButton>
-						<StyledButton type="button" variant="outlined" onClick={goBack}>
+						<StyledButton
+							name="학습세트 생성 취소"
+							type="button"
+							variant="outlined"
+							onClick={goBack}
+						>
 							취소
 						</StyledButton>
 					</>

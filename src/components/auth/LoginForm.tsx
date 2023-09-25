@@ -47,7 +47,12 @@ function LoginForm() {
 				control={control}
 			/>
 			<ButtonBox>
-				<SubmitButton variant="contained" type="submit" value="로그인">
+				<SubmitButton
+					name="로그인"
+					variant="contained"
+					type="submit"
+					value="로그인"
+				>
 					로그인
 				</SubmitButton>
 			</ButtonBox>

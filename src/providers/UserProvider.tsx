@@ -15,6 +15,7 @@ function UserProvider({ children }: UserProviderProps) {
 
 			if (!response.isSuccess) {
 				setUser(null);
+				logOut();
 			} else {
 				setUser(response.user);
 			}

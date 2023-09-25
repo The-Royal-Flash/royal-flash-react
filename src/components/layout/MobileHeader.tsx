@@ -38,6 +38,7 @@ function MobileHeader() {
 						<ImageButton
 							width={50}
 							height={50}
+							buttonName="main"
 							handleClick={() => {
 								navigate('/');
 							}}

@@ -9,6 +9,7 @@ import {
 function StyledLoadingButton() {
 	return (
 		<Container
+			name="로딩중"
 			loading
 			loadingPosition="start"
 			startIcon={<SaveIcon />}
