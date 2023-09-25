@@ -74,6 +74,7 @@ function ChangeImageModal({
 						/>
 					</Uploader>
 					<StyledButton
+						name="이미지 변경"
 						variant="contained"
 						color="error"
 						form="ChangeImageForm"

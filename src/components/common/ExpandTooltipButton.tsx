@@ -20,6 +20,7 @@ function ExpandTooltipButton({
 	return (
 		<Container
 			onClick={handleClick}
+			name={tooltip}
 			tooltip={tooltip}
 			widthToExpand={widthToExpand}
 		>

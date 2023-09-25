@@ -65,6 +65,7 @@ function QuizletDetailInfo({ quizletId }: QuizletDetailInfoProps) {
 					</Title>
 					<ButtonWrapper>
 						<BaseButton
+							name="전체 학습하기"
 							variant="outlined"
 							onClick={() => goStudy(STUDY_MODE.ALL)}
 						>
@@ -72,6 +73,7 @@ function QuizletDetailInfo({ quizletId }: QuizletDetailInfoProps) {
 						</BaseButton>
 						{(quizlet?.studyLog?.numOfQuestionListToReview ?? 0) > 0 && (
 							<BaseButton
+								name="오답 학습하기"
 								variant="contained"
 								onClick={() => goStudy(STUDY_MODE.WRONG)}
 							>

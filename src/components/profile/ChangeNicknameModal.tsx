@@ -78,6 +78,7 @@ function ChangeNicknameModal({
 						/>
 					</NicknameInputBox>
 					<StyledButton
+						name="닉네임 변경"
 						variant="contained"
 						color="error"
 						form="ChangeNicknameForm"

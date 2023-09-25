@@ -135,6 +135,7 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 				/>
 			))}
 			<AddQuestionButton
+				name="문제 추가"
 				type="button"
 				variant="contained"
 				onClick={handleAddNewQuestion}
@@ -145,14 +146,20 @@ const EditQuizletForm = ({ quizletId }: EditQuizletFormProps) => {
 				{errors.questionCardListToAdd && fields.length === 0 && (
 					<ErrorMessage>{'하나 이상의 문제를 등록해 주세요.'}</ErrorMessage>
 				)}
-				<StyledButton type="submit" variant="contained">
+				<StyledButton name="수정" type="submit" variant="contained">
 					수정
 				</StyledButton>
-				<StyledButton type="button" variant="outlined" onClick={goBack}>
+				<StyledButton
+					name="취소"
+					type="button"
+					variant="outlined"
+					onClick={goBack}
+				>
 					취소
 				</StyledButton>
 				<Button
 					type="button"
+					name="삭제"
 					variant="text"
 					color="error"
 					onClick={handleRemoveQuizlet}

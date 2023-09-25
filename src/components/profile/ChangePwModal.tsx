@@ -87,6 +87,7 @@ function ChangePwModal({ open, title, onClose }: ChangePwModalProps) {
 						/>
 					</PwInputBox>
 					<StyledButton
+						name="비밀번호 변경"
 						variant="contained"
 						color="error"
 						form="ChangePwForm"

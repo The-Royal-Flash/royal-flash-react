@@ -6,7 +6,12 @@ function LogoAndMessage({ variant }: LogoAndMessageProps) {
 	const navigate = useNavigate();
 	return (
 		<LogoMessageWrapper>
-			<ImageButton width={100} height={100} handleClick={() => navigate('/')}>
+			<ImageButton
+				buttonName="main"
+				width={100}
+				height={100}
+				handleClick={() => navigate('/')}
+			>
 				<Logo src="/logo/royal-flash-logo.png" alt="로얄플래시 로고" />
 			</ImageButton>
 			{variant === 'login' ? (

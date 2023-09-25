@@ -18,7 +18,7 @@ function Header() {
 	);
 }
 
-const Container = styled.div`
+const Container = styled.header`
 	position: fixed;
 	display: flex;
 	top: 0;

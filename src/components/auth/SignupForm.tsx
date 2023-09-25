@@ -118,7 +118,12 @@ function SignupForm() {
 				control={control}
 			/>
 			<ButtonBox>
-				<SubmitButton variant="contained" type="submit" value="가입하기">
+				<SubmitButton
+					name="가입하기"
+					variant="contained"
+					type="submit"
+					value="가입하기"
+				>
 					가입하기
 				</SubmitButton>
 			</ButtonBox>

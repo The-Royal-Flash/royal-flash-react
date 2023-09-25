@@ -22,7 +22,7 @@ function SearchForm({ tagList, onSubmit }: SearchFormProps) {
 		<StyledForm onSubmit={handleSubmit(onSubmit)}>
 			<SearchWrapper>
 				<StyledInput label="Search" {...register('keyword')} />
-				<SearchButton type="submit" variant="contained">
+				<SearchButton name="검색" type="submit" variant="contained">
 					<SearchButtonIcon />
 				</SearchButton>
 			</SearchWrapper>

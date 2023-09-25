@@ -21,6 +21,7 @@ function NoResultMessage({ ownedOnly }: NoResultMessageProps) {
 			</ErrorMessage>
 			<ButtonBox>
 				<BackButton
+					name="돌아가기"
 					variant="outlined"
 					startIcon={<UndoIcon />}
 					onClick={() => navigate(0)}

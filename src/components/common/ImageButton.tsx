@@ -8,6 +8,7 @@ interface ImageProps {
 
 interface ImageButtonProps extends ImageProps {
 	handleClick: () => void;
+	buttonName: string;
 	children: React.ReactNode;
 }
 
@@ -15,10 +16,16 @@ function ImageButton({
 	width,
 	height,
 	handleClick,
+	buttonName,
 	children,
 }: ImageButtonProps) {
 	return (
-		<Container width={width} height={height} onClick={handleClick}>
+		<Container
+			name={buttonName}
+			width={width}
+			height={height}
+			onClick={handleClick}
+		>
 			<Wrapper width={width} height={height}>
 				{children}
 			</Wrapper>

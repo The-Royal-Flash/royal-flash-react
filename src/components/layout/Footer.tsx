@@ -34,7 +34,7 @@ function Footer() {
 		<Container>
 			<Wrapper>
 				<InfoWrapper>
-					<LogoImg src="/logo/royal-flash-logo.png" />
+					<LogoImg src="/logo/royal-flash-logo.png" alt="royal flash logo" />
 					<Info>반드시 취직하구 행복합시동</Info>
 					<Info>All Copyrights Reserved Royal Flash 2023</Info>
 				</InfoWrapper>
@@ -48,7 +48,7 @@ function Footer() {
 	);
 }
 
-const Container = styled.div`
+const Container = styled.footer`
 	display: flex;
 	width: 100%;
 	user-select: none;
@@ -92,7 +92,7 @@ const InfoWrapper = styled.div`
 
 const LogoImg = styled.img`
 	width: 60px;
-	height: auto;
+	height: 60px;
 	margin-bottom: 5px;
 `;
 

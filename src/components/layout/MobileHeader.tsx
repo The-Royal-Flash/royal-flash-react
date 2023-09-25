@@ -31,13 +31,14 @@ function MobileHeader() {
 	const toggleMenu = () => setIsOpenMenu((prevIsOpenMenu) => !prevIsOpenMenu);
 
 	return (
-		<>
+		<header>
 			<Container position="fixed">
 				<Wrapper>
 					<Flex>
 						<ImageButton
 							width={50}
 							height={50}
+							buttonName="main"
 							handleClick={() => {
 								navigate('/');
 							}}
@@ -144,7 +145,7 @@ function MobileHeader() {
 					</List>
 				</MenuContainer>
 			</Drawer>
-		</>
+		</header>
 	);
 }
 
